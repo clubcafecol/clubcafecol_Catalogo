@@ -1,0 +1,19 @@
+title: "Club del Café · Catálogo 2026"
+description: "Catálogo de cafés de especialidad 2026. 14 variedades de Huila, Colombia."
+url: "https://vmhd04.github.io"
+baseurl: "/Cat-logo-Cafe-Especialidad"
+
+# Use no theme - we use raw HTML/CSS/JS
+theme: null
+plugins: []
+
+# Exclude unnecessary files from the build
+exclude:
+  - README.md
+  - LICENSE
+  - .gitignore
+  - .github
+
+# Allow the assets/ folder to be served as-is
+include:
+  - assets
