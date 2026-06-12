@@ -2,7 +2,7 @@
 
 Sitio web del catálogo de cafés de especialidad 2026 de **Club del Café**. Presenta las 14 variedades cultivadas en Huila, Colombia, con sus perfiles sensoriales, procesos y datos de origen.
 
-> Publicado vía GitHub Pages: `https://vmhd04.github.io/Cat-logo-Cafe-Especialidad/`
+> Publicado vía GitHub Pages:`
 
 ---
 
