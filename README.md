@@ -52,7 +52,7 @@ Sitio web del catálogo de cafés de especialidad 2026 de **Club del Café**. Pr
 - **Modal de detalle** — Vista expandida de cada variedad con ficha completa.
 - **Cursor personalizado** — Punto dorado con mix-blend-mode (desktop).
 - **Descarga directa** — Botón para descargar el PDF completo del catálogo.
-- **Optimizado** — Imágenes JPG comprimidas (~100 KB c/u), tipografías auto-precargadas.
+- **Optimizado** — Imágenes jpgcomprimidas (~100 KB c/u), tipografías auto-precargadas.
 
 ## Variedades incluidas (14)
 
