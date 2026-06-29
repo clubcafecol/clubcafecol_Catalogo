@@ -1865,7 +1865,7 @@ button { font: inherit; cursor: pointer; }
   animation-duration: 0.6s;
   stroke: rgba(255,100,80,0.6);
 }
-.wa-bot[data-mood="angry"] .wa-bot__cup { fill: #E8D4A8; }
+.wa-bot[data-mood="angry"] .wa-bot__cup { fill: #d61507; }
 
 /* Speech bubble */
 .wa-bot__bubble {
