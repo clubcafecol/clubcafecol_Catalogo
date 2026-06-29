@@ -392,45 +392,73 @@ const WA_MESSAGES = [
   });  
 })();
 /* ============================================================
-   COFFEE BOT — detección de distancia del cursor
+   COFFEE BOT — mood detection (desktop + mobile)
    ============================================================ */
 (function initCoffeeBot () {
-  const wa  = document.getElementById('wa');
-  const bot = document.getElementById('waBot');
+  const wa       = document.getElementById('wa');
+  const bot      = document.getElementById('waBot');
+  const launcher = document.getElementById('waLauncher');
   if (!wa || !bot) return;
 
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    bot.style.display = 'none';
-    return;
-  }
-
-  const NEAR = 220;   // px — felicidad
-  const FAR  = 380;   // px — enojo
-
+  const hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   let currentMood = 'neutral';
 
-  window.addEventListener('mousemove', e => {
-    const rect = wa.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top  + rect.height / 2;
-    const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
-
-    let mood;
-    if (dist < NEAR)      mood = 'happy';
-    else if (dist > FAR)  mood = 'angry';
-    else                  mood = 'neutral';
-
-    if (mood !== currentMood) {
-      currentMood = mood;
-      bot.dataset.mood = mood;
+  const setMood = (m) => {
+    if (m !== currentMood) {
+      currentMood = m;
+      bot.dataset.mood = m;
     }
-  }, { passive: true });
+  };
 
-  // Inicia enojado para llamar la atención
-  setTimeout(() => {
-    if (currentMood === 'neutral') {
-      bot.dataset.mood = 'angry';
-      currentMood = 'angry';
-    }
-  }, 800);
+  if (hasMouse) {
+    /* ----- DESKTOP: distancia del cursor ----- */
+    const NEAR = 220;
+    const FAR  = 380;
+
+    window.addEventListener('mousemove', e => {
+      const rect = wa.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top  + rect.height / 2;
+      const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+
+      if      (dist < NEAR) setMood('happy');
+      else if (dist > FAR)  setMood('angry');
+      else                  setMood('neutral');
+    }, { passive: true });
+
+    setTimeout(() => { if (currentMood === 'neutral') setMood('angry'); }, 800);
+
+  } else {
+    /* ----- MOBILE: interacciones táctiles ----- */
+    let happyTimer;
+
+    // Empieza enojado al cargar (llama la atención)
+    setTimeout(() => setMood('angry'), 1200);
+
+    // Cualquier toque o scroll lo pone feliz por unos segundos
+    const triggerHappy = () => {
+      setMood('happy');
+      clearTimeout(happyTimer);
+      happyTimer = setTimeout(() => setMood('angry'), 3500);
+    };
+
+    document.addEventListener('touchstart', triggerHappy, { passive: true });
+    window.addEventListener('scroll',       triggerHappy, { passive: true });
+
+    // Cada 6s parpadea entre enojado → neutral → enojado (mantiene atención)
+    setInterval(() => {
+      if (currentMood === 'angry') {
+        setMood('neutral');
+        setTimeout(() => { if (currentMood === 'neutral') setMood('angry'); }, 700);
+      }
+    }, 6000);
+
+    // Tap directo en el bot → abre el chat de WhatsApp
+    bot.addEventListener('click', e => {
+      e.stopPropagation();
+      setMood('happy');
+      clearTimeout(happyTimer);
+      if (launcher) launcher.click();
+    });
+  }
 })();
