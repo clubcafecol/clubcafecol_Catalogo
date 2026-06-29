@@ -412,8 +412,8 @@ const WA_MESSAGES = [
 
   if (hasMouse) {
     /* ----- DESKTOP: distancia del cursor ----- */
-    const NEAR = 170;
-    const FAR  = 380;
+    const NEAR = 100;
+    const FAR  = 400;
 
     window.addEventListener('mousemove', e => {
       const rect = wa.getBoundingClientRect();
