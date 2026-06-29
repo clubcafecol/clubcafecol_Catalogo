@@ -391,4 +391,46 @@ const WA_MESSAGES = [
     if (!wrap.contains(e.target)) close();
   });  
 })();
+/* ============================================================
+   COFFEE BOT — detección de distancia del cursor
+   ============================================================ */
+(function initCoffeeBot () {
+  const wa  = document.getElementById('wa');
+  const bot = document.getElementById('waBot');
+  if (!wa || !bot) return;
 
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    bot.style.display = 'none';
+    return;
+  }
+
+  const NEAR = 220;   // px — felicidad
+  const FAR  = 380;   // px — enojo
+
+  let currentMood = 'neutral';
+
+  window.addEventListener('mousemove', e => {
+    const rect = wa.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top  + rect.height / 2;
+    const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+
+    let mood;
+    if (dist < NEAR)      mood = 'happy';
+    else if (dist > FAR)  mood = 'angry';
+    else                  mood = 'neutral';
+
+    if (mood !== currentMood) {
+      currentMood = mood;
+      bot.dataset.mood = mood;
+    }
+  }, { passive: true });
+
+  // Inicia enojado para llamar la atención
+  setTimeout(() => {
+    if (currentMood === 'neutral') {
+      bot.dataset.mood = 'angry';
+      currentMood = 'angry';
+    }
+  }, 800);
+})();

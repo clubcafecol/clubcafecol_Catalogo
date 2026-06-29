@@ -1761,3 +1761,144 @@ button { font: inherit; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) {
   .benefit { animation: none !important; opacity: 1; }
 }
+/* ============================================================
+   COFFEE BOT MASCOT — encima del botón de WhatsApp
+   ============================================================ */
+.wa-bot {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  right: 6px;
+  width: 92px;
+  height: 116px;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.wa.is-open .wa-bot { opacity: 0; pointer-events: none; }
+
+.wa-bot__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: bot-bobble 3s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+@keyframes bot-bobble {
+  0%, 100% { transform: translateY(0)    rotate(0); }
+  25%      { transform: translateY(-3px) rotate(-2deg); }
+  75%      { transform: translateY(-2px) rotate(2deg); }
+}
+
+.wa-bot__steam {
+  fill: none;
+  stroke: rgba(240,230,210,0.55);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+.wa-bot__steam path {
+  animation: bot-steam 2.2s ease-out infinite;
+  opacity: 0;
+}
+.wa-bot__steam path:nth-child(1) { animation-delay: 0s;   }
+.wa-bot__steam path:nth-child(2) { animation-delay: 0.7s; }
+.wa-bot__steam path:nth-child(3) { animation-delay: 1.4s; }
+@keyframes bot-steam {
+  0%   { opacity: 0;   transform: translateY(8px)   scale(0.6); }
+  30%  { opacity: 0.7; }
+  100% { opacity: 0;   transform: translateY(-12px) scale(1.1); }
+}
+
+.wa-bot__eyes-happy,
+.wa-bot__eyes-angry,
+.wa-bot__mouth-happy,
+.wa-bot__mouth-angry,
+.wa-bot__blush,
+.wa-bot__hearts { opacity: 0; transition: opacity 0.3s ease; }
+.wa-bot__eyes-neutral,
+.wa-bot__mouth-neutral { opacity: 1; transition: opacity 0.3s ease; }
+
+.wa-bot__eyebrow { transition: transform 0.4s cubic-bezier(.34,1.56,.64,1); }
+.wa-bot__eyebrow--left  { transform-origin: 40px 64px; }
+.wa-bot__eyebrow--right { transform-origin: 60px 64px; }
+
+/* HAPPY */
+.wa-bot[data-mood="happy"] .wa-bot__svg { animation-duration: 0.9s; }
+.wa-bot[data-mood="happy"] .wa-bot__eyes-neutral,
+.wa-bot[data-mood="happy"] .wa-bot__mouth-neutral { opacity: 0; }
+.wa-bot[data-mood="happy"] .wa-bot__eyes-happy,
+.wa-bot[data-mood="happy"] .wa-bot__mouth-happy,
+.wa-bot[data-mood="happy"] .wa-bot__blush,
+.wa-bot[data-mood="happy"] .wa-bot__hearts { opacity: 1; }
+.wa-bot[data-mood="happy"] .wa-bot__eyebrow--left  { transform: translateY(-3px) rotate(-15deg); }
+.wa-bot[data-mood="happy"] .wa-bot__eyebrow--right { transform: translateY(-3px) rotate(15deg); }
+.wa-bot[data-mood="happy"] .wa-bot__steam path { animation-duration: 1.2s; }
+.wa-bot[data-mood="happy"] .wa-bot__bubble {
+  opacity: 1;
+  transform: translateX(-50%) scale(1) translateY(0);
+}
+
+.wa-bot__hearts path {
+  fill: #ff5b7f;
+  animation: bot-heart 1.4s ease-out infinite;
+}
+.wa-bot__hearts path:nth-child(2) { animation-delay: 0.4s; }
+.wa-bot__hearts path:nth-child(3) { animation-delay: 0.8s; }
+@keyframes bot-heart {
+  0%   { opacity: 0; transform: translateY(0)    scale(0.4); }
+  30%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-22px) scale(1.1); }
+}
+
+/* ANGRY */
+.wa-bot[data-mood="angry"] .wa-bot__svg { animation: bot-shake 0.4s ease-in-out infinite; }
+@keyframes bot-shake {
+  0%, 100% { transform: translateX(0)     rotate(0); }
+  25%      { transform: translateX(-1.5px) rotate(-1deg); }
+  75%      { transform: translateX(1.5px)  rotate(1deg); }
+}
+.wa-bot[data-mood="angry"] .wa-bot__eyes-neutral,
+.wa-bot[data-mood="angry"] .wa-bot__mouth-neutral { opacity: 0; }
+.wa-bot[data-mood="angry"] .wa-bot__eyes-angry,
+.wa-bot[data-mood="angry"] .wa-bot__mouth-angry { opacity: 1; }
+.wa-bot[data-mood="angry"] .wa-bot__eyebrow--left  { transform: translateY(2px) rotate(25deg); }
+.wa-bot[data-mood="angry"] .wa-bot__eyebrow--right { transform: translateY(2px) rotate(-25deg); }
+.wa-bot[data-mood="angry"] .wa-bot__steam path {
+  animation-duration: 0.6s;
+  stroke: rgba(255,100,80,0.6);
+}
+.wa-bot[data-mood="angry"] .wa-bot__cup { fill: #E8D4A8; }
+
+/* Speech bubble */
+.wa-bot__bubble {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.7) translateY(8px);
+  background: var(--cream, #F0E6D2);
+  color: var(--navy-900, #07101F);
+  padding: 7px 14px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 8px 18px -6px rgba(0,0,0,0.5);
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(.34,1.56,.64,1);
+  transform-origin: bottom center;
+  pointer-events: none;
+}
+.wa-bot__bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 8px; height: 8px;
+  background: var(--cream, #F0E6D2);
+}
+
+@media (hover: none) { .wa-bot { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .wa-bot__svg,
+  .wa-bot__steam path,
+  .wa-bot__hearts path { animation: none !important; }
+}
