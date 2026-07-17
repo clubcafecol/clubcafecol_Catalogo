@@ -464,14 +464,3 @@ const WA_MESSAGES = WA_MESSAGES_ALL[((navigator.language || 'es').toLowerCase().
     }
   });
 })();
-/* Kicker "01 — Por qué elegirnos" legible sobre fondo navy */
-.benefits .kicker {
-  color: var(--gold-soft, #D9C28A);
-  opacity: 0.9;
-}
-
-/* Rayitas del eyebrow a juego */
-.benefits__dash {
-  background: var(--gold, #C9A961);
-  opacity: 0.7;
-}
