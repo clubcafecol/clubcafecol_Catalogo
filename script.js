@@ -4,174 +4,91 @@
    ========================================================= */
 
 const varieties = [
-  {
-    slug: 'blend-castillo',
-    name: 'Blend Castillo',
-    sub: 'Caturra y Colombia',
-    profile: 'Panela, chocolate, acidez cítrica, cuerpo medio, caña',
-    process: 'Lavado',
-    fermentation: '48 horas',
-    origin: 'Pitalito, Huila',
-    altitude: '1650 MSNM'
-  },
-  {
-    slug: 'papayo',
-    name: 'Papayo',
-    sub: 'Variedad emblemática del Huila',
-    profile: 'Romero, aromático, maderas finas, acidez media, cuerpo medio, durazno, té negro',
-    process: 'Lavado',
-    fermentation: '60 horas',
-    origin: 'Pitalito, Huila',
-    altitude: '1650 MSNM'
-  },
-  {
-    slug: 'tabi-natural',
-    name: 'Tabi Natural',
-    sub: 'Proceso natural extendido',
-    profile: 'Cacao, chocolate, licor, acidez media alta, cuerpo medio, vino, aromático',
-    process: 'Natural',
-    fermentation: '120 horas',
-    origin: 'Pitalito, Huila',
-    altitude: '1650 MSNM'
-  },
-  {
-    slug: 'geisha',
-    name: 'Geisha',
-    sub: 'Variedad de origen panameño',
-    profile: 'Limoncillo, jazmín, acidez cítrica, cuerpo medio bajo, panela, chocolate, cidrón',
-    process: 'Lavado',
-    fermentation: '48 horas',
-    origin: 'Pitalito, Huila',
-    altitude: '1650 MSNM'
-  },
-  {
-    slug: 'bourbon-rojo-top-roast',
-    name: 'Bourbon Rojo Top Roast',
-    sub: 'Fermentación de larga duración',
-    profile: 'Sandía, tamarindo, acidez alta brillante, cuerpo medio alto, licor, cacao',
-    process: 'Natural',
-    fermentation: '400 horas',
-    origin: 'Pitalito, Huila',
-    altitude: '1650 MSNM'
-  },
-  {
-    slug: 'landrace',
-    name: 'Landrace',
-    sub: 'Fermentación en biorreactor',
-    profile: 'Flor de Jamaica, arándanos, vino cuerpo medio, frambuesa, albahaca',
-    process: 'Natural',
-    fermentation: '80 horas en biorreactor',
-    origin: 'Pitalito, Huila',
-    altitude: '1650 MSNM'
-  },
-  {
-    slug: 'geisha-top-roast',
-    name: 'Geisha Top Roast',
-    sub: 'Maceración con hierbas y frutas',
-    profile: 'Limón, jazmín, galleta, uva, frambuesa, cuerpo medio',
-    process: 'Espirituoso',
-    fermentation: 'Maceración hierbas y frutas',
-    origin: 'Pitalito, Huila',
-    altitude: '1650 MSNM'
-  },
-  {
-    slug: 'bourbon-aji',
-    name: 'Bourbon Ají',
-    sub: 'Perfil especiado, semi lavado',
-    profile: 'Pimienta, maderas finas, avinado, almendra, cítrico',
-    process: 'Semi lavado',
-    fermentation: '96 horas',
-    origin: 'Pitalito, Huila',
-    altitude: '1650 MSNM'
-  },
-  {
-    slug: 'bourbon-sandia',
-    name: 'Bourbon Sandía',
-    sub: 'Notas frutales luminosas',
-    profile: 'Sandía, miel de panela, acidez cítrica brillante',
-    process: 'Natural',
-    fermentation: '120 horas',
-    origin: 'Pitalito, Huila',
-    altitude: '1650 MSNM'
-  },
-  {
-    slug: 'natural-passion',
-    name: 'Natural Passion',
-    sub: 'Proceso espirituoso',
-    profile: 'Maracuyá, gulupa, acidez media, cuerpo jugoso',
-    process: 'Espirituoso',
-    fermentation: '120 horas',
-    origin: 'Pitalito, Huila',
-    altitude: '1650 MSNM'
-  },
-  {
-    slug: 'bourbon-galleta',
-    name: 'Bourbon Galleta',
-    sub: 'Dulzor cremoso, perfil clásico',
-    profile: 'Chocolate, notas cítricas, almendras, acidez y cuerpo jugoso',
-    process: 'Espirituoso',
-    fermentation: '120 horas',
-    origin: 'Pitalito, Huila',
-    altitude: '1650 MSNM'
-  },
-  {
-    slug: 'bourbon-sidra',
-    name: 'Bourbon Sidra',
-    sub: 'Variedad mutación de Bourbon',
-    profile: 'Limón, jazmín, galleta, uva, frambuesa, cuerpo medio',
-    process: 'Espirituoso',
-    fermentation: '120 horas',
-    origin: 'Pitalito, Huila',
-    altitude: '1650 MSNM'
-  },
-  {
-    slug: 'wush-wush',
-    name: 'Wush Wush',
-    sub: 'Origen etíope, expresión cremosa',
-    profile: 'Dulce y aromático. Té verde, cítrico y floral, cuerpo cremoso, acidez baja, delicado',
-    process: 'Semi lavado',
-    fermentation: '96 horas',
-    origin: 'Pitalito, Huila',
-    altitude: '1750 MSNM'
-  },
-  {
-    slug: 'moka',
-    name: 'Moka',
-    sub: 'Origen Acevedo, frutos rojos',
-    profile: 'Chocolate, dulzor y acidez brillante, mora silvestre y frutos rojos',
-    process: 'Natural',
-    fermentation: '120 horas',
-    origin: 'Acevedo, Huila',
-    altitude: '1650 MSNM'
-  }
+  { slug: 'blend-castillo',
+    es: { name:'Blend Castillo', sub:'Caturra y Colombia', profile:'Panela, chocolate, acidez cítrica, cuerpo medio, caña', process:'Lavado', fermentation:'48 horas', origin:'Pitalito, Huila', altitude:'1650 MSNM' },
+    en: { name:'Castillo Blend', sub:'Caturra & Colombia', profile:'Panela, chocolate, citric acidity, medium body, sugarcane', process:'Washed', fermentation:'48 hours', origin:'Pitalito, Huila', altitude:'1650 MASL' } },
+
+  { slug: 'papayo',
+    es: { name:'Papayo', sub:'Variedad emblemática del Huila', profile:'Romero, aromático, maderas finas, acidez media, cuerpo medio, durazno, té negro', process:'Lavado', fermentation:'60 horas', origin:'Pitalito, Huila', altitude:'1650 MSNM' },
+    en: { name:'Papayo', sub:'Signature variety from Huila', profile:'Rosemary, aromatic, fine woods, medium acidity, medium body, peach, black tea', process:'Washed', fermentation:'60 hours', origin:'Pitalito, Huila', altitude:'1650 MASL' } },
+
+  { slug: 'tabi-natural',
+    es: { name:'Tabi Natural', sub:'Proceso natural extendido', profile:'Cacao, chocolate, licor, acidez media alta, cuerpo medio, vino, aromático', process:'Natural', fermentation:'120 horas', origin:'Pitalito, Huila', altitude:'1650 MSNM' },
+    en: { name:'Natural Tabi', sub:'Extended natural process', profile:'Cocoa, chocolate, liquor, medium-high acidity, medium body, wine, aromatic', process:'Natural', fermentation:'120 hours', origin:'Pitalito, Huila', altitude:'1650 MASL' } },
+
+  { slug: 'geisha',
+    es: { name:'Geisha', sub:'Variedad de origen panameño', profile:'Limoncillo, jazmín, acidez cítrica, cuerpo medio bajo, panela, chocolate, cidrón', process:'Lavado', fermentation:'48 horas', origin:'Pitalito, Huila', altitude:'1650 MSNM' },
+    en: { name:'Geisha', sub:'Variety of Panamanian origin', profile:'Lemongrass, jasmine, citric acidity, medium-low body, panela, chocolate, lemon verbena', process:'Washed', fermentation:'48 hours', origin:'Pitalito, Huila', altitude:'1650 MASL' } },
+
+  { slug: 'bourbon-rojo-top-roast',
+    es: { name:'Bourbon Rojo Top Roast', sub:'Fermentación de larga duración', profile:'Sandía, tamarindo, acidez alta brillante, cuerpo medio alto, licor, cacao', process:'Natural', fermentation:'400 horas', origin:'Pitalito, Huila', altitude:'1650 MSNM' },
+    en: { name:'Red Bourbon Top Roast', sub:'Long-duration fermentation', profile:'Watermelon, tamarind, bright high acidity, medium-high body, liquor, cocoa', process:'Natural', fermentation:'400 hours', origin:'Pitalito, Huila', altitude:'1650 MASL' } },
+
+  { slug: 'landrace',
+    es: { name:'Landrace', sub:'Fermentación en biorreactor', profile:'Flor de Jamaica, arándanos, vino cuerpo medio, frambuesa, albahaca', process:'Natural', fermentation:'80 horas en biorreactor', origin:'Pitalito, Huila', altitude:'1650 MSNM' },
+    en: { name:'Landrace', sub:'Bioreactor fermentation', profile:'Hibiscus, blueberries, wine medium body, raspberry, basil', process:'Natural', fermentation:'80 hours in bioreactor', origin:'Pitalito, Huila', altitude:'1650 MASL' } },
+
+  { slug: 'geisha-top-roast',
+    es: { name:'Geisha Top Roast', sub:'Maceración con hierbas y frutas', profile:'Limón, jazmín, galleta, uva, frambuesa, cuerpo medio', process:'Espirituoso', fermentation:'Maceración hierbas y frutas', origin:'Pitalito, Huila', altitude:'1650 MSNM' },
+    en: { name:'Geisha Top Roast', sub:'Maceration with herbs and fruits', profile:'Lemon, jasmine, cookie, grape, raspberry, medium body', process:'Spirituous', fermentation:'Herb & fruit maceration', origin:'Pitalito, Huila', altitude:'1650 MASL' } },
+
+  { slug: 'bourbon-aji',
+    es: { name:'Bourbon Ají', sub:'Perfil especiado, semi lavado', profile:'Pimienta, maderas finas, avinado, almendra, cítrico', process:'Semi lavado', fermentation:'96 horas', origin:'Pitalito, Huila', altitude:'1650 MSNM' },
+    en: { name:'Chili Bourbon', sub:'Spiced profile, semi-washed', profile:'Pepper, fine woods, winey, almond, citrus', process:'Semi-washed', fermentation:'96 hours', origin:'Pitalito, Huila', altitude:'1650 MASL' } },
+
+  { slug: 'bourbon-sandia',
+    es: { name:'Bourbon Sandía', sub:'Notas frutales luminosas', profile:'Sandía, miel de panela, acidez cítrica brillante', process:'Natural', fermentation:'120 horas', origin:'Pitalito, Huila', altitude:'1650 MSNM' },
+    en: { name:'Watermelon Bourbon', sub:'Bright fruity notes', profile:'Watermelon, panela honey, bright citric acidity', process:'Natural', fermentation:'120 hours', origin:'Pitalito, Huila', altitude:'1650 MASL' } },
+
+  { slug: 'natural-passion',
+    es: { name:'Natural Passion', sub:'Proceso espirituoso', profile:'Maracuyá, gulupa, acidez media, cuerpo jugoso', process:'Espirituoso', fermentation:'120 horas', origin:'Pitalito, Huila', altitude:'1650 MSNM' },
+    en: { name:'Natural Passion', sub:'Spirituous process', profile:'Passion fruit, purple passion fruit, medium acidity, juicy body', process:'Spirituous', fermentation:'120 hours', origin:'Pitalito, Huila', altitude:'1650 MASL' } },
+
+  { slug: 'bourbon-galleta',
+    es: { name:'Bourbon Galleta', sub:'Dulzor cremoso, perfil clásico', profile:'Chocolate, notas cítricas, almendras, acidez y cuerpo jugoso', process:'Espirituoso', fermentation:'120 horas', origin:'Pitalito, Huila', altitude:'1650 MSNM' },
+    en: { name:'Cookie Bourbon', sub:'Creamy sweetness, classic profile', profile:'Chocolate, citric notes, almonds, juicy acidity and body', process:'Spirituous', fermentation:'120 hours', origin:'Pitalito, Huila', altitude:'1650 MASL' } },
+
+  { slug: 'bourbon-sidra',
+    es: { name:'Bourbon Sidra', sub:'Variedad mutación de Bourbon', profile:'Limón, jazmín, galleta, uva, frambuesa, cuerpo medio', process:'Espirituoso', fermentation:'120 horas', origin:'Pitalito, Huila', altitude:'1650 MSNM' },
+    en: { name:'Cider Bourbon', sub:'Bourbon mutation variety', profile:'Lemon, jasmine, cookie, grape, raspberry, medium body', process:'Spirituous', fermentation:'120 hours', origin:'Pitalito, Huila', altitude:'1650 MASL' } },
+
+  { slug: 'wush-wush',
+    es: { name:'Wush Wush', sub:'Origen etíope, expresión cremosa', profile:'Dulce y aromático. Té verde, cítrico y floral, cuerpo cremoso, acidez baja, delicado', process:'Semi lavado', fermentation:'96 horas', origin:'Pitalito, Huila', altitude:'1750 MSNM' },
+    en: { name:'Wush Wush', sub:'Ethiopian origin, creamy expression', profile:'Sweet and aromatic. Green tea, citric and floral, creamy body, low acidity, delicate', process:'Semi-washed', fermentation:'96 hours', origin:'Pitalito, Huila', altitude:'1750 MASL' } },
+
+  { slug: 'moka',
+    es: { name:'Moka', sub:'Origen Acevedo, frutos rojos', profile:'Chocolate, dulzor y acidez brillante, mora silvestre y frutos rojos', process:'Natural', fermentation:'120 horas', origin:'Acevedo, Huila', altitude:'1650 MSNM' },
+    en: { name:'Mocha', sub:'Acevedo origin, red fruits', profile:'Chocolate, sweetness and bright acidity, wild blackberry and red fruits', process:'Natural', fermentation:'120 hours', origin:'Acevedo, Huila', altitude:'1650 MASL' } }
 ];
 
-/* ----------------- Render cards ----------------- */
-const grid = document.getElementById('catalogGrid');
-
-const pad = n => String(n).padStart(2, '0');
+/* Idioma activo del catálogo (detectado del navegador) */
+const CAT_LANG = ((navigator.language || 'es').toLowerCase().startsWith('en')) ? 'en' : 'es';
 
 const cards = varieties.map((v, i) => {
+  const t = v[CAT_LANG]; // textos en el idioma activo
   const card = document.createElement('button');
   card.className = 'card';
   card.dataset.slug = v.slug;
+
+  const profileLabel = CAT_LANG === 'en' ? 'Sensory profile' : 'Perfil sensorial';
+
   card.innerHTML = `
     <div class="card__media">
-      <img class="card__img" src="assets/variedades/${v.slug}.jpg" alt="${v.name}" loading="lazy" />
+      <img class="card__img" src="assets/variedades/${v.slug}.jpg" alt="${t.name}" loading="lazy" />
       <div class="card__overlay">
         <div class="card__profile">
-          <strong>Perfil sensorial</strong>
-          ${v.profile}
+          <strong>${profileLabel}</strong>
+          ${t.profile}
         </div>
       </div>
       <div class="card__view" aria-hidden="true">+</div>
     </div>
-    <span class="card__index">N.º ${pad(i + 1)} — ${v.process}</span>
-    <h3 class="card__name">${v.name}</h3>
-    <p class="card__sub">${v.sub}</p>
+    <span class="card__index">N.º ${pad(i + 1)} — ${t.process}</span>
+    <h3 class="card__name">${t.name}</h3>
+    <p class="card__sub">${t.sub}</p>
     <div class="card__tags">
-      <span>${v.fermentation}</span>
-      <span>${v.altitude}</span>
+      <span>${t.fermentation}</span>
+      <span>${t.altitude}</span>
     </div>
   `;
   card.addEventListener('click', () => openModal(i));
@@ -194,16 +111,20 @@ const modalAltitude = document.getElementById('modalAltitude');
 
 function openModal (i) {
   const v = varieties[i];
+  const t = v[CAT_LANG];
+
+  const catalogWord = CAT_LANG === 'en' ? 'Catalog' : 'Catálogo';
+
   modalImg.src = `assets/variedades/${v.slug}.jpg`;
-  modalImg.alt = v.name;
-  modalIndex.textContent  = `N.º ${pad(i + 1)} · Catálogo 2026`;
-  modalName.textContent   = v.name;
-  modalSub.textContent    = v.sub;
-  modalProfile.textContent  = v.profile;
-  modalProcess.textContent  = v.process;
-  modalFerment.textContent  = v.fermentation;
-  modalOrigin.textContent   = v.origin;
-  modalAltitude.textContent = v.altitude;
+  modalImg.alt = t.name;
+  modalIndex.textContent  = `N.º ${pad(i + 1)} · ${catalogWord} 2026`;
+  modalName.textContent   = t.name;
+  modalSub.textContent    = t.sub;
+  modalProfile.textContent  = t.profile;
+  modalProcess.textContent  = t.process;
+  modalFerment.textContent  = t.fermentation;
+  modalOrigin.textContent   = t.origin;
+  modalAltitude.textContent = t.altitude;
 
   modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
@@ -325,33 +246,24 @@ const SLIDE_MS = 7000; // time each video stays visible
 
 const WA_NUMBER = '573154510390'; // +57 315 451 0390  (sin + ni espacios)
 
-const WA_MESSAGES = [
-  {
-    icon: '☕',
-    label: 'Quiero conocer el catálogo 2026',
-    text: '¡Hola Club del Café! Acabo de explorar su catálogo 2026 y me encantaría conocer cuáles de las 14 variedades tienen disponibles ahora mismo. ¿Me pueden orientar?'
-  },
-  {
-    icon: '🛒',
-    label: 'Quiero hacer un pedido',
-    text: '¡Hola! Estoy listo para hacer un pedido de café de especialidad. ¿Me cuentan cómo es el proceso, formas de pago y tiempos de entrega?'
-  },
-  {
-    icon: '🎁',
-    label: 'Busco un regalo de café especial',
-    text: '¡Hola! Estoy buscando regalar café de especialidad y quiero algo memorable. ¿Me ayudan a elegir la variedad ideal según el perfil del que lo recibirá?'
-  },
-  {
-    icon: '🏬',
-    label: 'Tengo una cafetería / negocio',
-    text: '¡Hola! Represento una cafetería/negocio y me interesa conocer sus opciones para venta al por mayor de café de especialidad. ¿Podemos conversar?'
-  },
-  {
-    icon: '💬',
-    label: 'Soy nuevo, asesórenme',
-    text: '¡Hola! Estoy iniciando en el mundo del café de especialidad y me gustaría que me asesoraran sobre por dónde empezar y qué variedad recomiendan probar primero.'
-  }
-];
+const WA_MESSAGES_ALL = {
+  es: [
+    { icon:'☕', label:'Quiero conocer el catálogo 2026', text:'¡Hola Club del Café! Acabo de explorar su catálogo 2026 y me encantaría conocer cuáles de las 14 variedades tienen disponibles ahora mismo. ¿Me pueden orientar?' },
+    { icon:'🛒', label:'Quiero hacer un pedido', text:'¡Hola! Estoy listo para hacer un pedido de café de especialidad. ¿Me cuentan cómo es el proceso, formas de pago y tiempos de entrega?' },
+    { icon:'🎁', label:'Busco un regalo de café especial', text:'¡Hola! Estoy buscando regalar café de especialidad y quiero algo memorable. ¿Me ayudan a elegir la variedad ideal según el perfil del que lo recibirá?' },
+    { icon:'🏬', label:'Tengo una cafetería / negocio', text:'¡Hola! Represento una cafetería/negocio y me interesa conocer sus opciones para venta al por mayor de café de especialidad. ¿Podemos conversar?' },
+    { icon:'💬', label:'Soy nuevo, asesórenme', text:'¡Hola! Estoy iniciando en el mundo del café de especialidad y me gustaría que me asesoraran sobre por dónde empezar y qué variedad recomiendan probar primero.' }
+  ],
+  en: [
+    { icon:'☕', label:'I want to see the 2026 catalog', text:'Hi Club del Café! I just explored your 2026 catalog and I\'d love to know which of the 14 varieties you have available right now. Could you guide me?' },
+    { icon:'🛒', label:'I want to place an order', text:'Hi! I\'m ready to place a specialty coffee order. Could you tell me about the process, payment methods and delivery times?' },
+    { icon:'🎁', label:'Looking for a special coffee gift', text:'Hi! I\'m looking to gift specialty coffee and want something memorable. Can you help me pick the ideal variety based on the recipient\'s taste?' },
+    { icon:'🏬', label:'I have a café / business', text:'Hi! I represent a café/business and I\'m interested in your wholesale options for specialty coffee. Can we talk?' },
+    { icon:'💬', label:'I\'m new, guide me', text:'Hi! I\'m just getting started in the world of specialty coffee and I\'d love some guidance on where to begin and which variety you recommend trying first.' }
+  ]
+};
+
+const WA_MESSAGES = WA_MESSAGES_ALL[((navigator.language || 'es').toLowerCase().startsWith('en')) ? 'en' : 'es'];
 
 (function initWhatsApp () {
   const launcher = document.getElementById('waLauncher');
