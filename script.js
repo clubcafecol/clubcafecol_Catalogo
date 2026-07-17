@@ -63,6 +63,9 @@ const varieties = [
 
 /* Idioma activo del catálogo (detectado del navegador) */
 const CAT_LANG = ((navigator.language || 'es').toLowerCase().startsWith('en')) ? 'en' : 'es';
+/* Referencia al contenedor del catálogo y helper para numerar (01, 02...) */
+const grid = document.getElementById('catalogGrid');
+const pad = n => String(n).padStart(2, '0');
 
 const cards = varieties.map((v, i) => {
   const t = v[CAT_LANG]; // textos en el idioma activo
