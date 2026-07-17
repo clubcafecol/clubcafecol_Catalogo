@@ -8,7 +8,6 @@
 
   <link rel="icon" type="image/jpeg" href="assets/img/logo.jpg" />
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -17,7 +16,6 @@
 </head>
 <body>
 
-  <!-- Decorative cursor -->
   <div class="cursor" id="cursor"></div>
 
   <!-- NAV -->
@@ -27,10 +25,10 @@
       <span class="nav__name">Club del Café</span>
     </a>
     <nav class="nav__links">
-<a href="#manifiesto" data-i18n="nav.origen">Origen</a>
-<a href="#catalogo" data-i18n="nav.catalogo">Catálogo</a>
-<a href="#descarga" data-i18n="nav.descargar">Descargar</a>
-<a href="#contacto" data-i18n="nav.contacto">Contacto</a>
+      <a href="#manifiesto" data-i18n="nav.origen">Origen</a>
+      <a href="#catalogo" data-i18n="nav.catalogo">Catálogo</a>
+      <a href="#descarga" data-i18n="nav.descargar">Descargar</a>
+      <a href="#contacto" data-i18n="nav.contacto">Contacto</a>
     </nav>
   </header>
 
@@ -66,28 +64,26 @@
         </div>
       </div>
 
-      <!-- Video panel (right side) -->
       <div class="hero__panel">
-        <!-- Título llamativo que señala el video -->
-<a href="https://instagram.com/clubcafecol" target="_blank" rel="noopener"
-   class="ig-headline" aria-label="Conoce nuestro origen en Instagram @clubcafecol">
-  <span class="ig-headline__badge" aria-hidden="true">EN VIVO</span>
-  <span class="ig-headline__main">
-    <svg class="ig-headline__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-      <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-            d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zM17.5 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-    </svg>
-    <span class="ig-headline__text">
-      <span class="ig-headline__pre">Clickea acá ·</span>
-      <span class="ig-headline__title">Conoce nuestro origen</span>
-    </span>
-  </span>
-  <span class="ig-headline__arrow" aria-hidden="true">
-    <svg viewBox="0 0 24 24" width="20" height="20">
-      <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M6 13l6 6 6-6"/>
-    </svg>
-  </span>
-</a>
+        <a href="https://instagram.com/clubcafecol" target="_blank" rel="noopener"
+           class="ig-headline" aria-label="Conoce nuestro origen en Instagram @clubcafecol">
+          <span class="ig-headline__badge" data-i18n="ig.badge">EN VIVO</span>
+          <span class="ig-headline__main">
+            <svg class="ig-headline__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                    d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zM17.5 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+            <span class="ig-headline__text">
+              <span class="ig-headline__pre" data-i18n="ig.pre">Clickea acá ·</span>
+              <span class="ig-headline__title" data-i18n="ig.title">Conoce nuestro origen</span>
+            </span>
+          </span>
+          <span class="ig-headline__arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M6 13l6 6 6-6"/>
+            </svg>
+          </span>
+        </a>
         <div class="hero__panel-frame">
           <div class="hero__video" id="heroVideo" aria-hidden="true">
             <video class="hero__video-layer is-active" autoplay muted loop playsinline preload="metadata"></video>
@@ -95,7 +91,7 @@
           </div>
           <div class="hero__panel-tag">
             <span class="hero__panel-dot"></span>
-            <span>@clubcafecol · en vivo</span>
+            <span data-i18n="ig.tag">@clubcafecol · en vivo</span>
           </div>
         </div>
       </div>
@@ -106,80 +102,76 @@
     </a>
   </section>
 
- <!-- POR QUÉ ELEGIRNOS -->
-<section class="benefits" id="experiencia">
-  <div class="benefits__head">
-    <span class="benefits__eyebrow">
-      <span class="benefits__dash"></span>
-      <span class="kicker" data-i18n="ben.kicker">01 — Por qué elegirnos</span>
-      <span class="benefits__dash"></span>
-    </span>
-    <h2 class="benefits__title" data-i18n="ben.lead">Una experiencia <em>premium</em> de principio a fin.</h2>
-    <p class="manifest__text" data-i18n="ben.text">Cuidamos cada detalle del proceso — desde el grano hasta tu taza — para que vivas una experiencia inolvidable. Origen, tueste, sostenibilidad y entrega: cuatro pilares que sostienen cada referencia del catálogo.</p>
-  </div>
+  <!-- POR QUÉ ELEGIRNOS -->
+  <section class="benefits" id="manifiesto">
+    <div class="benefits__head">
+      <span class="benefits__eyebrow">
+        <span class="benefits__dash"></span>
+        <span class="kicker" data-i18n="ben.kicker">01 — Por qué elegirnos</span>
+        <span class="benefits__dash"></span>
+      </span>
+      <h2 class="benefits__title" data-i18n="ben.lead">Una experiencia <em>premium</em> de principio a fin.</h2>
+      <p class="benefits__sub" data-i18n="ben.text">Cuidamos cada detalle del proceso — desde el grano hasta tu taza — para que vivas una experiencia inolvidable. Origen, tueste, sostenibilidad y entrega: cuatro pilares que sostienen cada referencia del catálogo.</p>
+    </div>
 
-  <div class="benefits__grid">
-    <article class="benefit-card">
-      <div class="benefit-card__icon">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="m2 20 6-8 4 5 3-4 7 7H2z"/>
-          <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
-        </svg>
-      </div>
-      <h3 class="benefit__title" data-i18n="ben.t1">Origen seleccionado</h3>
-      <p class="benefit__text" data-i18n="ben.d1">Granos cultivados a más de 1.500 m.s.n.m. en las mejores fincas del Huila.</p>
-    </article>
+    <div class="benefits__grid">
+      <article class="benefit-card">
+        <div class="benefit-card__icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m2 20 6-8 4 5 3-4 7 7H2z"/>
+            <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3 class="benefit-card__title" data-i18n="ben.t1">Origen seleccionado</h3>
+        <p class="benefit-card__text" data-i18n="ben.d1">Granos cultivados a más de 1.500 m.s.n.m. en las mejores fincas del Huila.</p>
+      </article>
 
-    <article class="benefit-card">
-      <div class="benefit-card__icon">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 2s5 5 5 10a5 5 0 1 1-10 0c0-5 5-10 5-10z"/>
-          <path d="M12 17a2 2 0 0 0 2-2c0-1.5-2-3-2-3s-2 1.5-2 3a2 2 0 0 0 2 2z"/>
-        </svg>
-      </div>
-      <h3 class="benefit__title" data-i18n="ben.t2">Tueste artesanal</h3>
-      <p class="benefit__text" data-i18n="ben.d2">Tostado en pequeñas cantidades para maximizar aroma, cuerpo y sabor.</p>
-    </article>
+      <article class="benefit-card">
+        <div class="benefit-card__icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2s5 5 5 10a5 5 0 1 1-10 0c0-5 5-10 5-10z"/>
+            <path d="M12 17a2 2 0 0 0 2-2c0-1.5-2-3-2-3s-2 1.5-2 3a2 2 0 0 0 2 2z"/>
+          </svg>
+        </div>
+        <h3 class="benefit-card__title" data-i18n="ben.t2">Tueste artesanal</h3>
+        <p class="benefit-card__text" data-i18n="ben.d2">Tostado en pequeñas cantidades para maximizar aroma, cuerpo y sabor.</p>
+      </article>
 
-    <article class="benefit-card">
-      <div class="benefit-card__icon">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
-          <path d="M2 21c0-3 1.85-5.36 5.08-6"/>
-        </svg>
-      </div>
-      <h3 class="benefit__title" data-i18n="ben.t3">100% sostenible</h3>
-      <p class="benefit__text" data-i18n="ben.d3">Trabajamos directamente con productores en comercio justo y prácticas verdes.</p>
-    </article>
+      <article class="benefit-card">
+        <div class="benefit-card__icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6"/>
+          </svg>
+        </div>
+        <h3 class="benefit-card__title" data-i18n="ben.t3">100% sostenible</h3>
+        <p class="benefit-card__text" data-i18n="ben.d3">Trabajamos directamente con productores en comercio justo y prácticas verdes.</p>
+      </article>
 
-    <article class="benefit-card">
-      <div class="benefit-card__icon">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3 16V6h12v10z"/>
-          <path d="M15 9h4l3 4v3h-7z"/>
-          <circle cx="7" cy="18" r="2" fill="currentColor"/>
-          <circle cx="18" cy="18" r="2" fill="currentColor"/>
-        </svg>
-      </div>
-      <h3 class="benefit__title" data-i18n="ben.t4">Entrega rápida</h3>
-      <p class="benefit__text" data-i18n="ben.d4">Empacado al vacío justo después del tueste y enviado a tu puerta.</p>
-    </article>
-  </div>
-</section>
-
-  <!--
+      <article class="benefit-card">
+        <div class="benefit-card__icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 16V6h12v10z"/>
+            <path d="M15 9h4l3 4v3h-7z"/>
+            <circle cx="7" cy="18" r="2" fill="currentColor"/>
+            <circle cx="18" cy="18" r="2" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3 class="benefit-card__title" data-i18n="ben.t4">Entrega rápida</h3>
+        <p class="benefit-card__text" data-i18n="ben.d4">Empacado al vacío justo después del tueste y enviado a tu puerta.</p>
+      </article>
+    </div>
+  </section>
 
   <!-- CATÁLOGO -->
   <section class="catalog" id="catalogo">
     <div class="catalog__head">
       <span class="kicker" data-i18n="cat.kicker">02 — Las variedades</span>
       <h2 class="catalog__title" data-i18n="cat.title">¿Cómo elegir tu café?</h2>
-      <p class="catalog__sub" data-i18n="cat.sub">Pase el cursor sobre cada referencia para ver su perfil sensorial Y descubre Cúal es el que mejor se adapta a tu gusto..</p>
+      <p class="catalog__sub" data-i18n="cat.sub">Pase el cursor sobre cada referencia para ver su perfil sensorial y descubre cuál es el que mejor se adapta a tu gusto.</p>
     </div>
 
-    <div class="catalog__grid" id="catalogGrid">
-      <!-- Cards injected by script.js -->
-    </div>
+    <div class="catalog__grid" id="catalogGrid"></div>
   </section>
 
   <!-- DOWNLOAD -->
@@ -197,7 +189,7 @@
     </div>
   </section>
 
-  <!-- CONTACT / FOOTER -->
+  <!-- FOOTER -->
   <footer class="footer" id="contacto">
     <div class="footer__top">
       <div class="footer__brand">
@@ -223,8 +215,8 @@
       </div>
     </div>
     <div class="footer__bottom">
-      <span>© 2026 Club del Café · Todos los derechos reservados</span>
-      <span class="footer__sig">Catálogo de especialidad — Edición 2026</span>
+      <span data-i18n="ft.rights">© 2026 Club del Café · Todos los derechos reservados</span>
+      <span class="footer__sig" data-i18n="ft.sig">Catálogo de especialidad — Edición 2026</span>
     </div>
   </footer>
 
@@ -241,101 +233,99 @@
         <h3 class="modal__name" id="modalName"></h3>
         <p class="modal__sub" id="modalSub"></p>
         <dl class="modal__specs">
-          <div><dt>Perfil</dt><dd id="modalProfile"></dd></div>
-          <div><dt>Proceso</dt><dd id="modalProcess"></dd></div>
-          <div><dt>Fermentación</dt><dd id="modalFerment"></dd></div>
-          <div><dt>Origen</dt><dd id="modalOrigin"></dd></div>
-          <div><dt>Altura</dt><dd id="modalAltitude"></dd></div>
+          <div><dt data-i18n="modal.profile">Perfil</dt><dd id="modalProfile"></dd></div>
+          <div><dt data-i18n="modal.process">Proceso</dt><dd id="modalProcess"></dd></div>
+          <div><dt data-i18n="modal.ferment">Fermentación</dt><dd id="modalFerment"></dd></div>
+          <div><dt data-i18n="modal.origin">Origen</dt><dd id="modalOrigin"></dd></div>
+          <div><dt data-i18n="modal.altitude">Altura</dt><dd id="modalAltitude"></dd></div>
         </dl>
       </div>
     </div>
   </div>
-<!-- WHATSAPP FLOATING BUTTON -->
-<div class="wa" id="wa">
-  <!-- COFFEE BOT MASCOT -->
-  <div class="wa-bot" id="waBot" data-mood="neutral" aria-hidden="true">
-  <div class="wa-bot__bubble">¡LLévame! ❤️</div>
-  <svg class="wa-bot__svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
-    <g class="wa-bot__steam">
-      <path d="M35 38 Q38 32 35 26 Q32 20 36 14"/>
-      <path d="M50 38 Q47 31 50 24 Q53 17 49 10"/>
-      <path d="M65 38 Q62 32 65 26 Q68 20 64 14"/>
-    </g>
-    <g class="wa-bot__hearts">
-      <path d="M25 28 q-3 -4 -6 0 q-3 4 6 9 q9 -5 6 -9 q-3 -4 -6 0z"/>
-      <path d="M78 25 q-3 -4 -6 0 q-3 4 6 9 q9 -5 6 -9 q-3 -4 -6 0z" transform="scale(0.85)"/>
-      <path d="M50 18 q-3 -4 -6 0 q-3 4 6 9 q9 -5 6 -9 q-3 -4 -6 0z" transform="scale(0.75)"/>
-    </g>
-    <ellipse cx="50" cy="116" rx="36" ry="2.5" fill="rgba(0,0,0,0.35)"/>
-    <ellipse cx="50" cy="111" rx="38" ry="5" fill="#D9C499" stroke="#C9A961" stroke-width="1"/>
-    <ellipse cx="50" cy="108" rx="34" ry="3.5" fill="#F0E6D2"/>
-    <path d="M75 64 Q92 64 92 76 Q92 88 75 88" fill="none" stroke="#C9A961" stroke-width="4" stroke-linecap="round"/>
-    <path class="wa-bot__cup" d="M20 48 L24 100 Q25 108 33 108 L67 108 Q75 108 76 100 L80 48 Z" fill="#F0E6D2" stroke="#C9A961" stroke-width="1.5"/>
-    <ellipse cx="50" cy="48" rx="29" ry="4.5" fill="#2A1810"/>
-    <ellipse cx="50" cy="47" rx="27" ry="3" fill="#3D2817"/>
-    <g class="wa-bot__blush">
-      <circle cx="34" cy="82" r="3.5" fill="#ff8095" opacity="0.55"/>
-      <circle cx="66" cy="82" r="3.5" fill="#ff8095" opacity="0.55"/>
-    </g>
-    <path class="wa-bot__eyebrow wa-bot__eyebrow--left"  d="M36 64 L44 64" stroke="#07101F" stroke-width="2" stroke-linecap="round"/>
-    <path class="wa-bot__eyebrow wa-bot__eyebrow--right" d="M56 64 L64 64" stroke="#07101F" stroke-width="2" stroke-linecap="round"/>
-    <g class="wa-bot__eyes-neutral">
-      <circle cx="40" cy="74" r="2.5" fill="#07101F"/>
-      <circle cx="60" cy="74" r="2.5" fill="#07101F"/>
-      <circle cx="40.8" cy="73.2" r="0.8" fill="#fff"/>
-      <circle cx="60.8" cy="73.2" r="0.8" fill="#fff"/>
-    </g>
-    <g class="wa-bot__eyes-happy">
-      <path d="M36 75 Q40 70 44 75" stroke="#07101F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-      <path d="M56 75 Q60 70 64 75" stroke="#07101F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-    </g>
-    <g class="wa-bot__eyes-angry">
-      <circle cx="40" cy="76" r="1.6" fill="#07101F"/>
-      <circle cx="60" cy="76" r="1.6" fill="#07101F"/>
-    </g>
-    <path class="wa-bot__mouth-neutral" d="M44 88 Q50 90 56 88" stroke="#07101F" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <g class="wa-bot__mouth-happy">
-      <path d="M40 85 Q50 96 60 85" stroke="#07101F" stroke-width="2.2" fill="#5C2E2E" stroke-linecap="round" stroke-linejoin="round"/>
-    </g>
-    <path class="wa-bot__mouth-angry" d="M42 92 Q46 87 50 91 Q54 95 58 90" stroke="#07101F" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</div>
-  <!-- Pop-up panel -->
-  <div class="wa__panel" id="waPanel" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="waTitle">
-    <div class="wa__panel-head">
-      <img src="assets/img/logo.jpg" alt="" class="wa__avatar" />
-      <div class="wa__panel-meta">
-        <p id="waTitle" class="wa__panel-name">Club del Café</p>
-        <p class="wa__panel-status"><span class="wa__status-dot"></span>Normalmente respondemos en minutos</p>
-      </div>
-      <button class="wa__close" id="waClose" aria-label="Cerrar">×</button>
+
+  <!-- WHATSAPP FLOATING BUTTON -->
+  <div class="wa" id="wa">
+    <div class="wa-bot" id="waBot" data-mood="neutral" aria-hidden="true">
+      <div class="wa-bot__bubble" data-i18n="bot.bubble">¡Llévame! ❤️</div>
+      <svg class="wa-bot__svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+        <g class="wa-bot__steam">
+          <path d="M35 38 Q38 32 35 26 Q32 20 36 14"/>
+          <path d="M50 38 Q47 31 50 24 Q53 17 49 10"/>
+          <path d="M65 38 Q62 32 65 26 Q68 20 64 14"/>
+        </g>
+        <g class="wa-bot__hearts">
+          <path d="M25 28 q-3 -4 -6 0 q-3 4 6 9 q9 -5 6 -9 q-3 -4 -6 0z"/>
+          <path d="M78 25 q-3 -4 -6 0 q-3 4 6 9 q9 -5 6 -9 q-3 -4 -6 0z" transform="scale(0.85)"/>
+          <path d="M50 18 q-3 -4 -6 0 q-3 4 6 9 q9 -5 6 -9 q-3 -4 -6 0z" transform="scale(0.75)"/>
+        </g>
+        <ellipse cx="50" cy="116" rx="36" ry="2.5" fill="rgba(0,0,0,0.35)"/>
+        <ellipse cx="50" cy="111" rx="38" ry="5" fill="#D9C499" stroke="#C9A961" stroke-width="1"/>
+        <ellipse cx="50" cy="108" rx="34" ry="3.5" fill="#F0E6D2"/>
+        <path d="M75 64 Q92 64 92 76 Q92 88 75 88" fill="none" stroke="#C9A961" stroke-width="4" stroke-linecap="round"/>
+        <path class="wa-bot__cup" d="M20 48 L24 100 Q25 108 33 108 L67 108 Q75 108 76 100 L80 48 Z" fill="#F0E6D2" stroke="#C9A961" stroke-width="1.5"/>
+        <ellipse cx="50" cy="48" rx="29" ry="4.5" fill="#2A1810"/>
+        <ellipse cx="50" cy="47" rx="27" ry="3" fill="#3D2817"/>
+        <g class="wa-bot__blush">
+          <circle cx="34" cy="82" r="3.5" fill="#ff8095" opacity="0.55"/>
+          <circle cx="66" cy="82" r="3.5" fill="#ff8095" opacity="0.55"/>
+        </g>
+        <path class="wa-bot__eyebrow wa-bot__eyebrow--left"  d="M36 64 L44 64" stroke="#07101F" stroke-width="2" stroke-linecap="round"/>
+        <path class="wa-bot__eyebrow wa-bot__eyebrow--right" d="M56 64 L64 64" stroke="#07101F" stroke-width="2" stroke-linecap="round"/>
+        <g class="wa-bot__eyes-neutral">
+          <circle cx="40" cy="74" r="2.5" fill="#07101F"/>
+          <circle cx="60" cy="74" r="2.5" fill="#07101F"/>
+          <circle cx="40.8" cy="73.2" r="0.8" fill="#fff"/>
+          <circle cx="60.8" cy="73.2" r="0.8" fill="#fff"/>
+        </g>
+        <g class="wa-bot__eyes-happy">
+          <path d="M36 75 Q40 70 44 75" stroke="#07101F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <path d="M56 75 Q60 70 64 75" stroke="#07101F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        </g>
+        <g class="wa-bot__eyes-angry">
+          <circle cx="40" cy="76" r="1.6" fill="#07101F"/>
+          <circle cx="60" cy="76" r="1.6" fill="#07101F"/>
+        </g>
+        <path class="wa-bot__mouth-neutral" d="M44 88 Q50 90 56 88" stroke="#07101F" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <g class="wa-bot__mouth-happy">
+          <path d="M40 85 Q50 96 60 85" stroke="#07101F" stroke-width="2.2" fill="#5C2E2E" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <path class="wa-bot__mouth-angry" d="M42 92 Q46 87 50 91 Q54 95 58 90" stroke="#07101F" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </div>
 
-    <div class="wa__panel-body">
-      <div class="wa__bubble">
-        <p>¡Hola! ☕ Gracias por llegar hasta acá. Cuéntanos qué buscas y te asesoramos en cuestión de minutos. Elige el mensaje que mejor describa lo que necesitas:</p>
+    <div class="wa__panel" id="waPanel" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="waTitle">
+      <div class="wa__panel-head">
+        <img src="assets/img/logo.jpg" alt="" class="wa__avatar" />
+        <div class="wa__panel-meta">
+          <p id="waTitle" class="wa__panel-name">Club del Café</p>
+          <p class="wa__panel-status"><span class="wa__status-dot"></span><span data-i18n="wa.status">Normalmente respondemos en minutos</span></p>
+        </div>
+        <button class="wa__close" id="waClose" aria-label="Cerrar">×</button>
       </div>
 
-      <div class="wa__quick" id="waQuick">
-        <!-- Buttons injected by script.js -->
+      <div class="wa__panel-body">
+        <div class="wa__bubble">
+          <p data-i18n="wa.greeting">¡Hola! ☕ Gracias por llegar hasta acá. Cuéntanos qué buscas y te asesoramos en cuestión de minutos. Elige el mensaje que mejor describa lo que necesitas:</p>
+        </div>
+
+        <div class="wa__quick" id="waQuick"></div>
+      </div>
+
+      <div class="wa__panel-foot">
+        <span>Powered by WhatsApp</span>
       </div>
     </div>
 
-    <div class="wa__panel-foot">
-      <span>Powered by WhatsApp</span>
-    </div>
+    <button class="wa__launcher" id="waLauncher" aria-label="Abrir chat de WhatsApp" aria-expanded="false">
+      <span class="wa__ripple"></span>
+      <span class="wa__ripple wa__ripple--2"></span>
+      <svg class="wa__icon" viewBox="0 0 32 32" aria-hidden="true">
+        <path fill="currentColor" d="M16 .4C7.4.4.4 7.4.4 16c0 2.8.7 5.5 2.1 7.9L.3 31.6l7.9-2.1c2.3 1.3 5 1.9 7.8 1.9 8.6 0 15.6-7 15.6-15.6C31.6 7.4 24.6.4 16 .4zm0 28.4c-2.5 0-4.9-.7-7-1.9l-.5-.3-5.2 1.4 1.4-5-.3-.5C3.1 20.4 2.4 18.2 2.4 16 2.4 8.5 8.5 2.4 16 2.4c3.6 0 7 1.4 9.6 4 2.6 2.6 4 6 4 9.6 0 7.5-6.1 13.6-13.6 13.6zm7.5-10.2c-.4-.2-2.4-1.2-2.8-1.3-.4-.1-.7-.2-.9.2-.3.4-1 1.3-1.3 1.6-.2.3-.5.3-.9.1-.4-.2-1.7-.6-3.3-2-1.2-1.1-2-2.4-2.3-2.8-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.7.1-.3.1-.5 0-.7-.1-.2-.9-2.1-1.2-2.9-.3-.8-.7-.7-.9-.7h-.7c-.3 0-.7.1-1 .5-.4.4-1.3 1.3-1.3 3.2 0 1.9 1.4 3.7 1.6 4 .2.3 2.8 4.3 6.8 6 .9.4 1.7.6 2.3.8.9.3 1.8.3 2.5.1.7-.1 2.4-1 2.7-1.9.3-1 .3-1.8.2-2-.1-.1-.4-.2-.7-.4z"/>
+      </svg>
+      <span class="wa__label" data-i18n="wa.label">¡ Pide Acá !</span>
+    </button>
   </div>
 
-  <!-- Floating launcher button -->
-  <button class="wa__launcher" id="waLauncher" aria-label="Abrir chat de WhatsApp" aria-expanded="false">
-    <span class="wa__ripple"></span>
-    <span class="wa__ripple wa__ripple--2"></span>
-    <svg class="wa__icon" viewBox="0 0 32 32" aria-hidden="true">
-      <path fill="currentColor" d="M16 .4C7.4.4.4 7.4.4 16c0 2.8.7 5.5 2.1 7.9L.3 31.6l7.9-2.1c2.3 1.3 5 1.9 7.8 1.9 8.6 0 15.6-7 15.6-15.6C31.6 7.4 24.6.4 16 .4zm0 28.4c-2.5 0-4.9-.7-7-1.9l-.5-.3-5.2 1.4 1.4-5-.3-.5C3.1 20.4 2.4 18.2 2.4 16 2.4 8.5 8.5 2.4 16 2.4c3.6 0 7 1.4 9.6 4 2.6 2.6 4 6 4 9.6 0 7.5-6.1 13.6-13.6 13.6zm7.5-10.2c-.4-.2-2.4-1.2-2.8-1.3-.4-.1-.7-.2-.9.2-.3.4-1 1.3-1.3 1.6-.2.3-.5.3-.9.1-.4-.2-1.7-.6-3.3-2-1.2-1.1-2-2.4-2.3-2.8-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.7.1-.3.1-.5 0-.7-.1-.2-.9-2.1-1.2-2.9-.3-.8-.7-.7-.9-.7h-.7c-.3 0-.7.1-1 .5-.4.4-1.3 1.3-1.3 3.2 0 1.9 1.4 3.7 1.6 4 .2.3 2.8 4.3 6.8 6 .9.4 1.7.6 2.3.8.9.3 1.8.3 2.5.1.7-.1 2.4-1 2.7-1.9.3-1 .3-1.8.2-2-.1-.1-.4-.2-.7-.4z"/>
-    </svg>
-    <span class="wa__label">¡ Pide Acá !</span>
-  </button>
-</div>
   <script src="script.js"></script>
 </body>
 </html>

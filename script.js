@@ -484,6 +484,11 @@ const WA_MESSAGES = [
       'hero.meta1':    'varieties',
       'hero.meta2':    'MASL average',
       'hero.meta3':    'Colombia',
+      // Instagram panel
+      'ig.badge':      'LIVE',
+      'ig.pre':        'Click here ·',
+      'ig.title':      'Discover our origin',
+      'ig.tag':        '@clubcafecol · live',
       // Benefits
       'ben.kicker':    '01 — Why choose us',
       'ben.lead':      'A <em>premium</em> experience from start to finish.',
@@ -505,27 +510,38 @@ const WA_MESSAGES = [
       'dl.title':      'Take the full catalog',
       'dl.text':       'An editorial PDF with all 14 labels in high resolution, ready to print or share.',
       'dl.btn':        'Download catalog (PDF)',
+      // Modal
+      'modal.profile': 'Profile',
+      'modal.process': 'Process',
+      'modal.ferment': 'Fermentation',
+      'modal.origin':  'Origin',
+      'modal.altitude':'Altitude',
+      // WhatsApp
+      'wa.status':     'We usually reply within minutes',
+      'wa.greeting':   'Hi! ☕ Thanks for stopping by. Tell us what you\'re looking for and we\'ll help you in minutes. Pick the message that best fits your needs:',
+      'wa.label':      'Order here!',
+      // Coffee bot
+      'bot.bubble':    'Take me! ❤️',
       // Footer
       'ft.tag':        'Your coffee community',
       'ft.contacto':   'Contact',
       'ft.catalogo':   'Catalog',
       'ft.variedades': 'The 14 varieties',
       'ft.descargar':  'Download PDF',
-      'ft.origen':     'Origin'
+      'ft.origen':     'Origin',
+      'ft.rights':     '© 2026 Club del Café · All rights reserved',
+      'ft.sig':        'Specialty catalog — 2026 Edition'
     }
   };
 
-  // Detecta el idioma principal del navegador
   const browserLang = (navigator.language || navigator.userLanguage || 'es').toLowerCase();
   const lang = browserLang.startsWith('en') ? 'en' : 'es';
 
-  // Español = contenido original del HTML, no hace falta tocar nada
   if (lang === 'es') {
     document.documentElement.lang = 'es';
     return;
   }
 
-  // Inglés: reemplaza cada nodo marcado
   const dict = translations[lang];
   document.documentElement.lang = lang;
 
