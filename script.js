@@ -498,8 +498,8 @@ const WA_MESSAGES = [
       'ben.d4':        'Vacuum-sealed right after roasting and shipped to your door.',
       // Catalog
       'cat.kicker':    '02 — The varieties',
-      'cat.title':     'The index',
-      'cat.sub':       'Hover over each reference to see its sensory profile.',
+      'cat.title':     'How to choose your coffee?',
+      'cat.sub':       'Hover over each reference to see its sensory profile and discover which one best suits your taste.',
       // Download
       'dl.kicker':     '03 — Download',
       'dl.title':      'Take the full catalog',
