@@ -462,3 +462,77 @@ const WA_MESSAGES = [
     });
   }
 })();
+/* ============================================================
+   i18n — Detección automática de idioma (ES / EN)
+   Español por defecto. Inglés solo si el navegador está en EN.
+   ============================================================ */
+(function initI18n () {
+  const translations = {
+    en: {
+      // Nav
+      'nav.origen':    'Origin',
+      'nav.catalogo':  'Catalog',
+      'nav.descargar': 'Download',
+      'nav.contacto':  'Contact',
+      // Hero
+      'hero.eyebrow':  '— 2026 Catalog · Specialty Edition —',
+      'hero.title1':   'My Favorite Coffee.',
+      'hero.title2':   'One Click From My Cup.',
+      'hero.lede':     'Specialty coffees grown, processed and curated in southern Colombia. A 2026 collection made for those who seek, in every cup, a precise story of origin, fermentation and time.',
+      'hero.cta1':     'Explore the catalog',
+      'hero.cta2':     'Download PDF',
+      'hero.meta1':    'varieties',
+      'hero.meta2':    'MASL average',
+      'hero.meta3':    'Colombia',
+      // Benefits
+      'ben.kicker':    '01 — Why choose us',
+      'ben.lead':      'A <em>premium</em> experience from start to finish.',
+      'ben.text':      'We care for every detail of the process — from the bean to your cup — so you enjoy an unforgettable experience. Origin, roast, sustainability and delivery: four pillars behind every reference in the catalog.',
+      'ben.t1':        'Selected origin',
+      'ben.d1':        'Beans grown above 1,500 MASL on the finest farms in Huila.',
+      'ben.t2':        'Artisan roast',
+      'ben.d2':        'Roasted in small batches to maximize aroma, body and flavor.',
+      'ben.t3':        '100% sustainable',
+      'ben.d3':        'We work directly with producers under fair trade and green practices.',
+      'ben.t4':        'Fast delivery',
+      'ben.d4':        'Vacuum-sealed right after roasting and shipped to your door.',
+      // Catalog
+      'cat.kicker':    '02 — The varieties',
+      'cat.title':     'The index',
+      'cat.sub':       'Hover over each reference to see its sensory profile.',
+      // Download
+      'dl.kicker':     '03 — Download',
+      'dl.title':      'Take the full catalog',
+      'dl.text':       'An editorial PDF with all 14 labels in high resolution, ready to print or share.',
+      'dl.btn':        'Download catalog (PDF)',
+      // Footer
+      'ft.tag':        'Your coffee community',
+      'ft.contacto':   'Contact',
+      'ft.catalogo':   'Catalog',
+      'ft.variedades': 'The 14 varieties',
+      'ft.descargar':  'Download PDF',
+      'ft.origen':     'Origin'
+    }
+  };
+
+  // Detecta el idioma principal del navegador
+  const browserLang = (navigator.language || navigator.userLanguage || 'es').toLowerCase();
+  const lang = browserLang.startsWith('en') ? 'en' : 'es';
+
+  // Español = contenido original del HTML, no hace falta tocar nada
+  if (lang === 'es') {
+    document.documentElement.lang = 'es';
+    return;
+  }
+
+  // Inglés: reemplaza cada nodo marcado
+  const dict = translations[lang];
+  document.documentElement.lang = lang;
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key] !== undefined) {
+      el.innerHTML = dict[key];
+    }
+  });
+})();
