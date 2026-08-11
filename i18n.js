@@ -22,7 +22,7 @@ en: {
 'pil.t4':'Fast delivery','pil.d4':'Vacuum-sealed right after roasting. Bogotá 24-48 h, rest of the country 2-5 days.',
 'tro.kicker':'What sets us apart','tro.title':"We don't sell coffee.<br><em>We sell the ones that won.</em>",
 'tro.sub':'Two of our lots reached the podium at the national specialty coffee championship. The rest of the portfolio is grown to the same standard.',
-'tro.raros':'Varietals almost nobody grows in Colombia','tro.rarosSub':'Scarce genetics, low yield and high agronomic risk. Planted for cup profile, not for productivity.',
+'tro.raros':'Our best sellers','tro.rarosSub':'The six lots that leave our roastery most often, from origin classics to competition profiles. Tap any of them to see the full sheet.',
 'val.kicker':'Value for money','val.title':'Which one gives you <em>more per peso?</em>',
 'val.sub':'A 250 g bag yields about 16 cups at a 15 g dose. Here is the real cost per cup against each lot’s SCA score, sorted from best to lowest value.',
 'val.c1':'Coffee','val.c2':'Score','val.c3':'250 g bag','val.c4':'Per cup','val.c5':'Value index',
@@ -89,7 +89,18 @@ en: {
 'cart.free':'Free',
 'ly.niveles':'Tiers',
 'cat.moneda':'Prices in Colombian pesos (COP) · USD shown for reference only',
-'_wa':[{"l": "I'm not sure which to pick", "t": "Hi CLUBCAFECOL, I'm not sure which coffee to choose. I brew with ____ and I like ____ flavours. What would you recommend?"}, {"l": "I want to place an order", "t": "Hi CLUBCAFECOL, I'd like to place an order. I'm interested in ____ in ____ size. My city is ____. Could you confirm the total with shipping?"}, {"l": "I want the award-winning lots", "t": "Hi CLUBCAFECOL, I'm interested in the National Award collection (Corona, Bourbon Pasión, Postre de Galleta). Which are in stock and at what price?"}, {"l": "It's a gift, help me choose", "t": "Hi CLUBCAFECOL, I want to gift specialty coffee and I'm after something memorable. My budget is around ____. What would you suggest?"}, {"l": "I run a café or company", "t": "Hi CLUBCAFECOL, I represent a café/company and would like a wholesale quote. We use about ____ kg a month. Could you send your B2B price list?"}, {"l": "Shipping to my country", "t": "Hi CLUBCAFECOL, I'd like to know the cost and delivery time to ____. Do you ship there?"}]
+'_wa':[{"l": "I'm not sure which to pick", "t": "Hi CLUBCAFECOL, I'm not sure which coffee to choose. I brew with ____ and I like ____ flavours. What would you recommend?"}, {"l": "I want to place an order", "t": "Hi CLUBCAFECOL, I'd like to place an order. I'm interested in ____ in ____ size. My city is ____. Could you confirm the total with shipping?"}, {"l": "I want the award-winning lots", "t": "Hi CLUBCAFECOL, I'm interested in the National Award collection (Corona, Bourbon Pasión, Postre de Galleta). Which are in stock and at what price?"}, {"l": "It's a gift, help me choose", "t": "Hi CLUBCAFECOL, I want to gift specialty coffee and I'm after something memorable. My budget is around ____. What would you suggest?"}, {"l": "I run a café or company", "t": "Hi CLUBCAFECOL, I represent a café/company and would like a wholesale quote. We use about ____ kg a month. Could you send your B2B price list?"}, {"l": "Shipping to my country", "t": "Hi CLUBCAFECOL, I'd like to know the cost and delivery time to ____. Do you ship there?"}],
+'nav.origen':'Origin',
+'or.kicker':'The people behind it',
+'or.title':'We don\'t buy the coffee.<br><em>We grow it.</em>',
+'or.p1':'CLUBCAFECOL was born in the mountains of Pitalito and Acevedo, in Huila. We are coffee growers: the same people who prune, pick and control the fermentation are the ones who set the roast curve and seal the bag that reaches your home.',
+'or.p2':'Between the tree and your cup there are no middlemen, no brokers, no warehouse where the coffee waits for months. That changes two things: the margin stays on the farm, and we can take a chance on low-yield varietals no buyer would ever ask us for, because what we plant is our call.',
+'or.s1':'metres above sea level',
+'or.s2':'municipalities in Huila',
+'or.s3':'middlemen',
+'or.cta':'See more at @clubcafecol',
+'or.play':'Watch the video on Instagram',
+'or.cap':'From tree to roast: this is how we work. Video posted on @clubcafecol.'
 },
 
 /* ── PORTUGUÊS ───────────────────────────────────────────────────────── */
@@ -108,7 +119,7 @@ pt: {
 'pil.t4':'Entrega rápida','pil.d4':'Embalado a vácuo logo após a torra. Bogotá 24-48 h, resto do país 2-5 dias.',
 'tro.kicker':'O que nos diferencia','tro.title':'A Seleção dos<br><em>Grãos Premiados</em>',
 'tro.sub':'Dois dos nossos lotes subiram ao pódio do campeonato nacional de cafés especiais. O restante do portfólio é cultivado com o mesmo padrão.',
-'tro.raros':'Variedades que quase ninguém tem na Colômbia','tro.rarosSub':'Genéticas escassas, de baixa produtividade e alto risco agronômico. Plantadas pelo perfil de xícara, não pelo rendimento.',
+'tro.raros':'Os mais pedidos da casa','tro.rarosSub':'Os seis lotes que mais saem da nossa torrefação, entre clássicos de origem e perfis de competição. Toque em qualquer um para ver a ficha completa.',
 'val.kicker':'Custo-benefício','val.title':'Qual rende <em>mais por peso investido?</em>',
 'val.sub':'Um pacote de 250 g rende cerca de 16 xícaras com dose de 15 g. Veja o custo real por xícara frente à pontuação SCA de cada lote, do melhor ao menor valor.',
 'val.c1':'Café','val.c2':'Pontuação','val.c3':'Pacote 250 g','val.c4':'Por xícara','val.c5':'Índice de valor',
@@ -174,7 +185,18 @@ pt: {
 'cart.free':'Grátis',
 'ly.niveles':'Níveis',
 'cat.moneda':'Preços em pesos colombianos (COP) · USD apenas como referência',
-'_wa':[{"l": "Não sei qual escolher", "t": "Olá CLUBCAFECOL, não sei qual café escolher. Preparo em ____ e gosto de sabores ____. O que recomendam?"}, {"l": "Quero fazer um pedido", "t": "Olá CLUBCAFECOL, quero fazer um pedido. Tenho interesse em ____ no tamanho ____. Minha cidade é ____. Podem confirmar o total com frete?"}, {"l": "Quero os cafés premiados", "t": "Olá CLUBCAFECOL, tenho interesse na coleção Prêmio Nacional (Corona, Bourbon Pasión, Postre de Galleta). Quais estão disponíveis e a que preço?"}, {"l": "É um presente, me ajudem", "t": "Olá CLUBCAFECOL, quero presentear com café especial e busco algo memorável. Meu orçamento é aprox. ____. O que sugerem?"}, {"l": "Tenho uma cafeteria ou empresa", "t": "Olá CLUBCAFECOL, represento uma cafeteria/empresa e quero cotação no atacado. Consumimos aprox. ____ kg por mês. Podem enviar a tabela B2B?"}, {"l": "Envio para o meu país", "t": "Olá CLUBCAFECOL, quero saber custo e prazo de envio para ____. Vocês enviam para lá?"}]
+'_wa':[{"l": "Não sei qual escolher", "t": "Olá CLUBCAFECOL, não sei qual café escolher. Preparo em ____ e gosto de sabores ____. O que recomendam?"}, {"l": "Quero fazer um pedido", "t": "Olá CLUBCAFECOL, quero fazer um pedido. Tenho interesse em ____ no tamanho ____. Minha cidade é ____. Podem confirmar o total com frete?"}, {"l": "Quero os cafés premiados", "t": "Olá CLUBCAFECOL, tenho interesse na coleção Prêmio Nacional (Corona, Bourbon Pasión, Postre de Galleta). Quais estão disponíveis e a que preço?"}, {"l": "É um presente, me ajudem", "t": "Olá CLUBCAFECOL, quero presentear com café especial e busco algo memorável. Meu orçamento é aprox. ____. O que sugerem?"}, {"l": "Tenho uma cafeteria ou empresa", "t": "Olá CLUBCAFECOL, represento uma cafeteria/empresa e quero cotação no atacado. Consumimos aprox. ____ kg por mês. Podem enviar a tabela B2B?"}, {"l": "Envio para o meu país", "t": "Olá CLUBCAFECOL, quero saber custo e prazo de envio para ____. Vocês enviam para lá?"}],
+'nav.origen':'Origem',
+'or.kicker':'Quem está por trás',
+'or.title':'Não compramos o café.<br><em>Nós o cultivamos.</em>',
+'or.p1':'A CLUBCAFECOL nasce nas montanhas de Pitalito e Acevedo, no Huila. Somos cafeicultores: as mesmas pessoas que podam, colhem e controlam a fermentação são as que definem a curva de torra e selam o pacote que chega à sua casa.',
+'or.p2':'Entre a árvore e a sua xícara não há intermediários, nem corretores, nem um armazém onde o café espera meses. Isso muda duas coisas: a margem fica na fazenda e podemos arriscar com variedades de baixa produtividade que nenhum comprador nos pediria, porque a decisão do que plantar é nossa.',
+'or.s1':'metros de altitude',
+'or.s2':'municípios do Huila',
+'or.s3':'intermediários',
+'or.cta':'Veja mais em @clubcafecol',
+'or.play':'Ver o vídeo no Instagram',
+'or.cap':'Da árvore à torra: é assim que trabalhamos. Vídeo publicado em @clubcafecol.'
 },
 
 /* ── FRANÇAIS ────────────────────────────────────────────────────────── */
@@ -193,7 +215,7 @@ fr: {
 'pil.t4':'Livraison rapide','pil.d4':'Sous vide juste après la torréfaction. Bogotá 24-48 h, reste du pays 2-5 jours.',
 'tro.kicker':'Ce qui nous distingue','tro.title':'La Sélection des<br><em>Grains Primés</em>',
 'tro.sub':'Deux de nos lots sont montés sur le podium du championnat national des cafés de spécialité. Le reste du portefeuille est cultivé selon le même standard.',
-'tro.raros':'Des variétés que presque personne ne cultive en Colombie','tro.rarosSub':'Génétiques rares, faible rendement et risque agronomique élevé. Plantées pour le profil de tasse, pas pour la productivité.',
+'tro.raros':'Les plus demandés de la maison','tro.rarosSub':'Les six lots qui sortent le plus de notre torréfacteur, des classiques d\'origine aux profils de compétition. Touchez-en un pour voir sa fiche complète.',
 'val.kicker':'Rapport qualité-prix','val.title':'Lequel rend <em>le plus par peso investi ?</em>',
 'val.sub':'Un sachet de 250 g donne environ 16 tasses avec une dose de 15 g. Voici le coût réel par tasse face à la note SCA de chaque lot, du meilleur au moindre rapport.',
 'val.c1':'Café','val.c2':'Note','val.c3':'Sachet 250 g','val.c4':'Par tasse','val.c5':'Indice de valeur',
@@ -259,7 +281,18 @@ fr: {
 'cart.free':'Offerte',
 'ly.niveles':'Niveaux',
 'cat.moneda':'Prix en pesos colombiens (COP) · USD à titre indicatif',
-'_wa':[{"l": "Je ne sais pas lequel choisir", "t": "Bonjour CLUBCAFECOL, je ne sais pas quel café choisir. Je prépare en ____ et j'aime les saveurs ____. Que me conseillez-vous ?"}, {"l": "Je veux passer commande", "t": "Bonjour CLUBCAFECOL, je souhaite commander. Je suis intéressé par ____ en format ____. Ma ville est ____. Pouvez-vous confirmer le total avec la livraison ?"}, {"l": "Je veux les lots primés", "t": "Bonjour CLUBCAFECOL, la collection Prix National m'intéresse (Corona, Bourbon Pasión, Postre de Galleta). Lesquels sont disponibles et à quel prix ?"}, {"l": "C'est un cadeau, aidez-moi", "t": "Bonjour CLUBCAFECOL, je veux offrir du café de spécialité et cherche quelque chose de mémorable. Mon budget est d'environ ____. Que suggérez-vous ?"}, {"l": "J'ai un café ou une entreprise", "t": "Bonjour CLUBCAFECOL, je représente un café/une entreprise et souhaite un devis en gros. Nous consommons environ ____ kg par mois. Pouvez-vous envoyer vos tarifs B2B ?"}, {"l": "Livraison vers mon pays", "t": "Bonjour CLUBCAFECOL, je voudrais connaître le coût et le délai de livraison vers ____. Livrez-vous là-bas ?"}]
+'_wa':[{"l": "Je ne sais pas lequel choisir", "t": "Bonjour CLUBCAFECOL, je ne sais pas quel café choisir. Je prépare en ____ et j'aime les saveurs ____. Que me conseillez-vous ?"}, {"l": "Je veux passer commande", "t": "Bonjour CLUBCAFECOL, je souhaite commander. Je suis intéressé par ____ en format ____. Ma ville est ____. Pouvez-vous confirmer le total avec la livraison ?"}, {"l": "Je veux les lots primés", "t": "Bonjour CLUBCAFECOL, la collection Prix National m'intéresse (Corona, Bourbon Pasión, Postre de Galleta). Lesquels sont disponibles et à quel prix ?"}, {"l": "C'est un cadeau, aidez-moi", "t": "Bonjour CLUBCAFECOL, je veux offrir du café de spécialité et cherche quelque chose de mémorable. Mon budget est d'environ ____. Que suggérez-vous ?"}, {"l": "J'ai un café ou une entreprise", "t": "Bonjour CLUBCAFECOL, je représente un café/une entreprise et souhaite un devis en gros. Nous consommons environ ____ kg par mois. Pouvez-vous envoyer vos tarifs B2B ?"}, {"l": "Livraison vers mon pays", "t": "Bonjour CLUBCAFECOL, je voudrais connaître le coût et le délai de livraison vers ____. Livrez-vous là-bas ?"}],
+'nav.origen':'Origine',
+'or.kicker':'Ceux qui sont derrière',
+'or.title':'Nous n\'achetons pas le café.<br><em>Nous le cultivons.</em>',
+'or.p1':'CLUBCAFECOL est né dans les montagnes de Pitalito et Acevedo, dans le Huila. Nous sommes producteurs : les mêmes personnes qui taillent, récoltent et contrôlent la fermentation sont celles qui définissent la courbe de torréfaction et scellent le sachet qui arrive chez vous.',
+'or.p2':'Entre l\'arbre et votre tasse, il n\'y a ni intermédiaires, ni courtiers, ni entrepôt où le café attend des mois. Cela change deux choses : la marge reste à la ferme, et nous pouvons parier sur des variétés peu productives qu\'aucun acheteur ne nous demanderait, parce que le choix de ce que nous plantons nous appartient.',
+'or.s1':'mètres d\'altitude',
+'or.s2':'communes du Huila',
+'or.s3':'intermédiaires',
+'or.cta':'Voir plus sur @clubcafecol',
+'or.play':'Voir la vidéo sur Instagram',
+'or.cap':'De l\'arbre à la torréfaction : voilà comment nous travaillons. Vidéo publiée sur @clubcafecol.'
 },
 
 /* ── DEUTSCH ─────────────────────────────────────────────────────────── */
@@ -278,7 +311,7 @@ de: {
 'pil.t4':'Schnelle Lieferung','pil.d4':'Direkt nach der Röstung vakuumverpackt. Bogotá 24-48 Std., übriges Land 2-5 Tage.',
 'tro.kicker':'Was uns unterscheidet','tro.title':'Die Auswahl der<br><em>Preisgekrönten Bohnen</em>',
 'tro.sub':'Zwei unserer Lots standen auf dem Podium der nationalen Spezialitätenkaffee-Meisterschaft. Das übrige Portfolio wird nach demselben Standard angebaut.',
-'tro.raros':'Varietäten, die fast niemand in Kolumbien hat','tro.rarosSub':'Seltene Genetik, geringer Ertrag und hohes agronomisches Risiko. Angebaut für das Tassenprofil, nicht für die Produktivität.',
+'tro.raros':'Unsere meistgekauften Lots','tro.rarosSub':'Die sechs Lots, die unsere Rösterei am häufigsten verlassen — von Herkunftsklassikern bis zu Wettbewerbsprofilen. Tippen Sie eines an, um das vollständige Datenblatt zu sehen.',
 'val.kicker':'Preis-Leistung','val.title':'Welcher bringt <em>mehr pro investiertem Peso?</em>',
 'val.sub':'Eine 250-g-Packung ergibt bei 15 g Dosierung rund 16 Tassen. So sehen die realen Kosten pro Tasse im Verhältnis zur SCA-Punktzahl aus, sortiert vom besten zum geringsten Wert.',
 'val.c1':'Kaffee','val.c2':'Punkte','val.c3':'250-g-Packung','val.c4':'Pro Tasse','val.c5':'Wertindex',
@@ -344,7 +377,18 @@ de: {
 'cart.free':'Gratis',
 'ly.niveles':'Stufen',
 'cat.moneda':'Preise in kolumbianischen Pesos (COP) · USD nur als Richtwert',
-'_wa':[{"l": "Ich weiß nicht, welchen", "t": "Hallo CLUBCAFECOL, ich weiß nicht, welchen Kaffee ich wählen soll. Ich brühe mit ____ und mag ____ Aromen. Was empfehlen Sie?"}, {"l": "Ich möchte bestellen", "t": "Hallo CLUBCAFECOL, ich möchte bestellen. Mich interessiert ____ in ____. Meine Stadt ist ____. Können Sie den Gesamtbetrag inkl. Versand bestätigen?"}, {"l": "Ich will die prämierten Lots", "t": "Hallo CLUBCAFECOL, mich interessiert die Kollektion Nationalpreis (Corona, Bourbon Pasión, Postre de Galleta). Welche sind verfügbar und zu welchem Preis?"}, {"l": "Es ist ein Geschenk", "t": "Hallo CLUBCAFECOL, ich möchte Spezialitätenkaffee verschenken und suche etwas Besonderes. Mein Budget liegt bei etwa ____. Was schlagen Sie vor?"}, {"l": "Ich habe ein Café oder Unternehmen", "t": "Hallo CLUBCAFECOL, ich vertrete ein Café/Unternehmen und hätte gern ein Großhandelsangebot. Wir verbrauchen ca. ____ kg im Monat. Können Sie die B2B-Preisliste senden?"}, {"l": "Versand in mein Land", "t": "Hallo CLUBCAFECOL, ich möchte Kosten und Lieferzeit nach ____ wissen. Versenden Sie dorthin?"}]
+'_wa':[{"l": "Ich weiß nicht, welchen", "t": "Hallo CLUBCAFECOL, ich weiß nicht, welchen Kaffee ich wählen soll. Ich brühe mit ____ und mag ____ Aromen. Was empfehlen Sie?"}, {"l": "Ich möchte bestellen", "t": "Hallo CLUBCAFECOL, ich möchte bestellen. Mich interessiert ____ in ____. Meine Stadt ist ____. Können Sie den Gesamtbetrag inkl. Versand bestätigen?"}, {"l": "Ich will die prämierten Lots", "t": "Hallo CLUBCAFECOL, mich interessiert die Kollektion Nationalpreis (Corona, Bourbon Pasión, Postre de Galleta). Welche sind verfügbar und zu welchem Preis?"}, {"l": "Es ist ein Geschenk", "t": "Hallo CLUBCAFECOL, ich möchte Spezialitätenkaffee verschenken und suche etwas Besonderes. Mein Budget liegt bei etwa ____. Was schlagen Sie vor?"}, {"l": "Ich habe ein Café oder Unternehmen", "t": "Hallo CLUBCAFECOL, ich vertrete ein Café/Unternehmen und hätte gern ein Großhandelsangebot. Wir verbrauchen ca. ____ kg im Monat. Können Sie die B2B-Preisliste senden?"}, {"l": "Versand in mein Land", "t": "Hallo CLUBCAFECOL, ich möchte Kosten und Lieferzeit nach ____ wissen. Versenden Sie dorthin?"}],
+'nav.origen':'Herkunft',
+'or.kicker':'Wer dahintersteht',
+'or.title':'Wir kaufen den Kaffee nicht.<br><em>Wir bauen ihn an.</em>',
+'or.p1':'CLUBCAFECOL entstand in den Bergen von Pitalito und Acevedo in Huila. Wir sind Kaffeebauern: Dieselben Menschen, die schneiden, pflücken und die Fermentation steuern, bestimmen auch die Röstkurve und versiegeln die Tüte, die bei Ihnen ankommt.',
+'or.p2':'Zwischen Baum und Tasse gibt es keine Zwischenhändler, keine Makler, kein Lager, in dem der Kaffee monatelang wartet. Das ändert zweierlei: Die Marge bleibt auf der Farm, und wir können ertragsschwache Varietäten wagen, nach denen kein Käufer je fragen würde — denn was gepflanzt wird, entscheiden wir.',
+'or.s1':'Meter über dem Meer',
+'or.s2':'Gemeinden in Huila',
+'or.s3':'Zwischenhändler',
+'or.cta':'Mehr auf @clubcafecol',
+'or.play':'Video auf Instagram ansehen',
+'or.cap':'Vom Baum bis zur Röstung: So arbeiten wir. Video veröffentlicht auf @clubcafecol.'
 },
 
 /* ── ITALIANO ────────────────────────────────────────────────────────── */
@@ -363,7 +407,7 @@ it: {
 'pil.t4':'Consegna rapida','pil.d4':'Sottovuoto subito dopo la tostatura. Bogotá 24-48 h, resto del paese 2-5 giorni.',
 'tro.kicker':'Cosa ci distingue','tro.title':'La Selezione dei<br><em>Chicchi Premiati</em>',
 'tro.sub':'Due dei nostri lotti sono saliti sul podio del campionato nazionale dei caffè specialty. Il resto del portafoglio è coltivato con lo stesso standard.',
-'tro.raros':'Varietà che quasi nessuno ha in Colombia','tro.rarosSub':'Genetiche rare, a bassa resa e alto rischio agronomico. Piantate per il profilo in tazza, non per la produttività.',
+'tro.raros':'I più richiesti della casa','tro.rarosSub':'I sei lotti che escono più spesso dalla nostra torrefazione, tra classici di origine e profili da competizione. Tocca uno qualsiasi per vedere la scheda completa.',
 'val.kicker':'Rapporto qualità-prezzo','val.title':'Quale rende <em>di più per peso investito?</em>',
 'val.sub':'Una confezione da 250 g rende circa 16 tazze con dose da 15 g. Ecco il costo reale per tazza rispetto al punteggio SCA di ogni lotto, dal miglior valore al minore.',
 'val.c1':'Caffè','val.c2':'Punteggio','val.c3':'Confezione 250 g','val.c4':'Per tazza','val.c5':'Indice di valore',
@@ -429,7 +473,18 @@ it: {
 'cart.free':'Gratis',
 'ly.niveles':'Livelli',
 'cat.moneda':'Prezzi in pesos colombiani (COP) · USD solo indicativo',
-'_wa':[{"l": "Non so quale scegliere", "t": "Ciao CLUBCAFECOL, non so quale caffè scegliere. Preparo con ____ e mi piacciono i sapori ____. Cosa mi consigliate?"}, {"l": "Voglio fare un ordine", "t": "Ciao CLUBCAFECOL, vorrei fare un ordine. Mi interessa ____ nel formato ____. La mia città è ____. Potete confermare il totale con spedizione?"}, {"l": "Voglio i lotti premiati", "t": "Ciao CLUBCAFECOL, mi interessa la collezione Premio Nazionale (Corona, Bourbon Pasión, Postre de Galleta). Quali sono disponibili e a che prezzo?"}, {"l": "È un regalo, aiutatemi", "t": "Ciao CLUBCAFECOL, voglio regalare caffè specialty e cerco qualcosa di memorabile. Il mio budget è circa ____. Cosa suggerite?"}, {"l": "Ho un bar o un'azienda", "t": "Ciao CLUBCAFECOL, rappresento un bar/azienda e vorrei un preventivo all'ingrosso. Consumiamo circa ____ kg al mese. Potete inviare il listino B2B?"}, {"l": "Spedizione nel mio paese", "t": "Ciao CLUBCAFECOL, vorrei sapere costo e tempi di spedizione verso ____. Spedite lì?"}]
+'_wa':[{"l": "Non so quale scegliere", "t": "Ciao CLUBCAFECOL, non so quale caffè scegliere. Preparo con ____ e mi piacciono i sapori ____. Cosa mi consigliate?"}, {"l": "Voglio fare un ordine", "t": "Ciao CLUBCAFECOL, vorrei fare un ordine. Mi interessa ____ nel formato ____. La mia città è ____. Potete confermare il totale con spedizione?"}, {"l": "Voglio i lotti premiati", "t": "Ciao CLUBCAFECOL, mi interessa la collezione Premio Nazionale (Corona, Bourbon Pasión, Postre de Galleta). Quali sono disponibili e a che prezzo?"}, {"l": "È un regalo, aiutatemi", "t": "Ciao CLUBCAFECOL, voglio regalare caffè specialty e cerco qualcosa di memorabile. Il mio budget è circa ____. Cosa suggerite?"}, {"l": "Ho un bar o un'azienda", "t": "Ciao CLUBCAFECOL, rappresento un bar/azienda e vorrei un preventivo all'ingrosso. Consumiamo circa ____ kg al mese. Potete inviare il listino B2B?"}, {"l": "Spedizione nel mio paese", "t": "Ciao CLUBCAFECOL, vorrei sapere costo e tempi di spedizione verso ____. Spedite lì?"}],
+'nav.origen':'Origine',
+'or.kicker':'Chi c\'è dietro',
+'or.title':'Non compriamo il caffè.<br><em>Lo coltiviamo.</em>',
+'or.p1':'CLUBCAFECOL nasce sulle montagne di Pitalito e Acevedo, nel Huila. Siamo coltivatori: le stesse persone che potano, raccolgono e controllano la fermentazione sono quelle che decidono la curva di tostatura e sigillano il sacchetto che arriva a casa tua.',
+'or.p2':'Tra l\'albero e la tua tazza non ci sono intermediari, né broker, né un magazzino dove il caffè aspetta per mesi. Questo cambia due cose: il margine resta alla finca e possiamo rischiare con varietà a bassa resa che nessun compratore ci chiederebbe, perché cosa piantare lo decidiamo noi.',
+'or.s1':'metri di altitudine',
+'or.s2':'comuni del Huila',
+'or.s3':'intermediari',
+'or.cta':'Scopri di più su @clubcafecol',
+'or.play':'Guarda il video su Instagram',
+'or.cap':'Dall\'albero alla tostatura: ecco come lavoriamo. Video pubblicato su @clubcafecol.'
 },
 
 /* ── 日本語 ──────────────────────────────────────────────────────────── */
@@ -448,7 +503,7 @@ ja: {
 'pil.t4':'迅速な配送','pil.d4':'焙煎直後に真空包装。ボゴタ24〜48時間、国内その他2〜5日。',
 'tro.kicker':'私たちが違う理由','tro.title':'受賞豆の<br><em>セレクション</em>',
 'tro.sub':'2つのロットが全国スペシャルティコーヒー選手権で表彰台に上がりました。他のロットも同じ基準で栽培されています。',
-'tro.raros':'コロンビアではほとんど手に入らない品種','tro.rarosSub':'希少な遺伝子、低収量、高い農業リスク。生産性ではなくカッププロファイルのために植えられています。',
+'tro.raros':'いちばん選ばれているロット','tro.rarosSub':'当店の焙煎所から最も多く出荷される6ロット。産地の定番から競技会レベルのプロファイルまで。どれでもタップすると詳細がご覧いただけます。',
 'val.kicker':'コストパフォーマンス','val.title':'投資額あたり<em>最も価値が高いのは？</em>',
 'val.sub':'250gの袋は15gの抽出で約16杯分。各ロットのSCAスコアに対する1杯あたりの実コストを、価値の高い順に並べました。',
 'val.c1':'コーヒー','val.c2':'スコア','val.c3':'250g袋','val.c4':'1杯あたり','val.c5':'バリュー指数',
@@ -514,7 +569,18 @@ ja: {
 'cart.free':'無料',
 'ly.niveles':'ランク',
 'cat.moneda':'価格はコロンビアペソ（COP）表示・USDは参考値です',
-'_wa':[{"l": "どれを選べばいいか分からない", "t": "CLUBCAFECOLさん、こんにちは。どのコーヒーを選べばよいか迷っています。____で淹れていて、____系の味が好みです。おすすめはありますか？"}, {"l": "注文したいです", "t": "CLUBCAFECOLさん、注文したいです。____を____のサイズで検討しています。都市は____です。送料込みの合計を教えてください。"}, {"l": "受賞ロットが欲しい", "t": "CLUBCAFECOLさん、全国受賞コレクション（Corona、Bourbon Pasión、Postre de Galleta）に興味があります。在庫と価格を教えてください。"}, {"l": "贈り物です、選ぶのを手伝って", "t": "CLUBCAFECOLさん、スペシャルティコーヒーを贈りたく、印象に残るものを探しています。予算は____ほどです。おすすめはありますか？"}, {"l": "カフェ・法人です", "t": "CLUBCAFECOLさん、カフェ／法人として卸のお見積もりをお願いします。月におよそ____kg使用します。B2Bの価格表をいただけますか？"}, {"l": "自分の国への発送について", "t": "CLUBCAFECOLさん、____への送料と配送日数を知りたいです。発送は可能でしょうか？"}]
+'_wa':[{"l": "どれを選べばいいか分からない", "t": "CLUBCAFECOLさん、こんにちは。どのコーヒーを選べばよいか迷っています。____で淹れていて、____系の味が好みです。おすすめはありますか？"}, {"l": "注文したいです", "t": "CLUBCAFECOLさん、注文したいです。____を____のサイズで検討しています。都市は____です。送料込みの合計を教えてください。"}, {"l": "受賞ロットが欲しい", "t": "CLUBCAFECOLさん、全国受賞コレクション（Corona、Bourbon Pasión、Postre de Galleta）に興味があります。在庫と価格を教えてください。"}, {"l": "贈り物です、選ぶのを手伝って", "t": "CLUBCAFECOLさん、スペシャルティコーヒーを贈りたく、印象に残るものを探しています。予算は____ほどです。おすすめはありますか？"}, {"l": "カフェ・法人です", "t": "CLUBCAFECOLさん、カフェ／法人として卸のお見積もりをお願いします。月におよそ____kg使用します。B2Bの価格表をいただけますか？"}, {"l": "自分の国への発送について", "t": "CLUBCAFECOLさん、____への送料と配送日数を知りたいです。発送は可能でしょうか？"}],
+'nav.origen':'産地',
+'or.kicker':'つくっている人たち',
+'or.title':'コーヒーを買っているのではありません。<br><em>私たちが育てています。</em>',
+'or.p1':'CLUBCAFECOLはウイラ県ピタリートとアセベドの山々で生まれました。私たちは生産者です。剪定し、収穫し、発酵を管理する同じ人間が、焙煎プロファイルを決め、お手元に届く袋を封します。',
+'or.p2':'木からカップまで、仲介業者もブローカーも、豆が何か月も眠る倉庫もありません。これが二つのことを変えます。利益が農園に残ること。そして、どのバイヤーも求めないような低収量の品種に挑戦できること。何を植えるかを決めるのは私たち自身だからです。',
+'or.s1':'標高メートル',
+'or.s2':'ウイラ県の自治体',
+'or.s3':'仲介業者',
+'or.cta':'@clubcafecol でもっと見る',
+'or.play':'インスタグラムで動画を見る',
+'or.cap':'木から焙煎まで、私たちの仕事です。@clubcafecol に投稿した動画。'
 },
 
 /* ── 中文 ────────────────────────────────────────────────────────────── */
@@ -533,7 +599,7 @@ zh: {
 'pil.t4':'快速配送','pil.d4':'烘焙后立即真空封装。波哥大 24-48 小时，其他地区 2-5 天。',
 'tro.kicker':'我们的不同之处','tro.title':'获奖豆的<br><em>精选合集</em>',
 'tro.sub':'我们有两个批次登上了全国精品咖啡锦标赛的领奖台。其余产品线以同样标准种植。',
-'tro.raros':'在哥伦比亚几乎无人拥有的品种','tro.rarosSub':'稀有基因、低产量、高农艺风险。为杯中风味而种，不为产量而种。',
+'tro.raros':'最受欢迎的批次','tro.rarosSub':'我们烘焙室出货最多的六款批次，既有产地经典，也有竞赛级风味。点击任意一款查看完整资料。',
 'val.kicker':'性价比','val.title':'哪一款<em>每一分钱回报最高？</em>',
 'val.sub':'250 克装以 15 克粉量可冲约 16 杯。下表为每杯实际成本与 SCA 评分的对照，按性价比从高到低排列。',
 'val.c1':'咖啡','val.c2':'评分','val.c3':'250 克装','val.c4':'每杯','val.c5':'价值指数',
@@ -599,7 +665,18 @@ zh: {
 'cart.free':'免费',
 'ly.niveles':'等级',
 'cat.moneda':'价格以哥伦比亚比索（COP）计 · 美元仅供参考',
-'_wa':[{"l": "不知道该选哪一款", "t": "你好 CLUBCAFECOL，我不确定该选哪款咖啡。我用____冲煮，喜欢____风味。你们推荐哪一款？"}, {"l": "我想下单", "t": "你好 CLUBCAFECOL，我想下单。我想要____，规格____。我的城市是____。可以确认含运费的总价吗？"}, {"l": "我想要获奖批次", "t": "你好 CLUBCAFECOL，我对全国获奖系列（Corona、Bourbon Pasión、Postre de Galleta）感兴趣。哪些有现货，价格多少？"}, {"l": "是送礼，请帮我挑", "t": "你好 CLUBCAFECOL，我想送精品咖啡作礼物，希望有记忆点。预算大约____。有什么建议？"}, {"l": "我经营咖啡馆或公司", "t": "你好 CLUBCAFECOL，我代表咖啡馆/公司，想要批发报价。我们每月约用____公斤。可以发 B2B 价目表吗？"}, {"l": "寄到我所在的国家", "t": "你好 CLUBCAFECOL，我想了解寄到____的运费和时效。你们发货到那里吗？"}]
+'_wa':[{"l": "不知道该选哪一款", "t": "你好 CLUBCAFECOL，我不确定该选哪款咖啡。我用____冲煮，喜欢____风味。你们推荐哪一款？"}, {"l": "我想下单", "t": "你好 CLUBCAFECOL，我想下单。我想要____，规格____。我的城市是____。可以确认含运费的总价吗？"}, {"l": "我想要获奖批次", "t": "你好 CLUBCAFECOL，我对全国获奖系列（Corona、Bourbon Pasión、Postre de Galleta）感兴趣。哪些有现货，价格多少？"}, {"l": "是送礼，请帮我挑", "t": "你好 CLUBCAFECOL，我想送精品咖啡作礼物，希望有记忆点。预算大约____。有什么建议？"}, {"l": "我经营咖啡馆或公司", "t": "你好 CLUBCAFECOL，我代表咖啡馆/公司，想要批发报价。我们每月约用____公斤。可以发 B2B 价目表吗？"}, {"l": "寄到我所在的国家", "t": "你好 CLUBCAFECOL，我想了解寄到____的运费和时效。你们发货到那里吗？"}],
+'nav.origen':'产地',
+'or.kicker':'背后的人',
+'or.title':'我们不是买咖啡。<br><em>我们种咖啡。</em>',
+'or.p1':'CLUBCAFECOL 诞生于惠兰省皮塔利托与阿塞韦多的山间。我们就是咖啡农：修枝、采摘、控制发酵的是同一批人，决定烘焙曲线、封上寄到你手中那袋豆子的也是我们。',
+'or.p2':'从树到杯，没有中间商，没有掮客，也没有让咖啡沉睡数月的仓库。这带来两点改变：利润留在庄园；我们敢种那些产量低、没有买家会开口要的品种——因为种什么，由我们自己决定。',
+'or.s1':'米海拔',
+'or.s2':'个惠兰省市镇',
+'or.s3':'个中间商',
+'or.cta':'在 @clubcafecol 看更多',
+'or.play':'在 Instagram 观看视频',
+'or.cap':'从树到烘焙，这就是我们的日常。视频发布于 @clubcafecol。'
 },
 
 /* ── 한국어 ──────────────────────────────────────────────────────────── */
@@ -618,7 +695,7 @@ ko: {
 'pil.t4':'빠른 배송','pil.d4':'로스팅 직후 진공 포장. 보고타 24~48시간, 그 외 지역 2~5일.',
 'tro.kicker':'우리가 다른 이유','tro.title':'수상 원두의<br><em>셀렉션</em>',
 'tro.sub':'두 개의 로트가 전국 스페셜티 커피 챔피언십 시상대에 올랐습니다. 나머지 포트폴리오도 같은 기준으로 재배됩니다.',
-'tro.raros':'콜롬비아에서 거의 구할 수 없는 품종','tro.rarosSub':'희귀한 유전자, 낮은 수확량, 높은 재배 리스크. 생산성이 아니라 컵 프로파일을 위해 심습니다.',
+'tro.raros':'가장 많이 나가는 로트','tro.rarosSub':'저희 로스터리에서 가장 많이 출고되는 여섯 로트. 산지의 클래식부터 대회급 프로파일까지. 아무거나 눌러 상세 정보를 확인하세요.',
 'val.kicker':'가성비','val.title':'어떤 것이 <em>투자 대비 가장 좋을까요?</em>',
 'val.sub':'250g 봉지는 15g 도징 기준 약 16잔입니다. 각 로트의 SCA 점수 대비 실제 한 잔 비용을, 가치가 높은 순으로 정리했습니다.',
 'val.c1':'커피','val.c2':'점수','val.c3':'250g 봉지','val.c4':'한 잔당','val.c5':'가치 지수',
@@ -684,7 +761,18 @@ ko: {
 'cart.free':'무료',
 'ly.niveles':'등급',
 'cat.moneda':'가격은 콜롬비아 페소(COP) 기준 · USD는 참고용입니다',
-'_wa':[{"l": "어떤 걸 골라야 할지 모르겠어요", "t": "안녕하세요 CLUBCAFECOL, 어떤 커피를 골라야 할지 모르겠습니다. ____로 내리고 ____ 계열 맛을 좋아합니다. 추천 부탁드립니다."}, {"l": "주문하고 싶어요", "t": "안녕하세요 CLUBCAFECOL, 주문하고 싶습니다. ____를 ____ 용량으로 생각 중입니다. 도시는 ____입니다. 배송비 포함 총액을 알려주세요."}, {"l": "수상 로트를 원해요", "t": "안녕하세요 CLUBCAFECOL, 전국 수상 컬렉션(Corona, Bourbon Pasión, Postre de Galleta)에 관심 있습니다. 재고와 가격을 알려주세요."}, {"l": "선물이에요, 골라주세요", "t": "안녕하세요 CLUBCAFECOL, 스페셜티 커피를 선물하려는데 기억에 남을 만한 걸 찾고 있습니다. 예산은 약 ____입니다. 추천 부탁드립니다."}, {"l": "카페나 회사를 운영해요", "t": "안녕하세요 CLUBCAFECOL, 카페/회사를 대표해 도매 견적을 요청드립니다. 월 약 ____kg 사용합니다. B2B 가격표를 보내주실 수 있나요?"}, {"l": "우리 나라로 배송되나요", "t": "안녕하세요 CLUBCAFECOL, ____까지의 배송비와 소요 기간을 알고 싶습니다. 그곳으로 배송하시나요?"}]
+'_wa':[{"l": "어떤 걸 골라야 할지 모르겠어요", "t": "안녕하세요 CLUBCAFECOL, 어떤 커피를 골라야 할지 모르겠습니다. ____로 내리고 ____ 계열 맛을 좋아합니다. 추천 부탁드립니다."}, {"l": "주문하고 싶어요", "t": "안녕하세요 CLUBCAFECOL, 주문하고 싶습니다. ____를 ____ 용량으로 생각 중입니다. 도시는 ____입니다. 배송비 포함 총액을 알려주세요."}, {"l": "수상 로트를 원해요", "t": "안녕하세요 CLUBCAFECOL, 전국 수상 컬렉션(Corona, Bourbon Pasión, Postre de Galleta)에 관심 있습니다. 재고와 가격을 알려주세요."}, {"l": "선물이에요, 골라주세요", "t": "안녕하세요 CLUBCAFECOL, 스페셜티 커피를 선물하려는데 기억에 남을 만한 걸 찾고 있습니다. 예산은 약 ____입니다. 추천 부탁드립니다."}, {"l": "카페나 회사를 운영해요", "t": "안녕하세요 CLUBCAFECOL, 카페/회사를 대표해 도매 견적을 요청드립니다. 월 약 ____kg 사용합니다. B2B 가격표를 보내주실 수 있나요?"}, {"l": "우리 나라로 배송되나요", "t": "안녕하세요 CLUBCAFECOL, ____까지의 배송비와 소요 기간을 알고 싶습니다. 그곳으로 배송하시나요?"}],
+'nav.origen':'산지',
+'or.kicker':'뒤에 있는 사람들',
+'or.title':'커피를 사오지 않습니다.<br><em>직접 재배합니다.</em>',
+'or.p1':'CLUBCAFECOL은 우일라주 피탈리토와 아세베도의 산에서 시작됐습니다. 저희는 커피 농부입니다. 가지치기하고 수확하고 발효를 관리하는 바로 그 사람들이 로스팅 커브를 정하고, 댁으로 가는 봉투를 봉합니다.',
+'or.p2':'나무에서 잔까지 중간 상인도, 브로커도, 커피가 몇 달을 기다리는 창고도 없습니다. 그래서 두 가지가 달라집니다. 마진이 농장에 남고, 어떤 바이어도 요구하지 않을 저수확 품종에 도전할 수 있습니다. 무엇을 심을지는 저희가 결정하니까요.',
+'or.s1':'해발 미터',
+'or.s2':'개 우일라 지자체',
+'or.s3':'중간 상인',
+'or.cta':'@clubcafecol에서 더 보기',
+'or.play':'인스타그램에서 영상 보기',
+'or.cap':'나무에서 로스팅까지, 저희가 일하는 방식입니다. @clubcafecol에 올린 영상.'
 },
 
 /* ── العربية (RTL) ───────────────────────────────────────────────────── */
@@ -704,7 +792,7 @@ ar: {
 'pil.t4':'توصيل سريع','pil.d4':'تغليف مفرّغ من الهواء بعد التحميص مباشرة. بوغوتا 24-48 ساعة، بقية البلاد 2-5 أيام.',
 'tro.kicker':'ما يميّزنا','tro.title':'مختارات من<br><em>الحبوب الفائزة</em>',
 'tro.sub':'صعدت دفعتان من قهوتنا إلى منصة تتويج البطولة الوطنية للقهوة المختصة. وبقية التشكيلة تُزرع بالمعيار نفسه.',
-'tro.raros':'أصناف لا يمتلكها تقريباً أحد في كولومبيا','tro.rarosSub':'سلالات نادرة، إنتاجية منخفضة ومخاطر زراعية عالية. تُزرع من أجل نكهة الفنجان، لا من أجل الإنتاجية.',
+'tro.raros':'الأكثر طلباً لدينا','tro.rarosSub':'الدفعات الست الأكثر خروجاً من محمصتنا، بين كلاسيكيات المنشأ وملامح المسابقات. اضغط أياً منها لعرض بطاقتها الكاملة.',
 'val.kicker':'القيمة مقابل السعر','val.title':'أيّها يمنحك <em>أكثر مقابل ما تدفع؟</em>',
 'val.sub':'كيس 250 غراماً يكفي نحو 16 فنجاناً بجرعة 15 غراماً. إليك التكلفة الحقيقية للفنجان مقابل تقييم SCA لكل دفعة، مرتّبة من الأفضل قيمةً إلى الأقل.',
 'val.c1':'القهوة','val.c2':'التقييم','val.c3':'كيس 250 غ','val.c4':'للفنجان','val.c5':'مؤشر القيمة',
@@ -770,6 +858,17 @@ ar: {
 'cart.free':'مجاني',
 'ly.niveles':'المستويات',
 'cat.moneda':'الأسعار بالبيزو الكولومبي (COP) · الدولار للاسترشاد فقط',
-'_wa':[{"l": "لا أعرف أيها أختار", "t": "مرحباً CLUBCAFECOL، لا أعرف أي قهوة أختار. أحضّرها بـ ____ وأحب النكهات ____. بماذا تنصحونني؟"}, {"l": "أريد تقديم طلب", "t": "مرحباً CLUBCAFECOL، أريد تقديم طلب. يهمني ____ بحجم ____. مدينتي ____. هل تؤكدون الإجمالي شاملاً الشحن؟"}, {"l": "أريد الدفعات الفائزة", "t": "مرحباً CLUBCAFECOL، تهمني مجموعة الجائزة الوطنية (Corona وBourbon Pasión وPostre de Galleta). أيها متوفر وبأي سعر؟"}, {"l": "إنها هدية، ساعدوني في الاختيار", "t": "مرحباً CLUBCAFECOL، أريد إهداء قهوة مختصة وأبحث عن شيء لا يُنسى. ميزانيتي نحو ____. بماذا تقترحون؟"}, {"l": "لديّ مقهى أو شركة", "t": "مرحباً CLUBCAFECOL، أمثّل مقهى/شركة وأرغب في عرض سعر بالجملة. نستهلك نحو ____ كغ شهرياً. هل ترسلون قائمة أسعار B2B؟"}, {"l": "الشحن إلى بلدي", "t": "مرحباً CLUBCAFECOL، أود معرفة تكلفة ومدة الشحن إلى ____. هل تشحنون إلى هناك؟"}]
+'_wa':[{"l": "لا أعرف أيها أختار", "t": "مرحباً CLUBCAFECOL، لا أعرف أي قهوة أختار. أحضّرها بـ ____ وأحب النكهات ____. بماذا تنصحونني؟"}, {"l": "أريد تقديم طلب", "t": "مرحباً CLUBCAFECOL، أريد تقديم طلب. يهمني ____ بحجم ____. مدينتي ____. هل تؤكدون الإجمالي شاملاً الشحن؟"}, {"l": "أريد الدفعات الفائزة", "t": "مرحباً CLUBCAFECOL، تهمني مجموعة الجائزة الوطنية (Corona وBourbon Pasión وPostre de Galleta). أيها متوفر وبأي سعر؟"}, {"l": "إنها هدية، ساعدوني في الاختيار", "t": "مرحباً CLUBCAFECOL، أريد إهداء قهوة مختصة وأبحث عن شيء لا يُنسى. ميزانيتي نحو ____. بماذا تقترحون؟"}, {"l": "لديّ مقهى أو شركة", "t": "مرحباً CLUBCAFECOL، أمثّل مقهى/شركة وأرغب في عرض سعر بالجملة. نستهلك نحو ____ كغ شهرياً. هل ترسلون قائمة أسعار B2B؟"}, {"l": "الشحن إلى بلدي", "t": "مرحباً CLUBCAFECOL، أود معرفة تكلفة ومدة الشحن إلى ____. هل تشحنون إلى هناك؟"}],
+'nav.origen':'المنشأ',
+'or.kicker':'من يقف خلفها',
+'or.title':'نحن لا نشتري القهوة.<br><em>نحن نزرعها.</em>',
+'or.p1':'وُلدت CLUBCAFECOL في جبال بيتاليتو وأسيفيدو بمقاطعة ويلا. نحن مزارعو قهوة: الأشخاص أنفسهم الذين يقلّمون ويقطفون ويضبطون التخمير هم من يحدّدون منحنى التحميص ويغلقون الكيس الذي يصلك.',
+'or.p2':'بين الشجرة وفنجانك لا وسطاء ولا سماسرة ولا مستودع تنتظر فيه القهوة شهوراً. هذا يغيّر أمرين: يبقى الهامش في المزرعة، ونستطيع المجازفة بأصناف منخفضة الإنتاجية لا يطلبها أي مشترٍ، لأن قرار ما نزرعه قرارنا نحن.',
+'or.s1':'متراً فوق سطح البحر',
+'or.s2':'بلديتان في ويلا',
+'or.s3':'وسطاء',
+'or.cta':'شاهد المزيد على @clubcafecol',
+'or.play':'شاهد الفيديو على إنستغرام',
+'or.cap':'من الشجرة إلى التحميص: هكذا نعمل. فيديو منشور على @clubcafecol.'
 }
 };

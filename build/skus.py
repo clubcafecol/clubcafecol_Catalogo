@@ -47,6 +47,20 @@ EXOTICOS = {"Wush Wush", "Sudan Rume", "Laurina", "Pacamara", "Ombligon",
 DESTACADOS = ["ORI-001", "ORI-002", "TEM-001", "TEM-007",
               "PRE-001", "PRE-002", "PRE-004", "RES-001"]
 
+# Vitrina "Los más pedidos de la casa" (banda dentro de la sección de premiados).
+# Orden de aparición; cada uno se enlaza a su ficha.
+VITRINA = ["TEM-004",   # Vino de Montaña
+           "PRE-001",   # Trópico
+           "PRE-008",   # Corona
+           "ORI-002",   # Panela Dorada
+           "TEM-001",   # Mandarina Rosada
+           "PRE-002"]   # Bourbon Sandía (varietal Sidra)
+
+# ── VIDEO DE ORIGEN ─────────────────────────────────────────────────────
+# Publicación de Instagram que se incrusta en la sección "Quiénes somos".
+# Para cambiarlo basta con reemplazar la URL.
+VIDEO_ORIGEN = "https://www.instagram.com/p/DDX6zR8v0H1/"
+
 SKUS = [
     # ── COLECCIÓN ORIGEN ────────────────────────────────────────────────
     dict(id="ORI-001", nombre="RAÍZ PITALITO", col="origen",

@@ -7,7 +7,8 @@ import json, os, sys, io, datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from skus import (SKUS, CLUB, BUNDLES, TESTIMONIOS, FAQ, QUIZ, FORMATOS, TAZAS,
                   EXOTICOS, WA_NUM, NIT, ENVIO_GRATIS, SITE, ASSET_VER,
-                  MOLIENDAS, DESTACADOS, LEALTAD, REFERIDOS, USD_COP)
+                  MOLIENDAS, DESTACADOS, LEALTAD, REFERIDOS, USD_COP,
+                  VITRINA, VIDEO_ORIGEN)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANGS = [("es","Español","🇪🇸"),("en","English","🇬🇧"),("pt","Português","🇧🇷"),
@@ -254,13 +255,8 @@ def jsonld():
 def sec_trofeos():
     campeon = next(s for s in SKUS if s.get("premio") == "Campeón Nacional")
     sub = next(s for s in SKUS if s.get("premio") == "Subcampeón Nacional")
-    exos = [s for s in SKUS if s.get("exotico")]
-    vistos, raros = set(), []
-    for s in exos:
-        if s["varietal"] not in vistos:
-            vistos.add(s["varietal"]); raros.append(s)
-    raros = [s for s in raros if s["varietal"] in
-             ("Wush Wush", "Sudan Rume", "Laurina", "Pacamara", "Ombligón", "Geisha Top")]
+    idx = {s["id"]: s for s in SKUS}
+    raros = [idx[i] for i in VITRINA if i in idx]
 
     def trofeo(s, icon, kicker):
         return """
@@ -280,9 +276,12 @@ def sec_trofeos():
 
     raros_html = "".join(
         '<li><button type="button" class="raro" data-open-sku="%s">'
-        '<span class="raro__txt"><b>%s</b><span>%s · SCA %s</span></span>'
+        '<span class="raro__img"><picture><source srcset="%s.webp" type="image/webp">'
+        '<img src="%s.jpg" alt="%s" loading="lazy" width="760" height="1429"></picture></span>'
+        '<span class="raro__txt"><b>%s</b><span>%s%s</span></span>'
         '<span class="raro__go" aria-hidden="true">→</span></button></li>'
-        % (s["id"], s["varietal"], s["nombre"], s.get("sca") or "—")
+        % (s["id"], s["img"], s["img"], s["nombre"], s["nombre"], s["varietal"],
+           (" · SCA %d" % s["sca"]) if s.get("sca") else "")
         for s in raros)
 
     return """
@@ -294,14 +293,49 @@ def sec_trofeos():
     <div class="trofeos__grid">%(camp)s%(sub)s</div>
     <div class="raros">
       <div class="raros__head">
-        <h3 data-i18n="tro.raros">Varietales que casi nadie tiene en Colombia</h3>
-        <p data-i18n="tro.rarosSub">Genéticas escasas, de baja productividad y alto riesgo agronómico. Se siembran por perfil de taza, no por rendimiento.</p>
+        <h3 data-i18n="tro.raros">Los más pedidos de la casa</h3>
+        <p data-i18n="tro.rarosSub">Los seis lotes que más salen de nuestra tostadora, entre clásicos de origen y perfiles de competencia. Toca cualquiera para ver su ficha completa.</p>
       </div>
       <ul class="raros__list">%(raros)s</ul>
     </div>
   </div>
 </section>""" % dict(camp=trofeo(campeon, "🏆", "Campeón Nacional"),
                      sub=trofeo(sub, "🥈", "Subcampeón Nacional"), raros=raros_html)
+
+
+def sec_origen():
+    """Bloque humano: quién está detrás del café + video de Instagram."""
+    return """
+<section class="origen" id="origen">
+  <div class="wrap origen__in">
+    <div class="origen__txt">
+      <div class="kicker" data-i18n="or.kicker">Quiénes están detrás</div>
+      <h2 data-i18n="or.title">No compramos el café.<br><em>Lo cultivamos.</em></h2>
+      <p data-i18n="or.p1">CLUBCAFECOL nace en las montañas de Pitalito y Acevedo, en el Huila. Somos caficultores: la misma gente que poda, recolecta y controla la fermentación es la que decide la curva de tueste y sella la bolsa que llega a tu casa.</p>
+      <p data-i18n="or.p2">Entre el árbol y tu taza no hay intermediarios, ni comisionistas, ni una bodega donde el café espere meses. Eso cambia dos cosas: el margen se queda en la finca, y podemos arriesgarnos con varietales de baja productividad que ningún comprador nos pediría, porque la decisión de qué sembrar es nuestra.</p>
+      <div class="origen__stats">
+        <div><b>1.650–1.700</b><span data-i18n="or.s1">msnm de cultivo</span></div>
+        <div><b>2</b><span data-i18n="or.s2">municipios del Huila</span></div>
+        <div><b>0</b><span data-i18n="or.s3">intermediarios</span></div>
+      </div>
+      <a class="btn btn--ig" href="https://instagram.com/clubcafecol" target="_blank" rel="noopener" data-i18n="or.cta">Ver más en @clubcafecol</a>
+    </div>
+
+    <figure class="origen__video">
+      <div class="igwrap" id="igWrap" data-ig="%(video)s">
+        <blockquote class="instagram-media" data-instgrm-permalink="%(video)s"
+                    data-instgrm-version="14"
+                    style="background:#0B1728;border:0;border-radius:16px;margin:0;max-width:540px;min-width:260px;padding:0;width:100%%">
+          <a class="igfall" href="%(video)s" target="_blank" rel="noopener">
+            <span class="igfall__play" aria-hidden="true">▶</span>
+            <span class="igfall__txt" data-i18n="or.play">Ver el video en Instagram</span>
+          </a>
+        </blockquote>
+      </div>
+      <figcaption data-i18n="or.cap">Del árbol al tueste: así trabajamos. Video publicado en @clubcafecol.</figcaption>
+    </figure>
+  </div>
+</section>""" % dict(video=VIDEO_ORIGEN)
 
 
 def sec_valor():
@@ -651,6 +685,7 @@ function gtag(){dataLayer.push(arguments);}
   <div class="nav__in">
     <a class="nav__brand" href="#top"><img src="assets/img/logo.jpg" alt="CLUBCAFECOL" width="40" height="40"><span>CLUBCAFECOL</span></a>
     <nav class="nav__links" aria-label="Principal">
+      <a href="#origen" data-i18n="nav.origen">Origen</a>
       <a href="#trofeos" data-i18n="nav.trofeos">Premiados</a>
       <a href="#quiz" data-i18n="nav.quiz">Test</a>
       <a href="#catalogo" data-i18n="nav.catalogo">Catálogo</a>
@@ -722,6 +757,7 @@ function gtag(){dataLayer.push(arguments);}
   </div>
 </section>
 
+%(origen)s
 %(trofeos)s
 %(valorsec)s
 %(quiz)s
@@ -971,6 +1007,7 @@ window.CCC_MOLIENDAS = %(moljson)s; window.CCC_DTO_REF = %(dtoref)d; window.CCC_
            langopts=langopts, cards=cards, trofeos=sec_trofeos(), valorsec=sec_valor(), quiz=sec_quiz(),
            bundles=sec_bundles(), club=sec_club(), testi=sec_testimonios(), faq=sec_faq(),
            lealtad=sec_lealtad(), referidos=sec_referidos(), dtoref=REFERIDOS["dto_amigo"],
+           origen=sec_origen(),
            skusjson=skus_json, bundlesjson=bundles_json, moljson=mol_json,
            dlart=dlart, usdcop=USD_COP,
            wahelp=wa("Hola CLUBCAFECOL, necesito asesoría para elegir mi café. Preparo el café en ____ y me gustan los sabores ____. ¿Qué me recomiendan?"),

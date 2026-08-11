@@ -995,6 +995,50 @@ function initWA() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+   9b · VIDEO DE ORIGEN (embed de Instagram, carga diferida)
+   ═══════════════════════════════════════════════════════════════════ */
+function initOrigenVideo() {
+  var wrap = $('#igWrap'); if (!wrap) return;
+  var cargado = false;
+
+  function cargar() {
+    if (cargado) return;
+    cargado = true;
+    /* Si el script ya está en la página, solo reprocesamos */
+    if (window.instgrm && window.instgrm.Embeds) {
+      window.instgrm.Embeds.process();
+      return;
+    }
+    var sc = document.createElement('script');
+    sc.async = true;
+    sc.src = 'https://www.instagram.com/embed.js';
+    sc.onload = function () {
+      if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
+      track('view_origin_video', {source: 'instagram'});
+    };
+    /* Si Instagram no carga (bloqueador, red, post retirado) se queda el
+       respaldo con el enlace directo: la sección nunca aparece vacía. */
+    sc.onerror = function () { wrap.classList.add('is-fallback'); };
+    document.body.appendChild(sc);
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { cargar(); io.disconnect(); } });
+    }, {rootMargin: '300px'});
+    io.observe(wrap);
+  } else {
+    cargar();
+  }
+
+  $$('.igfall').forEach(function (a) {
+    a.addEventListener('click', function () {
+      track('view_origin_video', {source: 'instagram_link'});
+    });
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    10 · REVELADO AL HACER SCROLL
    ═══════════════════════════════════════════════════════════════════ */
 function initReveal() {
@@ -1020,6 +1064,7 @@ function boot() {
   initEmail();
   initExit();
   initWA();
+  initOrigenVideo();
   initReveal();
   requestAnimationFrame(initHeroVideo);
   track('page_view', {page_title: document.title});
