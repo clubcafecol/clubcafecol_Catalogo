@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from skus import (SKUS, CLUB, BUNDLES, TESTIMONIOS, FAQ, QUIZ, FORMATOS, TAZAS,
                   EXOTICOS, WA_NUM, NIT, ENVIO_GRATIS, SITE, ASSET_VER,
                   MOLIENDAS, DESTACADOS, LEALTAD, REFERIDOS, USD_COP,
-                  VITRINA, VIDEO_ORIGEN)
+                  VITRINA, VIDEO_ORIGEN, REGIONES)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANGS = [("es","Español","🇪🇸"),("en","English","🇬🇧"),("pt","Português","🇧🇷"),
@@ -311,11 +311,12 @@ def sec_origen():
     <div class="origen__txt">
       <div class="kicker" data-i18n="or.kicker">Quiénes están detrás</div>
       <h2 data-i18n="or.title">No compramos el café.<br><em>Lo cultivamos.</em></h2>
-      <p data-i18n="or.p1">CLUBCAFECOL nace en las montañas de Pitalito y Acevedo, en el Huila. Somos caficultores: la misma gente que poda, recolecta y controla la fermentación es la que decide la curva de tueste y sella la bolsa que llega a tu casa.</p>
+      <p data-i18n="or.p1">CLUBCAFECOL nace en el Huila, entre Pitalito y Acevedo, y hoy cultivamos también en Barbosa (Santander), Sevilla (Valle del Cauca), el Macizo del Cauca y el altiplano de Nariño. Somos caficultores: la misma gente que poda, recolecta y controla la fermentación es la que decide la curva de tueste y sella la bolsa que llega a tu casa.</p>
       <p data-i18n="or.p2">Entre el árbol y tu taza no hay intermediarios, ni comisionistas, ni una bodega donde el café espere meses. Eso cambia dos cosas: el margen se queda en la finca, y podemos arriesgarnos con varietales de baja productividad que ningún comprador nos pediría, porque la decisión de qué sembrar es nuestra.</p>
+      <ul class="origen__reg">%(regiones)s</ul>
       <div class="origen__stats">
         <div><b>1.650–1.700</b><span data-i18n="or.s1">msnm de cultivo</span></div>
-        <div><b>2</b><span data-i18n="or.s2">municipios del Huila</span></div>
+        <div><b>5</b><span data-i18n="or.s2">departamentos cafeteros</span></div>
         <div><b>0</b><span data-i18n="or.s3">intermediarios</span></div>
       </div>
       <a class="btn btn--ig" href="https://instagram.com/clubcafecol" target="_blank" rel="noopener" data-i18n="or.cta">Ver más en @clubcafecol</a>
@@ -335,7 +336,8 @@ def sec_origen():
       <figcaption data-i18n="or.cap">Del árbol al tueste: así trabajamos. Video publicado en @clubcafecol.</figcaption>
     </figure>
   </div>
-</section>""" % dict(video=VIDEO_ORIGEN)
+</section>""" % dict(video=VIDEO_ORIGEN, regiones="".join(
+        '<li><b>%s</b><span>%s</span></li>' % (d, m) for d, m in REGIONES))
 
 
 def sec_valor():
@@ -388,10 +390,20 @@ def sec_quiz():
       <div class="qz__step qz__result" data-step="99">
         <h3 data-i18n="qz.rTitle">Tu café es…</h3>
         <div id="qzOut"></div>
+        <div class="qzpromo">
+          <div class="qzpromo__gift">🎁</div>
+          <div class="qzpromo__txt">
+            <h4 data-i18n="qz.promoT">Presume tu café y llévate otro gratis</h4>
+            <p data-i18n="qz.promoP">Sube tu resultado a tu historia de Instagram o a tu estado de WhatsApp etiquetando a <b>@clubcafecol</b>. Con cualquier pedido que hagas, te sumamos un <b>drip de temporada de regalo</b>. Sin letra pequeña: solo muéstranos la historia por WhatsApp al momento de pedir.</p>
+          </div>
+        </div>
         <div class="qz__foot">
           <button type="button" class="btn btn--ig" id="qzShare">
             <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9a3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.9 5.9 0 0 0-2.13 1.38A5.9 5.9 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13a5.9 5.9 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.9 5.9 0 0 0 2.13-1.38 5.9 5.9 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 0 0-1.38-2.13A5.9 5.9 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0m0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32M12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8m7.85-10.4a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0"/></svg>
-            <span data-i18n="qz.share">Compartir en Instagram Stories</span></button>
+            <span data-i18n="qz.share">Compartir en Instagram</span></button>
+          <button type="button" class="btn btn--wa" id="qzShareWa">
+            <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m5.4 13.9c-.21.59-1.23 1.15-1.69 1.19-.46.04-.88.2-2.97-.62-2.51-1-4.1-3.57-4.22-3.74-.12-.16-1.01-1.34-1.01-2.56 0-1.22.64-1.82.86-2.07.23-.25.5-.31.66-.31h.48c.15 0 .35-.06.55.42.21.49.7 1.7.76 1.83.06.12.1.26.02.43-.08.16-.12.26-.25.41-.12.14-.26.32-.37.43-.13.12-.26.25-.11.5.14.24.64 1.06 1.38 1.72.95.84 1.75 1.11 2 1.23.25.13.4.11.54-.06.14-.16.62-.72.78-.97.17-.24.33-.2.56-.12.23.09 1.45.69 1.7.82.25.12.41.18.48.28.06.11.06.61-.15 1.19"/></svg>
+            <span data-i18n="qz.shareWa">Compartir por WhatsApp</span></button>
           <button type="button" class="btn btn--ghost" id="qzReset" data-i18n="qz.again">Repetir el test</button>
         </div>
       </div>
@@ -731,7 +743,7 @@ function gtag(){dataLayer.push(arguments);}
   <div class="wrap hero__in">
     <div class="hero__pre"><span class="dot"></span><span data-i18n="hero.pre">Huila, Colombia · Tostado bajo pedido</span></div>
     <h1 data-i18n="hero.title">Tu Café de Especialidad Colombiano<em>Campeones Nacionales directos a tu Taza</em></h1>
-    <p class="hero__sub" data-i18n="hero.sub">21 microlotes de café de especialidad del sur de Colombia, de 82 a 89 puntos SCA. Tostados el día de tu pedido y molidos a la medida de tu cafetera.</p>
+    <p class="hero__sub" data-i18n="hero.sub">21 microlotes de café de especialidad de las montañas de Colombia, de 82 a 89 puntos SCA. Tostados el día de tu pedido y molidos a la medida de tu cafetera.</p>
     <div class="hero__cta">
       <a class="btn btn--gold btn--lg" href="#catalogo" data-i18n="hero.cta1">Ver los 21 lotes</a>
       <a class="btn btn--ghost btn--lg" href="#quiz" data-i18n="hero.cta2">Ayúdame a elegir</a>
@@ -750,7 +762,7 @@ function gtag(){dataLayer.push(arguments);}
 <!-- ══ PILARES ══════════════════════════════════════════════════════════ -->
 <section class="pilares">
   <div class="wrap pilares__grid">
-    <div class="pilar"><div class="pilar__i">🌄</div><h3 data-i18n="pil.t1">Del grano a tu taza.</h3><p data-i18n="pil.d1">Fincas de Pitalito y Acevedo, Huila, entre 1.650 y 1.700 msnm. Somos caficultores, sin intermediarios.</p></div>
+    <div class="pilar"><div class="pilar__i">🌄</div><h3 data-i18n="pil.t1">Del grano a tu taza.</h3><p data-i18n="pil.d1">Fincas propias en Huila, Santander, Valle del Cauca, Cauca y Nariño, entre 1.650 y 1.700 msnm. Somos caficultores, sin intermediarios.</p></div>
     <div class="pilar"><div class="pilar__i">🔥</div><h3 data-i18n="pil.t2">Tueste bajo pedido</h3><p data-i18n="pil.d2">Tostamos en lotes pequeños el mismo día que compras. Nunca café de bodega.</p></div>
     <div class="pilar"><div class="pilar__i">⚙️</div><h3 data-i18n="pil.t3">Molienda a tu medida</h3><p data-i18n="pil.d3">Eliges el método al agregar el café — espresso, V60, prensa, moka — y molemos sin costo.</p></div>
     <div class="pilar"><div class="pilar__i">🚚</div><h3 data-i18n="pil.t4">Entrega rápida</h3><p data-i18n="pil.d4">Empacado al vacío tras el tueste. Bogotá 24-48 h, resto del país 2-5 días.</p></div>
@@ -881,6 +893,10 @@ function gtag(){dataLayer.push(arguments);}
     </header>
     <div class="cart__ship" id="cartShip"></div>
     <div class="cart__items" id="cartItems"></div>
+    <div class="cart__add" id="cartAddMore" hidden>
+      <button type="button" class="btn btn--ghost btn--sm" id="cartMore">
+        + <span data-i18n="cart.more">Agregar más</span></button>
+    </div>
     <div class="cart__empty" id="cartEmpty" hidden>
       <p data-i18n="cart.empty">Tu carrito está vacío.</p>
       <button type="button" class="btn btn--ghost btn--sm" id="cartGo" data-i18n="cart.go">Ver el catálogo</button>

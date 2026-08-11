@@ -56,6 +56,17 @@ VITRINA = ["TEM-004",   # Vino de Montaña
            "TEM-001",   # Mandarina Rosada
            "PRE-002"]   # Bourbon Sandía (varietal Sidra)
 
+# ── REGIONES DE CULTIVO ─────────────────────────────────────────────────
+# Zonas donde cultivamos. Los lotes del catálogo indican su origen exacto;
+# esto describe la huella de la marca a nivel de departamento.
+REGIONES = [
+    ("Huila",           "Pitalito · Acevedo"),
+    ("Santander",       "Barbosa"),
+    ("Valle del Cauca", "Sevilla"),
+    ("Cauca",           "Macizo colombiano"),
+    ("Nariño",          "Altiplano nariñense"),
+]
+
 # ── VIDEO DE ORIGEN ─────────────────────────────────────────────────────
 # Publicación de Instagram que se incrusta en la sección "Quiénes somos".
 # Para cambiarlo basta con reemplazar la URL.

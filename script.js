@@ -567,11 +567,14 @@ function renderCart() {
   var badge = $('#cartCount');
   badge.textContent = n; badge.hidden = n === 0;
 
+  var addMore = $('#cartAddMore');
   if (!cart.length) {
     wrap.innerHTML = ''; empty.hidden = false; foot.hidden = true;
+    if (addMore) addMore.hidden = true;
     $('#cartShip').innerHTML = ''; return;
   }
   empty.hidden = true; foot.hidden = false;
+  if (addMore) addMore.hidden = false;
 
   wrap.innerHTML = cart.map(function (it, i) {
     if (it.bundle) {
@@ -691,10 +694,16 @@ function initCart() {
   $('#cartBtn').addEventListener('click', function () { openCart(); track('view_cart', {value: cartSubtotal()}); });
   $('#cartClose').addEventListener('click', closeCart);
   $('#cartScrim').addEventListener('click', closeCart);
-  $('#cartGo').addEventListener('click', function () {
+  function irAlCatalogo() {
     closeCart();
     var el = $('#catalogo');
-    window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 74, behavior: 'smooth'});
+    if (el) window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 74, behavior: 'smooth'});
+  }
+  $('#cartGo').addEventListener('click', irAlCatalogo);
+  var more = $('#cartMore');
+  if (more) more.addEventListener('click', function () {
+    irAlCatalogo();
+    track('add_more_from_cart', {items: cartCount(), value: cartSubtotal()});
   });
   $('#cartCheckout').addEventListener('click', checkout);
   document.addEventListener('keydown', function (e) {
@@ -803,25 +812,28 @@ function initQuiz() {
                             presupuesto: a.presupuesto, recomendado: top[0].s.id});
   }
 
-  /* -- compartir el resultado -- */
+  /* -- compartir el resultado: Instagram y estado de WhatsApp -- */
   var qzTop = null;
+
+  function textoShare() {
+    var url = location.origin + location.pathname + '#quiz';
+    return 'Hice el test de CLUBCAFECOL y mi café es ' + qzTop.nombre +
+           ' (' + qzTop.varietal + (qzTop.sca ? ', SCA ' + qzTop.sca : '') + '). ' +
+           '¿Cuál es el tuyo? ☕ ' + url;
+  }
+
   var share = $('#qzShare');
   if (share) share.addEventListener('click', function () {
     if (!qzTop) return;
-    var url = location.origin + location.pathname + '#quiz';
-    var txt = 'Hice el test de CLUBCAFECOL y mi café es ' + qzTop.nombre +
-              ' (' + qzTop.varietal + (qzTop.sca ? ', SCA ' + qzTop.sca : '') + '). ' +
-              '¿Cuál es el tuyo? ☕ ' + url;
+    var txt = textoShare();
     track('share', {method: 'instagram_stories', item_id: qzTop.id});
-
     if (navigator.share) {
-      navigator.share({title: 'Mi café es ' + qzTop.nombre, text: txt, url: url})
-        .catch(function () {});
+      navigator.share({title: 'Mi café es ' + qzTop.nombre, text: txt}).catch(function () {});
       return;
     }
     /* Sin API de compartir: copiamos el texto y abrimos Instagram */
     var done = function () {
-      toast('Texto copiado. Pégalo en tu historia de Instagram.');
+      toast(t('qz.copied', 'Texto copiado. Pégalo en tu historia y etiquétanos.'));
       setTimeout(function () {
         window.open('https://instagram.com/clubcafecol', '_blank', 'noopener');
       }, 900);
@@ -829,6 +841,13 @@ function initQuiz() {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(txt).then(done, done);
     } else done();
+  });
+
+  var shareWa = $('#qzShareWa');
+  if (shareWa) shareWa.addEventListener('click', function () {
+    if (!qzTop) return;
+    track('share', {method: 'whatsapp_status', item_id: qzTop.id});
+    window.open('https://wa.me/?text=' + encodeURIComponent(textoShare()), '_blank', 'noopener');
   });
 }
 

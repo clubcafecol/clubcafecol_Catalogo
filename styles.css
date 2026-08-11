@@ -168,6 +168,12 @@ section h2{font-size:clamp(2rem,4.6vw,3.3rem)}
 .origen__stats div{display:flex;flex-direction:column;gap:3px}
 .origen__stats b{font-family:var(--serif);font-size:1.5rem;color:var(--gold-dk);font-weight:700;line-height:1}
 .origen__stats span{font-size:.73rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.origen__reg{list-style:none;margin:24px 0 0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.origen__reg li{padding:10px 13px;border:1px solid var(--line);border-radius:11px;
+  background:var(--white)}
+.origen__reg b{display:block;font-family:var(--serif);font-size:.98rem;color:var(--navy-700)}
+.origen__reg span{font-size:.73rem;color:var(--muted)}
 .origen__video{margin:0}
 .origen__video figcaption{margin-top:12px;font-size:.8rem;color:var(--muted);text-align:center;
   font-style:italic}
@@ -773,7 +779,17 @@ body.is-rtl .cart__panel{transform:translateX(-100%)}
 .exit__msg.is-err{color:#B3261E} .exit__msg.is-ok{color:#1E7A4B;font-weight:600}
 .exit__no{margin-top:14px;font-size:.79rem;color:var(--muted);text-decoration:underline}
 
-.qz__foot{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:26px}
+/* Promoción de compartir: drip gratis por etiquetarnos */
+.qzpromo{display:flex;gap:16px;align-items:flex-start;margin-top:28px;padding:20px 22px;
+  border-radius:var(--r-lg);border:1px dashed var(--gold);
+  background:linear-gradient(135deg,rgba(201,169,97,.16),rgba(201,169,97,.05))}
+.qzpromo__gift{font-size:1.9rem;line-height:1;flex-shrink:0}
+.qzpromo h4{font-size:1.1rem;margin-bottom:6px}
+.qzpromo p{margin:0;font-size:.87rem;color:var(--navy-700);line-height:1.6}
+.qzpromo b{font-weight:600;color:var(--gold-dk)}
+.qz__foot{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.cart__add{flex:0 0 auto;padding:6px 22px 12px;text-align:center;
+  border-bottom:1px solid var(--line)}
 .btn--ig{background:linear-gradient(45deg,#F58529,#DD2A7B 45%,#8134AF 70%,#515BD4);
   color:#fff;box-shadow:0 4px 16px rgba(221,42,123,.35)}
 .btn--ig:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(221,42,123,.5)}
@@ -820,30 +836,93 @@ body.is-rtl .cart__panel{transform:translateX(-100%)}
   .cat__controls{flex-direction:column;align-items:stretch}
   .cat__tabs{overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;-webkit-overflow-scrolling:touch}
   .tab{flex-shrink:0}
-  .qz{padding:24px 20px}
+  .qz{padding:24px 18px}
   .qz__cards{grid-template-columns:1fr}
-  .mdl{padding:0}
-  .mdl__box{max-height:100vh;border-radius:0}
+  .qzpromo{flex-direction:column;gap:10px;padding:18px;text-align:center;align-items:center}
+  .qz__foot{flex-direction:column}
+  .qz__foot .btn{width:100%}
+  /* Modal como hoja inferior: entra desde abajo, se agarra con el pulgar */
+  .mdl{padding:0;align-items:flex-end}
+  .mdl__box{max-height:92dvh;max-height:92vh;border-radius:20px 20px 0 0;
+    transform:translateY(40px);overscroll-behavior:contain}
+  .mdl.is-open .mdl__box{transform:none}
+  .mdl__box::before{content:'';position:sticky;top:0;z-index:6;display:block;
+    width:44px;height:4px;margin:10px auto 0;border-radius:100px;background:var(--line)}
+  .mdl__x{top:8px;inset-inline-end:10px;width:32px;height:32px;font-size:1.35rem}
   .mdl__grid{grid-template-columns:1fr}
-  .mdl__media{border-radius:0;padding:28px;max-height:300px}
-  .mdl__media img{max-width:190px;margin:0 auto}
-  .mdl__info{padding:24px}
-  .mdl__specs{grid-template-columns:1fr}
+  .mdl__media{border-radius:0;padding:16px 24px 20px;max-height:none;justify-content:center}
+  .mdl__media img{max-width:150px;margin:0 auto}
+  .mdl__info{padding:20px 20px 28px}
+  .mdl__info h3{font-size:1.5rem}
+  .mdl__specs{grid-template-columns:1fr 1fr;gap:9px;padding:14px}
+  .mdl__prices{grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:6px}
+  .mprice{padding:9px 6px}
+  .mprice__p{font-size:.94rem}
+  .mprice__t{font-size:.6rem}
   .ft__in{grid-template-columns:1fr 1fr;gap:26px}
   .ft__bot .wrap{flex-direction:column;gap:7px}
   .dl__art img{width:30%}
   .refer__steps{grid-template-columns:1fr;gap:12px}
   .refer__steps div{flex-direction:row;align-items:center;gap:11px}
   .canje__grid{grid-template-columns:1fr}
-  .origen__stats{grid-template-columns:1fr;gap:14px}
+  .origen__stats{grid-template-columns:repeat(3,1fr);gap:12px}
+  .origen__stats b{font-size:1.16rem}
+  .origen__stats span{font-size:.65rem;letter-spacing:.04em}
+  .origen__reg{grid-template-columns:1fr 1fr;gap:8px}
   .igwrap,.igfall{min-height:340px}
+
+  /* ── CARRITO EN MÓVIL ──────────────────────────────────────────────
+     Ocupa toda la pantalla, la lista manda y el botón de pedido queda
+     siempre visible pegado abajo. */
+  .cart__panel{width:100%;height:100dvh;height:100%}
+  .cart__head{padding:14px 16px}
+  .cart__head h2{font-size:1.14rem}
+  .cart__ship{padding:0 16px}
+  .cart__items{padding:6px 16px}
+  .ci{grid-template-columns:52px 1fr 24px;gap:10px;padding:12px 0}
+  .ci__img img{width:52px;height:auto}
+  .ci__img--kit{height:54px;font-size:1.4rem}
+  .ci__body h4{font-size:.9rem}
+  .ci__meta{font-size:.72rem;margin-bottom:6px}
+  .ci__mol{padding:6px 9px;font-size:16px;margin-bottom:7px}
+  .cart__add{padding:8px 16px 10px}
+  .cart__foot{padding:12px 16px calc(14px + env(safe-area-inset-bottom));max-height:none}
+  .cart__fields{gap:7px}
+  .cart__field input{font-size:16px;padding:10px 12px}
+  .cart__tot{margin:10px 0}
+  .cart__legal{font-size:.66rem;margin-top:8px}
+  #cartCheckout{padding:15px 24px}
   .dl__art{gap:12px 10px}
   .dl__art picture:nth-child(2) img,.dl__art picture:nth-child(5) img{transform:translateY(12px)}
-  .exit{padding:0}
-  .exit__box{grid-template-columns:1fr;max-height:100vh;overflow-y:auto;border-radius:0}
-  .exit__art{display:none}
-  .exit__body{padding:28px 22px}
-  .wa{bottom:16px;inset-inline-end:16px}
+  /* Pop-up de salida como hoja inferior, no como pantalla completa */
+  .exit{padding:0;align-items:flex-end}
+  .exit__box{grid-template-columns:1fr;max-height:88dvh;max-height:88vh;overflow-y:auto;
+    border-radius:20px 20px 0 0;transform:translateY(40px);overscroll-behavior:contain}
+  .exit.is-open .exit__box{transform:none}
+  .exit__art{display:block;padding:0;background:none;position:relative}
+  .exit__art img{width:76px;margin:16px auto 0;border-radius:8px;
+    box-shadow:0 8px 22px rgba(7,16,31,.4)}
+  .exit__x{top:8px;inset-inline-end:10px;width:32px;height:32px;font-size:1.35rem;
+    background:var(--cream)}
+  .exit__body{padding:14px 20px 26px;text-align:center}
+  .exit__body h3{font-size:1.28rem}
+  .exit__body>p{font-size:.85rem;margin-bottom:14px}
+  .exit__ok{text-align:start}
+  .exit__form input[type=email]{font-size:16px}
+  .exit__no{display:block;width:100%}
+  /* En táctil no hay hover: los dos botones quedan como círculos fijos
+     y siempre visibles. */
+  .wa{bottom:14px;inset-inline-end:14px;gap:10px}
+  .wa__launcher{width:54px;height:54px}
+  .wa__ig{width:48px;height:48px}
+  .wa__ig:hover,.wa__ig:focus-visible{width:48px;transform:none}
+  .wa__ig-txt{display:none}
+  .wa__ig-ico{width:48px;height:48px}
+  .wa__ig-ico svg{width:23px;height:23px}
+  .wa__bubble{display:none}
+  .wa__panel{max-height:min(70dvh,calc(100vh - 110px));
+    width:min(324px,calc(100vw - 28px))}
+  .wa.is-open .wa__ig{display:none}
   .valorsec td,.valorsec th{padding:11px 13px}
 }
 @media (max-width:420px){
