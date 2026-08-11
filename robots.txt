@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://clubcafecol.github.io/clubcafecol_Catalogo/sitemap.xml

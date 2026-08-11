@@ -1,331 +1,828 @@
-/* ============================================================
+/* ═══════════════════════════════════════════════════════════════════════
    CLUBCAFECOL — script.js
-   Nav · Tabs · Modal · Cursor · WA Bot · Video Hero · i18n
-   ============================================================ */
+   i18n · nav · catálogo · carrito · checkout WhatsApp · quiz · modal ·
+   hero video · analítica
+   ═══════════════════════════════════════════════════════════════════════ */
+(function () {
+'use strict';
 
-/* ── DATOS 21 SKUs (para modal) ───────────────────────────── */
-const SKUS = [
-  {id:'ORI-001',nombre:'RAÍZ PITALITO',coleccion:'origen',varietal:'Blend Castillo / Caturra / Colombia',proceso:'Lavado',msnm:1650,sca:null,notas:['Chocolate','Panela','Nuez'],perfil:'Chocolate · Panela · Nuez',cuerpo:'Medio',altura:'1.650 msnm',precios:{drip_10g:4900,'250g':30900,'340g':38900,'500g':53900,'2500g':230000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20RA%C3%8DZ%20PITALITO%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20RA%C3%8DZ%20PITALITO%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20RA%C3%8DZ%20PITALITO%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20RA%C3%8DZ%20PITALITO%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20RA%C3%8DZ%20PITALITO%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'ORI-002',nombre:'PANELA DORADA',coleccion:'origen',varietal:'Caturra',proceso:'Natural',msnm:1700,sca:85,notas:['Caña','Miel de panela','Cítrico','Té','Melón'],perfil:'Caña · Miel de panela · Cítrico · Té · Melón',cuerpo:'Medio-alto',altura:'1.700 msnm',precios:{drip_10g:5900,'250g':41900,'340g':54900,'500g':75900,'2500g':335000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PANELA%20DORADA%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PANELA%20DORADA%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PANELA%20DORADA%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PANELA%20DORADA%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PANELA%20DORADA%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'TEM-001',nombre:'MANDARINA ROSADA',coleccion:'temporada',varietal:'Bourbon Rosado',proceso:'Honey',msnm:1700,sca:86,notas:['Chocolate','Miel de panela','Cítrico','Durazno'],perfil:'Chocolate · Miel de panela · Cítrico · Durazno',cuerpo:'Medio',altura:'1.700 msnm',precios:{drip_10g:5900,'250g':45900,'340g':59900,'500g':88000,'2500g':365000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MANDARINA%20ROSADA%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MANDARINA%20ROSADA%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MANDARINA%20ROSADA%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MANDARINA%20ROSADA%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MANDARINA%20ROSADA%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'TEM-002',nombre:'BOSQUE DE ROMERO',coleccion:'temporada',varietal:'Papayo',proceso:'Lavado',msnm:1650,sca:86,notas:['Especiado','Maderas finas','Cítrico','Romero'],perfil:'Especiado · Maderas finas · Cítrico · Romero',cuerpo:'Medio',altura:'1.650 msnm',precios:{drip_10g:5900,'250g':45900,'340g':59900,'500g':81900,'2500g':365000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20BOSQUE%20DE%20ROMERO%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20BOSQUE%20DE%20ROMERO%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20BOSQUE%20DE%20ROMERO%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20BOSQUE%20DE%20ROMERO%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20BOSQUE%20DE%20ROMERO%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'TEM-003',nombre:'GIGANTE DULCE',coleccion:'temporada',varietal:'Pacamara',proceso:'Natural',msnm:1650,sca:85,notas:['Grano gigante','Dulce','Cuerpo alto'],perfil:'Grano gigante · Dulce · Cuerpo alto',cuerpo:'Alto',altura:'1.650 msnm',precios:{drip_10g:5900,'250g':45900,'340g':59900,'500g':82900,'2500g':375000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20GIGANTE%20DULCE%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20GIGANTE%20DULCE%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20GIGANTE%20DULCE%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20GIGANTE%20DULCE%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20GIGANTE%20DULCE%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'TEM-004',nombre:'VINO DE MONTAÑA',coleccion:'temporada',varietal:'Tabi',proceso:'Natural',msnm:1650,sca:87,notas:['Frutos rojos','Vino','Cítrico','Chocolate'],perfil:'Frutos rojos · Vino · Cítrico · Chocolate',cuerpo:'Medio',altura:'1.650 msnm',precios:{drip_10g:5900,'250g':45900,'340g':59900,'500g':81900,'2500g':365000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20VINO%20DE%20MONTA%C3%91A%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20VINO%20DE%20MONTA%C3%91A%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20VINO%20DE%20MONTA%C3%91A%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20VINO%20DE%20MONTA%C3%91A%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20VINO%20DE%20MONTA%C3%91A%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'TEM-005',nombre:'JAZMÍN',coleccion:'temporada',varietal:'Geisha Origen',proceso:'Lavado',msnm:1650,sca:86,notas:['Limoncillo','Toronja','Miel','Floral'],perfil:'Limoncillo · Toronja · Miel · Floral',cuerpo:'Ligero-medio',altura:'1.650 msnm',precios:{drip_10g:6900,'250g':55900,'340g':71900,'500g':105000,'2500g':455000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20JAZM%C3%8DN%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20JAZM%C3%8DN%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20JAZM%C3%8DN%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20JAZM%C3%8DN%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20JAZM%C3%8DN%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'TEM-006',nombre:'PIMIENTA SUAVE',coleccion:'temporada',varietal:'Bourbon Ají',proceso:'Semilavado',msnm:1650,sca:86,notas:['Albahaca','Pimienta','Caramelo','Cítrico','Melón'],perfil:'Albahaca · Pimienta · Caramelo · Cítrico · Melón',cuerpo:'Medio',altura:'1.650 msnm',precios:{drip_10g:6900,'250g':55900,'340g':72900,'500g':105000,'2500g':455000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PIMIENTA%20SUAVE%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PIMIENTA%20SUAVE%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PIMIENTA%20SUAVE%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PIMIENTA%20SUAVE%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PIMIENTA%20SUAVE%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'TEM-007',nombre:'TÉ SALVAJE',coleccion:'temporada',varietal:'Wush Wush',proceso:'Semilavado',msnm:1650,sca:86,notas:['Floral intenso','Frutal','Té','Dulzor prolongado'],perfil:'Floral intenso · Frutal · Té · Dulzor prolongado',cuerpo:'Ligero',altura:'1.650 msnm',precios:{drip_10g:6900,'250g':58900,'340g':76900,'500g':110000,'2500g':485000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20T%C3%89%20SALVAJE%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20T%C3%89%20SALVAJE%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20T%C3%89%20SALVAJE%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20T%C3%89%20SALVAJE%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20T%C3%89%20SALVAJE%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'PRE-001',nombre:'TRÓPICO',coleccion:'premio',varietal:'Sidra Termochok',proceso:'Espirituoso',msnm:1650,sca:88,notas:['Maracuyá','Gulupa','Uchuva','Frutos amarillos'],perfil:'Maracuyá · Gulupa · Uchuva · Frutos amarillos',cuerpo:'Medio',altura:'1.650 msnm',precios:{drip_10g:8900,'250g':80900,'340g':110000,'500g':150000,'2500g':690000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20TR%C3%93PICO%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20TR%C3%93PICO%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20TR%C3%93PICO%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20TR%C3%93PICO%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20TR%C3%93PICO%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'PRE-002',nombre:'BOURBON SANDÍA',coleccion:'premio',varietal:'Sidra',proceso:'Natural',msnm:1650,sca:87,notas:['Sandía','Frutal fresco','Acidez brillante'],perfil:'Sandía · Frutal fresco · Acidez brillante',cuerpo:'Ligero-medio',altura:'1.650 msnm',precios:{drip_10g:8900,'250g':80900,'340g':110000,'500g':150000,'2500g':690000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20BOURBON%20SAND%C3%8DA%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20BOURBON%20SAND%C3%8DA%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20BOURBON%20SAND%C3%8DA%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20BOURBON%20SAND%C3%8DA%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20BOURBON%20SAND%C3%8DA%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'PRE-003',nombre:'MANJAR BLANCO',coleccion:'premio',varietal:'Ombligón',proceso:'Espirituoso',msnm:1650,sca:88,notas:['Manjar de leche','Coco','Cítrico','Caramelo'],perfil:'Manjar de leche · Coco · Cítrico · Caramelo',cuerpo:'Alto',altura:'1.650 msnm',precios:{drip_10g:8900,'250g':80900,'340g':110000,'500g':150000,'2500g':690000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MANJAR%20BLANCO%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MANJAR%20BLANCO%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MANJAR%20BLANCO%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MANJAR%20BLANCO%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MANJAR%20BLANCO%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'PRE-004',nombre:'ARÁNDANOS',coleccion:'premio',varietal:'Landrace',proceso:'Natural',msnm:1650,sca:88,notas:['Frutos morados','Frambuesa','Uva','Lichi','Vino'],perfil:'Frutos morados · Frambuesa · Uva · Lichi · Vino',cuerpo:'Medio',altura:'1.650 msnm',precios:{drip_10g:8900,'250g':80900,'340g':110000,'500g':150000,'2500g':690000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20AR%C3%81NDANOS%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20AR%C3%81NDANOS%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20AR%C3%81NDANOS%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20AR%C3%81NDANOS%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20AR%C3%81NDANOS%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'PRE-005',nombre:'ANCESTRAL FRUTAL',coleccion:'premio',varietal:'Sudan Rume',proceso:'Espirituoso',msnm:1650,sca:86,notas:['Frutal complejo','Floral','Landrace etíope'],perfil:'Frutal complejo · Floral · Landrace etíope',cuerpo:'Ligero-medio',altura:'1.650 msnm',precios:{drip_10g:8900,'250g':81900,'340g':110000,'500g':155000,'2500g':695000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20ANCESTRAL%20FRUTAL%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20ANCESTRAL%20FRUTAL%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20ANCESTRAL%20FRUTAL%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20ANCESTRAL%20FRUTAL%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20ANCESTRAL%20FRUTAL%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'PRE-006',nombre:'POSTRE DE GALLETA',coleccion:'premio',varietal:'Bourbon Rojo',proceso:'Natural cofermentado',msnm:1650,sca:89,notas:['Galleta','Helado','Vino','Dulzor envolvente'],perfil:'Galleta · Helado · Vino · Dulzor envolvente',cuerpo:'Alto',altura:'1.650 msnm',precios:{drip_10g:8900,'250g':82900,'340g':110000,'500g':155000,'2500g':705000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20POSTRE%20DE%20GALLETA%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20POSTRE%20DE%20GALLETA%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20POSTRE%20DE%20GALLETA%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20POSTRE%20DE%20GALLETA%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20POSTRE%20DE%20GALLETA%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'PRE-007',nombre:'PASIÓN 400',coleccion:'premio',varietal:'Natural Passion',proceso:'Natural 400h · Subcampeón nacional',msnm:1650,sca:89,notas:['Tamarindo','Sandía','Chocolate negro','Licor'],perfil:'Tamarindo · Sandía · Chocolate negro · Licor',cuerpo:'Alto',altura:'1.650 msnm',precios:{drip_10g:10900,'250g':95000,'340g':125000,'500g':175000,'2500g':795000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PASI%C3%93N%20400%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PASI%C3%93N%20400%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PASI%C3%93N%20400%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PASI%C3%93N%20400%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20PASI%C3%93N%20400%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'PRE-008',nombre:'CORONA',coleccion:'premio',varietal:'Geisha Top',proceso:'Espirituoso · Campeón nacional',msnm:1650,sca:89,notas:['Limoncillo','Jazmín','Cilantro','Romero'],perfil:'Limoncillo · Jazmín · Cilantro · Romero',cuerpo:'Ligero',altura:'1.650 msnm',precios:{drip_10g:12900,'250g':115000,'340g':150000,'500g':210000,'2500g':935000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20CORONA%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20CORONA%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20CORONA%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20CORONA%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20CORONA%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'RES-001',nombre:'MORA DE NIEBLA',coleccion:'reserva',varietal:'Moka',proceso:'Lavado',msnm:1650,sca:87,notas:['Moras frescas','Miel','Cuerpo cremoso','Brillante'],perfil:'Moras frescas · Miel · Cuerpo cremoso · Brillante',cuerpo:'Cremoso',altura:'1.650 msnm',precios:{drip_10g:9900,'250g':92900,'340g':125000,'500g':175000,'2500g':800000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MORA%20DE%20NIEBLA%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MORA%20DE%20NIEBLA%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MORA%20DE%20NIEBLA%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MORA%20DE%20NIEBLA%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MORA%20DE%20NIEBLA%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'RES-002',nombre:'SERENO',coleccion:'reserva',varietal:'Laurina',proceso:'Lavado · Bajo en cafeína',msnm:1650,sca:87,notas:['Floral','Vainilla','Miel','Té'],perfil:'Floral · Vainilla · Miel · Té',cuerpo:'Ligero-medio',altura:'1.650 msnm',precios:{drip_10g:9900,'250g':92900,'340g':125000,'500g':175000,'2500g':800000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20SERENO%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20SERENO%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20SERENO%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20SERENO%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20SERENO%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'RES-003',nombre:'MORA DE NIEBLA RESERVA',coleccion:'reserva',varietal:'Moka',proceso:'Natural',msnm:1650,sca:87,notas:['Moras frescas','Miel','Frutal','Residual limpio'],perfil:'Moras frescas · Miel · Frutal · Residual limpio',cuerpo:'Cremoso',altura:'1.650 msnm',precios:{drip_10g:12900,'250g':130000,'340g':170000,'500g':240000,'2500g':1100000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MORA%20DE%20NIEBLA%20RESERVA%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MORA%20DE%20NIEBLA%20RESERVA%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MORA%20DE%20NIEBLA%20RESERVA%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MORA%20DE%20NIEBLA%20RESERVA%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20MORA%20DE%20NIEBLA%20RESERVA%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}},
-  {id:'RES-004',nombre:'SERENO RESERVA',coleccion:'reserva',varietal:'Laurina',proceso:'Natural · Bajo en cafeína',msnm:1650,sca:87,notas:['Floral','Vainilla','Miel','Frutal','Especiado'],perfil:'Floral · Vainilla · Miel · Frutal · Especiado',cuerpo:'Medio',altura:'1.650 msnm',precios:{drip_10g:12900,'250g':130000,'340g':170000,'500g':240000,'2500g':1100000},waLinks:{'drip_10g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20SERENO%20RESERVA%20Drip%2010g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','250g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20SERENO%20RESERVA%20250g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','340g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20SERENO%20RESERVA%20340g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20SERENO%20RESERVA%20500g%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F','2500g':'https://wa.me/573154510390?text=Hola%2C%20me%20interesa%20el%20caf%C3%A9%20SERENO%20RESERVA%202.5kg%20de%20CLUBCAFECOL.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F'}}
+var CFG      = window.CCC_CONFIG || {};
+var SKUS     = window.CCC_SKUS || [];
+var BUNDLES  = window.CCC_BUNDLES || [];
+var WA_NUM   = CFG.WA_NUM || '573154510390';
+var FREE     = CFG.ENVIO_GRATIS || 85000;
+var LS_CART  = 'ccc_cart_v1';
+var LS_LANG  = 'ccc_lang_v1';
+
+var FORMATOS = [
+  {k:'drip_10g', l:'Drip 10g',  tazas:1},
+  {k:'250g',     l:'250 g',     tazas:16},
+  {k:'340g',     l:'340 g',     tazas:22},
+  {k:'500g',     l:'500 g',     tazas:33},
+  {k:'2500g',    l:'2,5 kg',    tazas:166}
 ];
 
-const WA_NUM = '573154510390';
+var MOLIENDAS = [
+  {v:'grano',    l:'Grano entero (sin moler)'},
+  {v:'espresso', l:'Espresso'},
+  {v:'v60',      l:'V60 / Chemex / filtro'},
+  {v:'prensa',   l:'Prensa francesa'},
+  {v:'aeropress',l:'Aeropress'},
+  {v:'moka',     l:'Moka italiana / greca'},
+  {v:'goteo',    l:'Cafetera de goteo'}
+];
 
-/* ── NAV SCROLL ──────────────────────────────────────────────*/
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 60);
-}, { passive: true });
+/* ── utilidades ────────────────────────────────────────────────────── */
+var $  = function (s, c) { return (c || document).querySelector(s); };
+var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
-/* ── BURGER MENU ─────────────────────────────────────────────*/
-const burger     = document.getElementById('burger');
-const mobileMenu = document.getElementById('mobileMenu');
-burger.addEventListener('click', () => {
-  mobileMenu.classList.toggle('open');
-  burger.textContent = mobileMenu.classList.contains('open') ? '✕' : '☰';
-});
-function closeMobile() {
-  mobileMenu.classList.remove('open');
-  burger.textContent = '☰';
+function cop(n) { return '$' + Math.round(n).toLocaleString('es-CO'); }
+function fmtLabel(k) { for (var i=0;i<FORMATOS.length;i++) if (FORMATOS[i].k===k) return FORMATOS[i].l; return k; }
+function fmtTazas(k) { for (var i=0;i<FORMATOS.length;i++) if (FORMATOS[i].k===k) return FORMATOS[i].tazas; return 1; }
+function molLabel(v) { for (var i=0;i<MOLIENDAS.length;i++) if (MOLIENDAS[i].v===v) return MOLIENDAS[i].l; return v; }
+function skuById(id) { for (var i=0;i<SKUS.length;i++) if (SKUS[i].id===id) return SKUS[i]; return null; }
+
+/* ── analítica ─────────────────────────────────────────────────────── */
+function track(name, params) {
+  params = params || {};
+  try {
+    window.dataLayer && window.dataLayer.push(Object.assign({event:name}, params));
+    if (window.gtag && CFG.GA4_ID) gtag('event', name, params);
+    if (window.fbq && CFG.META_ID) {
+      var map = {add_to_cart:'AddToCart', begin_checkout:'InitiateCheckout',
+                 view_item:'ViewContent', generate_lead:'Lead', contact:'Contact',
+                 search:'Search', subscribe:'Subscribe'};
+      if (map[name]) fbq('track', map[name], {
+        content_name: params.item_name || params.content_name || '',
+        content_ids:  params.item_id ? [params.item_id] : undefined,
+        content_type: 'product',
+        value: params.value || 0, currency: 'COP'
+      });
+      else fbq('trackCustom', name, params);
+    }
+  } catch (e) { /* la analítica nunca debe romper la tienda */ }
 }
-document.addEventListener('click', e => {
-  if (!burger.contains(e.target) && !mobileMenu.contains(e.target)) closeMobile();
-});
 
-/* ── COLECCIONES TABS + FILTER ───────────────────────────────*/
-const tabs  = document.querySelectorAll('.col-tab');
-const cards = document.querySelectorAll('.producto-card');
-tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    const col = tab.dataset.col;
-    tabs.forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    cards.forEach(card => {
-      if (col === 'all' || card.dataset.col === col) {
-        card.classList.remove('hidden');
-        card.style.animation = 'fadeIn .3s ease forwards';
-      } else {
-        card.classList.add('hidden');
-      }
-    });
-    document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth', block: 'start' });
+/* ── toast ─────────────────────────────────────────────────────────── */
+var toastT;
+function toast(msg) {
+  var el = $('#toast'); if (!el) return;
+  el.textContent = msg; el.classList.add('is-on');
+  clearTimeout(toastT);
+  toastT = setTimeout(function () { el.classList.remove('is-on'); }, 2600);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   1 · i18n
+   ═══════════════════════════════════════════════════════════════════ */
+var I18N = window.CCC_I18N || {};
+var BASE = {};          // textos originales en español
+var curLang = 'es';
+
+function snapshotBase() {
+  $$('[data-i18n]').forEach(function (el) {
+    var k = el.getAttribute('data-i18n');
+    if (!(k in BASE)) BASE[k] = el.innerHTML;
   });
-});
+}
 
-/* ── SMOOTH NAV LINKS ────────────────────────────────────────*/
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) {
+function applyLang(code) {
+  var dict = I18N[code] || {};
+  $$('[data-i18n]').forEach(function (el) {
+    var k = el.getAttribute('data-i18n');
+    var val = (code === 'es') ? BASE[k] : (dict[k] !== undefined ? dict[k] : BASE[k]);
+    if (val !== undefined) el.innerHTML = val;
+  });
+  var rtl = dict._dir === 'rtl';
+  document.documentElement.lang = code;
+  document.documentElement.dir  = rtl ? 'rtl' : 'ltr';
+  document.body.classList.toggle('is-rtl', rtl);
+  var cur = $('#langCur'); if (cur) cur.textContent = code.toUpperCase();
+  $$('.lang__op').forEach(function (b) { b.classList.toggle('is-on', b.dataset.lang === code); });
+  curLang = code;
+  try { localStorage.setItem(LS_LANG, code); } catch (e) {}
+  renderCart();   // el carrito se re-renderiza con los textos nuevos
+  track('change_language', {language: code});
+}
+
+function initLang() {
+  snapshotBase();
+  var saved = null;
+  try { saved = localStorage.getItem(LS_LANG); } catch (e) {}
+  var nav = (navigator.language || 'es').toLowerCase().split('-')[0];
+  var start = saved || (I18N[nav] ? nav : 'es');
+  if (start !== 'es') applyLang(start); else applyLang('es');
+
+  var btn = $('#langBtn'), menu = $('#langMenu'), wrap = $('#lang');
+  if (!btn) return;
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var open = wrap.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  $$('.lang__op').forEach(function (b) {
+    b.addEventListener('click', function () {
+      applyLang(b.dataset.lang);
+      wrap.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+  document.addEventListener('click', function (e) {
+    if (!wrap.contains(e.target)) { wrap.classList.remove('is-open'); btn.setAttribute('aria-expanded','false'); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { wrap.classList.remove('is-open'); btn.setAttribute('aria-expanded','false'); }
+  });
+}
+
+function t(key, fallbackEs) {
+  var d = I18N[curLang] || {};
+  if (curLang !== 'es' && d[key] !== undefined) return d[key].replace(/<[^>]+>/g, '');
+  return fallbackEs;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   2 · NAVEGACIÓN
+   ═══════════════════════════════════════════════════════════════════ */
+function initNav() {
+  var nav = $('#nav'), burger = $('#burger'), mob = $('#navMobile');
+  var last = 0;
+  window.addEventListener('scroll', function () {
+    var y = window.scrollY;
+    nav.classList.toggle('is-scrolled', y > 40);
+    last = y;
+  }, {passive: true});
+
+  if (burger) {
+    burger.addEventListener('click', function () {
+      var open = mob.classList.toggle('is-open');
+      burger.classList.toggle('is-open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    $$('a', mob).forEach(function (a) {
+      a.addEventListener('click', function () {
+        mob.classList.remove('is-open'); burger.classList.remove('is-open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  $$('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href');
+      if (id === '#' || id.length < 2) return;
+      var el = document.querySelector(id);
+      if (!el) return;
       e.preventDefault();
-      const top = target.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top, behavior: 'smooth' });
-    }
-  });
-});
-
-/* ── FADE-IN ON SCROLL ───────────────────────────────────────*/
-const fadeObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.style.opacity = '1';
-      e.target.style.transform = 'translateY(0)';
-    }
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.producto-card, .valor-card, .club-card').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(20px)';
-  el.style.transition = 'opacity .5s ease, transform .5s ease';
-  fadeObserver.observe(el);
-});
-
-/* cursor removed per brand update */
-
-/* ── MODAL DE DETALLE ────────────────────────────────────────*/
-(function initModal() {
-  const modal      = document.getElementById('modal');
-  const backdrop   = document.getElementById('modalBackdrop');
-  const closeBtn   = document.getElementById('modalClose');
-  const badgeEl    = document.getElementById('modalBadge');
-  const nameEl     = document.getElementById('modalName');
-  const subEl      = document.getElementById('modalSub');
-  const perfilEl   = document.getElementById('modalPerfil');
-  const procesoEl  = document.getElementById('modalProceso');
-  const fermentEl  = document.getElementById('modalFerment');
-  const fincaEl    = document.getElementById('modalFinca');
-  const alturaEl   = document.getElementById('modalAltura');
-  const precioEl   = document.getElementById('modalPrecio');
-  const waBtnEl    = document.getElementById('modalWaBtn');
-  if (!modal) return;
-
-    function openModal(idx) {
-    const s = SKUS[idx];
-    if (!s) return;
-    const colMap = {origen:'Origen',temporada:'Temporada',premio:'Premio Nacional',reserva:'Reserva'};
-    badgeEl.textContent   = colMap[s.coleccion] || s.coleccion;
-    badgeEl.className     = 'modal-badge ' + s.coleccion;
-    nameEl.textContent    = s.nombre;
-    subEl.textContent     = s.sca ? '⭐ SCA ' + s.sca : '';
-    perfilEl.textContent  = s.perfil;
-    procesoEl.textContent = s.proceso;
-    const varEl  = document.getElementById('modalVarietal');
-    const altEl  = document.getElementById('modalAltura');
-    const cuerEl = document.getElementById('modalCuerpo');
-    if (varEl)  varEl.textContent  = s.varietal  || '';
-    if (altEl)  altEl.textContent  = s.altura    || '';
-    if (cuerEl) cuerEl.textContent = s.cuerpo    || '';
-    // Build price table
-    const preciosEl = document.getElementById('modalPrecios');
-    if (preciosEl && s.precios) {
-      const fmtCOP = n => '$' + n.toLocaleString('es-CO');
-      const rows = [
-        ['Drip 10g','drip_10g'],['250g','250g'],['340g','340g'],['500g','500g'],['2.5kg','2500g']
-      ];
-      preciosEl.innerHTML = '<div class="modal-precios-label">Precios y formatos</div>' +
-        rows.map(([lbl, k]) => {
-          const p = s.precios[k];
-          const waHref = s.waLinks && s.waLinks[k] ? s.waLinks[k] : s.wa || '#';
-          return `<div class="modal-precio-row"><span class="mpr-fmt">${lbl}</span><strong class="mpr-price">${fmtCOP(p)}</strong><a href="${waHref}" target="_blank" class="mpr-wa">☕ Pedir</a></div>`;
-        }).join('');
-    }
-    modal.classList.add('is-open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeModal() {
-    modal.classList.remove('is-open');
-    document.body.style.overflow = '';
-  }
-
-  // "ver más" buttons
-  document.querySelectorAll('.btn-ver-mas').forEach(btn => {
-    btn.addEventListener('click', () => openModal(parseInt(btn.dataset.sku, 10)));
-  });
-  backdrop.addEventListener('click', closeModal);
-  closeBtn.addEventListener('click', closeModal);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-})();
-
-/* ── HERO VIDEO CAROUSEL ─────────────────────────────────────*/
-(function initHeroCarousel() {
-  const videos = [
-    'assets/videos/video-01.mp4',
-    'assets/videos/video-02.mp4',
-    'assets/videos/video-03.mp4',
-    'assets/videos/video-04.mp4'
-  ];
-  const SLIDE_MS = 7000;
-  const wrap = document.getElementById('heroVideo');
-  if (!wrap || !videos.length) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { wrap.style.display = 'none'; return; }
-  if (navigator.connection && navigator.connection.saveData) { wrap.style.display = 'none'; return; }
-
-  const layers = wrap.querySelectorAll('.hero-video-layer');
-  let active = 0, idx = 0;
-  layers[0].src = videos[0];
-  if (videos.length > 1) layers[1].src = videos[1 % videos.length];
-  layers[0].play().catch(() => { wrap.style.display = 'none'; });
-  layers[1].play().catch(() => {});
-  layers.forEach(v => v.addEventListener('error', () => { v.style.display = 'none'; }));
-  setInterval(() => {
-    const next = (active + 1) % 2;
-    idx = (idx + 1) % videos.length;
-    layers[next].src = videos[(idx + 1) % videos.length];
-    layers[next].play().catch(() => {});
-    layers[active].classList.remove('is-active');
-    layers[next].classList.add('is-active');
-    active = next;
-  }, SLIDE_MS);
-  document.addEventListener('visibilitychange', () => {
-    layers.forEach(v => document.hidden ? v.pause() : v.play().catch(() => {}));
-  });
-})();
-
-/* ── WHATSAPP FLOATING PANEL ─────────────────────────────────*/
-(function initWhatsApp() {
-  const launcher = document.getElementById('waLauncher');
-  const panel    = document.getElementById('waPanel');
-  const closeBtn = document.getElementById('waClose');
-  const quickEl  = document.getElementById('waQuick');
-  const wrap     = document.getElementById('wa');
-  if (!launcher || !panel || !quickEl) return;
-
-  const msgs = [
-    { icon:'☕', label:'Quiero conocer el catálogo 2026',   text:'¡Hola CLUBCAFECOL! Acabo de explorar su catálogo 2026 y me encantaría conocer cuáles variedades tienen disponibles ahora. ¿Me pueden orientar?' },
-    { icon:'🛒', label:'Quiero hacer un pedido',             text:'¡Hola! Estoy listo para hacer un pedido de café de especialidad. ¿Me cuentan cómo es el proceso, formas de pago y tiempos de entrega?' },
-    { icon:'🎁', label:'Busco un regalo especial de café',   text:'¡Hola! Estoy buscando regalar café de especialidad y quiero algo memorable. ¿Me ayudan a elegir la variedad ideal?' },
-    { icon:'🏬', label:'Tengo una cafetería / negocio',      text:'¡Hola! Represento una cafetería y me interesa conocer sus opciones para venta al por mayor de café de especialidad.' },
-    { icon:'💬', label:'Soy nuevo, asesórenme',              text:'¡Hola! Estoy iniciando en el café de especialidad. ¿Me ayudan a saber por dónde empezar y qué variedad recomienden primero?' }
-  ];
-
-  msgs.forEach(m => {
-    const a = document.createElement('a');
-    a.className = 'wa__quick-btn';
-    a.href = `https://wa.me/${WA_NUM}?text=${encodeURIComponent(m.text)}`;
-    a.target = '_blank'; a.rel = 'noopener';
-    a.innerHTML = `<span class="wa__quick-btn-icon">${m.icon}</span><span class="wa__quick-btn-text">${m.label}</span><span class="wa__quick-btn-arrow">›</span>`;
-    quickEl.appendChild(a);
-  });
-
-  const openPanel  = () => { panel.setAttribute('aria-hidden','false'); launcher.setAttribute('aria-expanded','true'); wrap.classList.add('is-open'); };
-  const closePanel = () => { panel.setAttribute('aria-hidden','true');  launcher.setAttribute('aria-expanded','false'); wrap.classList.remove('is-open'); };
-  const toggle     = () => panel.getAttribute('aria-hidden') === 'false' ? closePanel() : openPanel();
-
-  launcher.addEventListener('click', toggle);
-  if (launcher) launcher.addEventListener('touchend', e => { e.preventDefault(); toggle(); });
-  closeBtn.addEventListener('click', closePanel);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.getAttribute('aria-hidden') === 'false') closePanel(); });
-  document.addEventListener('click', e => { if (panel.getAttribute('aria-hidden') === 'true') return; if (!wrap.contains(e.target)) closePanel(); });
-})();
-
-/* ── COFFEE BOT — cambio de mood ─────────────────────────────*/
-(function initCoffeeBot() {
-  const wa       = document.getElementById('wa');
-  const bot      = document.getElementById('waBot');
-  const launcher = document.getElementById('waLauncher');
-  if (!wa || !bot) return;
-
-  const hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  let currentMood = 'neutral';
-  const setMood = m => { if (m !== currentMood) { currentMood = m; bot.dataset.mood = m; } };
-
-  if (hasMouse) {
-    const NEAR = 100, FAR = 400;
-    window.addEventListener('mousemove', e => {
-      const r = wa.getBoundingClientRect();
-      const dist = Math.hypot(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2));
-      if (dist < NEAR) setMood('happy');
-      else if (dist > FAR) setMood('angry');
-      else setMood('neutral');
-    }, { passive: true });
-    setTimeout(() => { if (currentMood === 'neutral') setMood('angry'); }, 800);
-  } else {
-    let happyTimer;
-    setTimeout(() => setMood('angry'), 1200);
-    const triggerHappy = () => {
-      setMood('happy');
-      clearTimeout(happyTimer);
-      happyTimer = setTimeout(() => setMood('angry'), 3500);
-    };
-    document.addEventListener('touchstart', triggerHappy, { passive: true });
-    window.addEventListener('scroll', triggerHappy, { passive: true });
-    setInterval(() => {
-      if (currentMood === 'angry') {
-        setMood('neutral');
-        setTimeout(() => { if (currentMood === 'neutral') setMood('angry'); }, 700);
-      }
-    }, 6000);
-    bot.addEventListener('click', e => {
-      e.stopPropagation();
-      setMood('happy');
-      clearTimeout(happyTimer);
-      if (launcher) launcher.click();
+      window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 74, behavior: 'smooth'});
+      if (history.replaceState) history.replaceState(null, '', id);
     });
-  }
-})();
-
-/* ── i18n — detección automática ES / EN ─────────────────────*/
-(function initI18n() {
-  const translations = {
-    en: {
-      'nav.brand':'CLUBCAFECOL','nav.colecciones':'Collections','nav.catalogo':'Catalog',
-      'nav.club':'Club','nav.pdf':'PDF','nav.cta':'Order now ☕','nav.mobileCta':'☕ Order on WhatsApp',
-      'hero.pre':'Colombia · Roasted to order',
-      'hero.title':'Your favorite coffee.<br><em>Delivered to your door.</em>',
-      'hero.sub':'21 specialty varieties from southern Colombia.<br>From $30,900 · Free shipping from $85,000',
-      'hero.cta1':'☕ Order on WhatsApp','hero.cta2':'View catalog',
-      'hero.stat1n':'21','hero.stat1l':'varieties','hero.stat2n':'1650+','hero.stat2l':'MASL',
-      'hero.stat3n':'SCA','hero.stat3l':'Certified','hero.stat4n':'24h','hero.stat4l':'dispatch',
-      'ig.badge':'LIVE','ig.pre':'Follow us ·','ig.title':'Discover our origin','ig.tag':'@clubcafecol · live',
-      'ben.kicker':'Why choose us','ben.title':'A <em>premium</em> experience from start to finish',
-      'ben.t1':'Selected origin','ben.d1':'Beans grown above 1,500 MASL on the finest farms in Colombia;',
-      'ben.t2':'Roasted to order','ben.d2':'Roasted in small batches the same day as your order.',
-      'ben.t3':'Free grinding','ben.d3':'Choose your ideal grind — espresso, filter, press — at no extra charge.',
-      'ben.t4':'Fast delivery','ben.d4':'Vacuum-sealed right after roasting. Bogotá 24-48h, rest of country 2-5 days.',
-      'cat.kicker':'The collections','cat.title':'Four worlds<br><em>of flavor</em>',
-      'tab.all':'All','tab.origen':'Origin','tab.temporada':'Season','tab.premio':'National Award','tab.reserva':'Reserve',
-      'cat.helpText':"Don't know which to choose? We advise you for free.",'cat.helpCta':'Talk to us →',
-      'club.kicker':'Monthly subscription','club.title':'Season Club','club.sub':'Receive a different coffee each month. Curated for your level.',
-      'dl.kicker':'Full catalog','dl.title':'Take the catalog<br><em>in your pocket</em>',
-      'dl.text':'21 varieties in high resolution. Sensory profiles, origins, and the story behind each cup. Ready to share.',
-      'dl.btn':'⬇ Download PDF 2026','dl.wa':'Order on WhatsApp',
-      'ft.tag':'Your coffee community<br>Bogotá · Colombia','ft.catalogo':'Catalog',
-      'ft.origen':'Origin Collection','ft.temporada':'Season Collection','ft.premio':'National Award','ft.reserva':'Limited Reserve',
-      'ft.club':'Club','ft.contacto':'Contact',
-      'ft.rights':'© 2026 CLUBCAFECOL · NIT 901731658 · All rights reserved',
-      'ft.sig':'Free shipping from $85,000 · Free grinding',
-      'wa.status':'We usually reply within minutes',
-      'wa.greeting':'Hi! ☕ Thanks for stopping by. Tell us what you need and we\'ll advise you in minutes.',
-      'wa.label':'Order here!','bot.bubble':'Take me! ❤️'
-    }
-  };
-
-  const lang = (navigator.language || 'es').toLowerCase().startsWith('en') ? 'en' : 'es';
-  document.documentElement.lang = lang;
-  if (lang === 'es') return;
-
-  const dict = translations.en;
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.dataset.i18n;
-    if (dict[key] !== undefined) el.innerHTML = dict[key];
   });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   3 · HERO VIDEO — autoplay robusto en desktop Y móvil
+   ═══════════════════════════════════════════════════════════════════ */
+function initHeroVideo() {
+  var wrap = $('#heroVideo');
+  if (!wrap) return;
+  var srcs = ['assets/videos/video-01.mp4','assets/videos/video-02.mp4',
+              'assets/videos/video-03.mp4','assets/videos/video-04.mp4'];
+  var layers = $$('.hero__vid', wrap);
+  if (!layers.length) return;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    wrap.classList.add('is-static'); return;
+  }
+
+  var ok = 0, fail = 0, active = 0, idx = 0, timer = null;
+
+  /* iOS y Android exigen estas tres propiedades por JS, no solo por atributo */
+  function prime(v) {
+    v.muted = true;            // imprescindible: sin esto iOS bloquea el autoplay
+    v.defaultMuted = true;
+    v.playsInline = true;
+    v.setAttribute('muted', '');
+    v.setAttribute('playsinline', '');
+    v.setAttribute('webkit-playsinline', '');
+    v.loop = true;
+  }
+
+  function attempt(v) {
+    prime(v);
+    var p = v.play();
+    if (p && p.catch) p.catch(function () { pending = true; });
+  }
+
+  var pending = false;
+  layers.forEach(function (v, i) {
+    prime(v);
+    v.addEventListener('loadeddata', function () { ok++; wrap.classList.add('is-live'); }, {once:true});
+    v.addEventListener('error', function () {
+      fail++;
+      if (fail >= layers.length) { wrap.classList.add('is-static'); clearInterval(timer); }
+    });
+    v.src = srcs[i % srcs.length];
+    v.load();
+    attempt(v);
+  });
+
+  /* Si el navegador bloqueó el autoplay, arrancamos al primer gesto del usuario */
+  ['touchstart','click','scroll','keydown'].forEach(function (ev) {
+    window.addEventListener(ev, function once() {
+      layers.forEach(function (v) { if (v.paused) attempt(v); });
+      ['touchstart','click','scroll','keydown'].forEach(function (e2) {
+        window.removeEventListener(e2, once);
+      });
+    }, {passive:true, once:false});
+  });
+
+  /* Rotación con cross-fade */
+  timer = setInterval(function () {
+    if (document.hidden || fail >= layers.length) return;
+    var next = (active + 1) % layers.length;
+    idx = (idx + 1) % srcs.length;
+    var v = layers[next];
+    v.src = srcs[idx];
+    v.load(); attempt(v);
+    layers[active].classList.remove('is-active');
+    v.classList.add('is-active');
+    active = next;
+  }, 8000);
+
+  document.addEventListener('visibilitychange', function () {
+    layers.forEach(function (v) { document.hidden ? v.pause() : attempt(v); });
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   4 · CATÁLOGO: filtros, orden, selector de formato
+   ═══════════════════════════════════════════════════════════════════ */
+function initCatalogo() {
+  var grid = $('#grid'); if (!grid) return;
+  var cards = $$('.card', grid);
+  var orden = cards.slice();
+
+  /* -- selector de formato dentro de cada tarjeta -- */
+  $$('.fmt', grid).forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var card = btn.closest('.card');
+      $$('.fmt', card).forEach(function (b) { b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      var precio = +btn.dataset.precio;
+      var tazas  = fmtTazas(btn.dataset.fmt);
+      $('[data-price-out]', card).textContent = cop(precio);
+      $('[data-unit-out]',  card).textContent = btn.dataset.label;
+      $('[data-taza-out]',  card).textContent = '≈ ' + cop(precio / tazas) + ' / taza';
+    });
+  });
+
+  /* -- pestañas de colección -- */
+  $$('.tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      $$('.tab').forEach(function (t2) { t2.classList.remove('is-active'); });
+      tab.classList.add('is-active');
+      var col = tab.dataset.col;
+      cards.forEach(function (c) {
+        c.classList.toggle('is-hidden', !(col === 'all' || c.dataset.col === col));
+      });
+      track('filter_catalog', {collection: col});
+    });
+  });
+
+  /* -- ordenamiento -- */
+  var sel = $('#sortSel');
+  if (sel) sel.addEventListener('change', function () {
+    var v = sel.value, arr = orden.slice();
+    if (v === 'valor')       arr.sort(function (a,b) { return b.dataset.valor - a.dataset.valor; });
+    else if (v === 'sca')    arr.sort(function (a,b) { return b.dataset.sca - a.dataset.sca || a.dataset.precio - b.dataset.precio; });
+    else if (v === 'precio-asc')  arr.sort(function (a,b) { return a.dataset.precio - b.dataset.precio; });
+    else if (v === 'precio-desc') arr.sort(function (a,b) { return b.dataset.precio - a.dataset.precio; });
+    else arr.sort(function (a,b) {
+      /* Recomendados: premiados primero, luego mejor valor */
+      var pa = +a.dataset.premio, pb = +b.dataset.premio;
+      if (pa !== pb) return pb - pa;
+      return b.dataset.valor - a.dataset.valor;
+    });
+    arr.forEach(function (c) { grid.appendChild(c); });
+    track('sort_catalog', {sort: v});
+  });
+
+  /* -- añadir al carrito desde la tarjeta -- */
+  $$('[data-add]', grid).forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var card = btn.closest('.card');
+      var s = SKUS[+btn.dataset.add];
+      var act = $('.fmt.is-active', card) || $('.fmt', card);
+      addToCart(s.id, act.dataset.fmt, 1);
+      btn.classList.add('is-done');
+      setTimeout(function () { btn.classList.remove('is-done'); }, 900);
+    });
+  });
+
+  /* -- abrir modal -- */
+  $$('[data-open]', grid).forEach(function (btn) {
+    btn.addEventListener('click', function () { openModal(+btn.dataset.open); });
+  });
+  $$('[data-open-sku]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var i = SKUS.findIndex(function (s) { return s.id === a.dataset.openSku; });
+      if (i >= 0) openModal(i);
+    });
+  });
+
+  /* -- WhatsApp directo: registrar evento -- */
+  $$('[data-wa-direct]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      track('contact', {method:'whatsapp_directo', item_name:a.dataset.waDirect});
+    });
+  });
+
+  /* -- deep link #SKU -- */
+  if (location.hash && location.hash.length > 1) {
+    var i = SKUS.findIndex(function (s) { return '#' + s.id === location.hash; });
+    if (i >= 0) setTimeout(function () { openModal(i); }, 400);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   5 · MODAL DE PRODUCTO
+   ═══════════════════════════════════════════════════════════════════ */
+var mdlIdx = 0, mdlFmt = '250g';
+
+function openModal(i) {
+  var s = SKUS[i]; if (!s) return;
+  mdlIdx = i; mdlFmt = '250g';
+
+  $('#mdlImg').src = s.img + '.jpg';
+  $('#mdlImg').alt = 'Etiqueta del café ' + s.nombre;
+  $('#mdlName').textContent = s.nombre;
+  $('#mdlVar').textContent  = s.varietal + ' · ' + s.proceso + ' · ' + s.msnm + ' msnm';
+
+  var COLS = {origen:'Origen', temporada:'Temporada', premio:'Premio Nacional', reserva:'Reserva'};
+  var b = ['<span class="bdg bdg--col bdg--' + s.col + '">' + COLS[s.col] + '</span>'];
+  if (s.sca)     b.push('<span class="bdg bdg--sca">SCA ' + s.sca + '</span>');
+  if (s.premio)  b.push('<span class="bdg bdg--premio">🏆 ' + s.premio + '</span>');
+  if (s.exotico) b.push('<span class="bdg bdg--exotico">✦ Varietal raro</span>');
+  if (s.deca)    b.push('<span class="bdg bdg--deca">Bajo en cafeína</span>');
+  $('#mdlBadges').innerHTML = b.join('');
+
+  $('#mdlNotas').innerHTML = s.notas.map(function (n) { return '<span>' + n + '</span>'; }).join('');
+
+  $('#mdlSpecs').innerHTML =
+    '<div><dt>Varietal</dt><dd>' + s.varietal + '</dd></div>' +
+    '<div><dt>Proceso</dt><dd>' + s.proceso + '</dd></div>' +
+    '<div><dt>Origen</dt><dd>' + s.origen + '</dd></div>' +
+    '<div><dt>Altura</dt><dd>' + s.msnm + ' msnm</dd></div>' +
+    '<div><dt>Cuerpo</dt><dd>' + s.cuerpo + '</dd></div>' +
+    (s.sca ? '<div><dt>Puntaje SCA</dt><dd>' + s.sca + ' / 100</dd></div>' : '');
+
+  $('#mdlPrices').innerHTML = FORMATOS.map(function (f) {
+    var p = s.precios[f.k];
+    return '<button type="button" class="mprice' + (f.k === '250g' ? ' is-active' : '') + '" data-fmt="' + f.k + '">' +
+           '<span class="mprice__g">' + f.l + '</span>' +
+           '<span class="mprice__p">' + cop(p) + '</span>' +
+           '<span class="mprice__t">' + cop(p / f.tazas) + ' / taza</span></button>';
+  }).join('');
+
+  $$('.mprice', $('#mdlPrices')).forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      $$('.mprice').forEach(function (x) { x.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      mdlFmt = btn.dataset.fmt;
+      syncMdlWa(s);
+    });
+  });
+
+  syncMdlWa(s);
+  $('#mdl').classList.add('is-open');
+  $('#mdl').setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  track('view_item', {item_id: s.id, item_name: s.nombre, value: s.precios['250g'], currency: 'COP'});
+}
+
+function syncMdlWa(s) {
+  var txt = 'Hola CLUBCAFECOL, quiero pedir ' + s.nombre + ' en ' + fmtLabel(mdlFmt) +
+            ' (' + cop(s.precios[mdlFmt]) + '). Mi ciudad es ____ y prefiero molienda para ____. ' +
+            '¿Me confirman disponibilidad y total con envío?';
+  $('#mdlWa').href = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(txt);
+}
+
+function closeModal() {
+  $('#mdl').classList.remove('is-open');
+  $('#mdl').setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+function initModal() {
+  $('#mdlClose').addEventListener('click', closeModal);
+  $('#mdlScrim').addEventListener('click', closeModal);
+  $('#mdlAdd').addEventListener('click', function () {
+    addToCart(SKUS[mdlIdx].id, mdlFmt, 1);
+    closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && $('#mdl').classList.contains('is-open')) closeModal();
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   6 · CARRITO
+   ═══════════════════════════════════════════════════════════════════ */
+var cart = [];
+
+function loadCart() {
+  try { cart = JSON.parse(localStorage.getItem(LS_CART)) || []; } catch (e) { cart = []; }
+  if (!Array.isArray(cart)) cart = [];
+}
+function saveCart() {
+  try { localStorage.setItem(LS_CART, JSON.stringify(cart)); } catch (e) {}
+}
+
+function addToCart(skuId, fmt, qty) {
+  var s = skuById(skuId); if (!s) return;
+  var found = null;
+  for (var i = 0; i < cart.length; i++) {
+    if (cart[i].sku === skuId && cart[i].fmt === fmt && !cart[i].bundle) { found = cart[i]; break; }
+  }
+  if (found) found.qty += qty;
+  else cart.push({sku: skuId, fmt: fmt, qty: qty, mol: fmt === 'drip_10g' ? 'listo' : 'grano'});
+  saveCart(); renderCart(); openCart();
+  toast(s.nombre + ' · ' + fmtLabel(fmt) + ' → ' + t('cart.title', 'tu pedido'));
+  track('add_to_cart', {item_id: skuId, item_name: s.nombre, item_variant: fmtLabel(fmt),
+                        value: s.precios[fmt], currency: 'COP', quantity: qty});
+}
+
+function addBundle(id, nombre, precio) {
+  var found = null;
+  for (var i = 0; i < cart.length; i++) if (cart[i].bundle === id) { found = cart[i]; break; }
+  if (found) found.qty += 1;
+  else cart.push({bundle: id, nombre: nombre, precio: precio, qty: 1, mol: 'grano'});
+  saveCart(); renderCart(); openCart();
+  toast(nombre + ' → ' + t('cart.title', 'tu pedido'));
+  track('add_to_cart', {item_id: id, item_name: nombre, value: precio, currency: 'COP', quantity: 1});
+}
+
+function cartSubtotal() {
+  return cart.reduce(function (a, it) {
+    if (it.bundle) return a + it.precio * it.qty;
+    var s = skuById(it.sku); return a + (s ? s.precios[it.fmt] * it.qty : 0);
+  }, 0);
+}
+function cartCount() { return cart.reduce(function (a, it) { return a + it.qty; }, 0); }
+
+function renderCart() {
+  var wrap = $('#cartItems'), empty = $('#cartEmpty'), foot = $('#cartFoot');
+  if (!wrap) return;
+  var n = cartCount();
+  var badge = $('#cartCount');
+  badge.textContent = n; badge.hidden = n === 0;
+
+  if (!cart.length) {
+    wrap.innerHTML = ''; empty.hidden = false; foot.hidden = true;
+    $('#cartShip').innerHTML = ''; return;
+  }
+  empty.hidden = true; foot.hidden = false;
+
+  wrap.innerHTML = cart.map(function (it, i) {
+    if (it.bundle) {
+      return '<div class="ci">' +
+        '<div class="ci__img ci__img--kit">🎁</div>' +
+        '<div class="ci__body"><h4>' + it.nombre + '</h4>' +
+        '<p class="ci__meta">Kit · ' + cop(it.precio) + '</p>' +
+        '<div class="ci__row"><div class="qty">' +
+        '<button type="button" data-dec="' + i + '" aria-label="Quitar uno">−</button>' +
+        '<span>' + it.qty + '</span>' +
+        '<button type="button" data-inc="' + i + '" aria-label="Añadir uno">+</button></div>' +
+        '<b>' + cop(it.precio * it.qty) + '</b></div></div>' +
+        '<button type="button" class="ci__x" data-del="' + i + '" aria-label="Eliminar">×</button></div>';
+    }
+    var s = skuById(it.sku); if (!s) return '';
+    var p = s.precios[it.fmt];
+    var molSel = it.fmt === 'drip_10g'
+      ? '<span class="ci__fix">Sobre listo para usar</span>'
+      : '<select class="ci__mol" data-mol="' + i + '" aria-label="Molienda para ' + s.nombre + '">' +
+        MOLIENDAS.map(function (m) {
+          return '<option value="' + m.v + '"' + (m.v === it.mol ? ' selected' : '') + '>' + m.l + '</option>';
+        }).join('') + '</select>';
+    return '<div class="ci">' +
+      '<div class="ci__img"><img src="' + s.img + '.jpg" alt="" width="60" height="113" loading="lazy"></div>' +
+      '<div class="ci__body"><h4>' + s.nombre + '</h4>' +
+      '<p class="ci__meta">' + fmtLabel(it.fmt) + ' · ' + cop(p) + (s.sca ? ' · SCA ' + s.sca : '') + '</p>' +
+      molSel +
+      '<div class="ci__row"><div class="qty">' +
+      '<button type="button" data-dec="' + i + '" aria-label="Quitar uno">−</button>' +
+      '<span>' + it.qty + '</span>' +
+      '<button type="button" data-inc="' + i + '" aria-label="Añadir uno">+</button></div>' +
+      '<b>' + cop(p * it.qty) + '</b></div></div>' +
+      '<button type="button" class="ci__x" data-del="' + i + '" aria-label="Eliminar">×</button></div>';
+  }).join('');
+
+  /* handlers */
+  $$('[data-inc]', wrap).forEach(function (b) { b.onclick = function () { cart[+b.dataset.inc].qty++; saveCart(); renderCart(); }; });
+  $$('[data-dec]', wrap).forEach(function (b) { b.onclick = function () {
+    var i = +b.dataset.dec; cart[i].qty--; if (cart[i].qty <= 0) cart.splice(i, 1); saveCart(); renderCart(); }; });
+  $$('[data-del]', wrap).forEach(function (b) { b.onclick = function () {
+    cart.splice(+b.dataset.del, 1); saveCart(); renderCart(); }; });
+  $$('[data-mol]', wrap).forEach(function (s2) { s2.onchange = function () {
+    cart[+s2.dataset.mol].mol = s2.value; saveCart(); }; });
+
+  /* totales y barra de envío gratis */
+  var sub = cartSubtotal();
+  var falta = Math.max(0, FREE - sub);
+  var pct = Math.min(100, Math.round(sub / FREE * 100));
+  $('#cartShip').innerHTML = falta > 0
+    ? '<div class="ship"><p>Te faltan <b>' + cop(falta) + '</b> para el envío gratis</p>' +
+      '<div class="ship__bar"><i style="width:' + pct + '%"></i></div></div>'
+    : '<div class="ship is-free"><p>✓ ¡Tienes envío gratis!</p><div class="ship__bar"><i style="width:100%"></i></div></div>';
+
+  $('#cartSub').textContent   = cop(sub);
+  $('#cartShipTxt').textContent = falta > 0 ? 'Se cotiza' : 'Gratis';
+  $('#cartTotal').textContent = cop(sub);
+}
+
+function openCart() {
+  $('#cart').classList.add('is-open');
+  $('#cart').setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  $('#cart').classList.remove('is-open');
+  $('#cart').setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+/* ── CHECKOUT: un solo mensaje de WhatsApp con todo el pedido ──────── */
+function checkout() {
+  if (!cart.length) return;
+  var sub    = cartSubtotal();
+  var ciudad = ($('#cartCity').value || '').trim();
+  var nota   = ($('#cartNote').value || '').trim();
+  var falta  = Math.max(0, FREE - sub);
+
+  var L = [];
+  L.push('*NUEVO PEDIDO · CLUBCAFECOL*');
+  L.push('');
+  cart.forEach(function (it, i) {
+    if (it.bundle) {
+      L.push((i + 1) + '. *' + it.nombre + '* (kit)');
+      L.push('   Cantidad: ' + it.qty + '  ·  ' + cop(it.precio * it.qty));
+    } else {
+      var s = skuById(it.sku); if (!s) return;
+      L.push((i + 1) + '. *' + s.nombre + '* — ' + fmtLabel(it.fmt));
+      L.push('   ' + s.varietal + ' · ' + s.proceso + (s.sca ? ' · SCA ' + s.sca : ''));
+      L.push('   Molienda: ' + (it.fmt === 'drip_10g' ? 'sobre listo' : molLabel(it.mol)));
+      L.push('   Cantidad: ' + it.qty + '  ·  ' + cop(s.precios[it.fmt] * it.qty));
+    }
+    L.push('');
+  });
+  L.push('────────────────');
+  L.push('*Subtotal: ' + cop(sub) + '*');
+  L.push(falta > 0
+    ? 'Envío: por cotizar (faltan ' + cop(falta) + ' para envío gratis)'
+    : 'Envío: *GRATIS* ✅');
+  L.push('');
+  if (ciudad) L.push('📍 Ciudad de entrega: ' + ciudad);
+  if (nota)   L.push('📝 Nota: ' + nota);
+  L.push('');
+  L.push('Quedo atento(a) a la confirmación de disponibilidad, el total final con envío y el medio de pago. ¡Gracias!');
+
+  var url = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(L.join('\n'));
+  track('begin_checkout', {value: sub, currency: 'COP', num_items: cartCount(),
+                           items: cart.map(function (it) { return it.bundle || (it.sku + '|' + it.fmt); }).join(',')});
+  window.open(url, '_blank', 'noopener');
+}
+
+function initCart() {
+  loadCart(); renderCart();
+  $('#cartBtn').addEventListener('click', function () { openCart(); track('view_cart', {value: cartSubtotal()}); });
+  $('#cartClose').addEventListener('click', closeCart);
+  $('#cartScrim').addEventListener('click', closeCart);
+  $('#cartGo').addEventListener('click', function () {
+    closeCart();
+    var el = $('#catalogo');
+    window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 74, behavior: 'smooth'});
+  });
+  $('#cartCheckout').addEventListener('click', checkout);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && $('#cart').classList.contains('is-open')) closeCart();
+  });
+  $$('[data-add-bundle]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      addBundle(b.dataset.addBundle, b.dataset.nombre, +b.dataset.precio);
+    });
+  });
+  $$('[data-sub]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      track('subscribe', {item_name: 'Club ' + a.dataset.sub, value: +a.dataset.valor, currency: 'COP'});
+    });
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   7 · QUIZ — motor de recomendación
+   ═══════════════════════════════════════════════════════════════════ */
+function initQuiz() {
+  var qz = $('#qz'); if (!qz) return;
+  var ans = {}, total = $$('.qz__step', qz).length - 1;
+
+  function show(step) {
+    $$('.qz__step', qz).forEach(function (s) { s.classList.remove('is-active'); });
+    var el = qz.querySelector('[data-step="' + step + '"]');
+    if (el) el.classList.add('is-active');
+    var pct = step === 99 ? 100 : Math.round(step / total * 100);
+    $('#qzBar').style.width = pct + '%';
+  }
+
+  $$('.qz__op', qz).forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      ans[btn.dataset.q] = btn.dataset.v;
+      var cur = +btn.closest('.qz__step').dataset.step;
+      if (cur + 1 < total) show(cur + 1);
+      else { recomendar(ans); show(99); }
+    });
+  });
+
+  $('#qzReset').addEventListener('click', function () { ans = {}; show(0); });
+
+  function recomendar(a) {
+    var DULCE   = ['chocolate','panela','nuez','caramelo','miel','galleta','manjar','caña','dulce','coco','vainilla'];
+    var FRUTAL  = ['frut','vino','sandía','mora','maracuyá','gulupa','uchuva','uva','lichi','durazno','melón','frambuesa','tamarindo','arándan','cítrico'];
+    var FLORAL  = ['floral','jazmín','té','limoncillo','toronja','romero','albahaca'];
+
+    var scored = SKUS.map(function (s) {
+      var n = s.notas.join(' ').toLowerCase();
+      var hit = function (arr) { return arr.reduce(function (c, w) { return c + (n.indexOf(w) >= 0 ? 1 : 0); }, 0); };
+      var sc = 0;
+
+      if (a.perfil === 'dulce')   sc += hit(DULCE) * 3;
+      if (a.perfil === 'frutal')  sc += hit(FRUTAL) * 3;
+      if (a.perfil === 'floral')  sc += hit(FLORAL) * 3;
+      if (a.perfil === 'intenso') sc += (s.premio ? 6 : 0) + (/espirituoso|cofermentado|400/i.test(s.proceso) ? 4 : 0);
+
+      if (a.metodo === 'espresso') sc += /Alto|Medio-alto|Cremoso/.test(s.cuerpo) ? 4 : 0;
+      if (a.metodo === 'filtro')   sc += /Ligero/.test(s.cuerpo) ? 4 : 0;
+      if (a.metodo === 'prensa')   sc += /Medio|Alto|Cremoso/.test(s.cuerpo) ? 3 : 0;
+      if (a.metodo === 'goteo')    sc += hit(DULCE) * 2 + (/Lavado|Natural$/.test(s.proceso) ? 2 : 0);
+
+      if (a.nivel === 'nuevo')   sc += (s.col === 'origen' ? 6 : s.col === 'temporada' ? 3 : -2);
+      if (a.nivel === 'medio')   sc += (s.col === 'temporada' ? 5 : s.col === 'premio' ? 3 : 1);
+      if (a.nivel === 'experto') sc += (s.col === 'premio' ? 5 : s.col === 'reserva' ? 5 : 0) + (s.exotico ? 3 : 0);
+
+      var p = s.precios['250g'];
+      if (a.presupuesto === 'bajo')  sc += p <= 50000 ? 8 : (p <= 60000 ? 1 : -12);
+      if (a.presupuesto === 'medio') sc += (p > 40000 && p <= 95000) ? 7 : -5;
+      if (a.presupuesto === 'alto')  sc += (s.sca || 82) - 82 + (s.premio ? 5 : 0);
+
+      sc += (s.sca || 82) * 0.15 + s.valor * 0.12;
+      return {s: s, sc: sc};
+    }).sort(function (x, y) { return y.sc - x.sc; });
+
+    var top = scored.slice(0, 2);
+    var razones = {
+      dulce:'perfiles dulces de chocolate y panela', frutal:'perfiles frutales y vinosos',
+      floral:'perfiles florales y delicados', intenso:'perfiles intensos y complejos'
+    };
+    var mets = {espresso:'espresso', filtro:'V60 o filtro', prensa:'prensa francesa', goteo:'cafetera de goteo'};
+
+    $('#qzOut').innerHTML =
+      '<p class="qz__why">Buscas <b>' + (razones[a.perfil] || 'un buen café') + '</b> para preparar en <b>' +
+      (mets[a.metodo] || 'tu método habitual') + '</b>. Estos dos son los que mejor encajan:</p>' +
+      '<div class="qz__cards">' + top.map(function (r, i) {
+        var s = r.s;
+        return '<div class="qzc' + (i === 0 ? ' is-top' : '') + '">' +
+          (i === 0 ? '<span class="qzc__tag">Tu mejor opción</span>' : '<span class="qzc__tag qzc__tag--alt">Alternativa</span>') +
+          '<img src="' + s.img + '.jpg" alt="' + s.nombre + '" width="120" height="226" loading="lazy">' +
+          '<h4>' + s.nombre + '</h4>' +
+          '<p class="qzc__var">' + s.varietal + ' · ' + s.proceso + (s.sca ? ' · SCA ' + s.sca : '') + '</p>' +
+          '<p class="qzc__notas">' + s.notas.join(' · ') + '</p>' +
+          '<p class="qzc__price">' + cop(s.precios['250g']) + ' <span>/ 250 g · ' + cop(s.taza) + ' por taza</span></p>' +
+          '<button type="button" class="btn btn--gold btn--block" data-qz-add="' + s.id + '">Agregar al carrito</button>' +
+          '</div>';
+      }).join('') + '</div>';
+
+    $$('[data-qz-add]').forEach(function (b) {
+      b.addEventListener('click', function () { addToCart(b.dataset.qzAdd, '250g', 1); });
+    });
+
+    track('quiz_complete', {metodo: a.metodo, perfil: a.perfil, nivel: a.nivel,
+                            presupuesto: a.presupuesto, recomendado: top[0].s.id});
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   8 · CAPTURA DE CORREO (PDF)
+   ═══════════════════════════════════════════════════════════════════ */
+function initEmail() {
+  var form = $('#dlForm'); if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = $('#dlEmail').value.trim();
+    var ok    = $('#dlOk').checked;
+    var msg   = $('#dlMsg');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      msg.textContent = 'Revisa el correo: no parece válido.'; msg.className = 'dl__msg is-err'; return;
+    }
+    if (!ok) {
+      msg.textContent = 'Necesitamos tu autorización para enviarte el catálogo.'; msg.className = 'dl__msg is-err'; return;
+    }
+    track('generate_lead', {method: 'catalogo_pdf', email_domain: email.split('@')[1]});
+    msg.innerHTML = '✓ Listo. Abrimos WhatsApp para enviarte el catálogo y tu cupón de bienvenida.';
+    msg.className = 'dl__msg is-ok';
+
+    /* Sin backend: el lead se entrega por WhatsApp y el PDF se descarga al instante.
+       Cuando conectes un ESP (Klaviyo/Mailchimp), sustituye este bloque por el POST a su API. */
+    var txt = 'Hola CLUBCAFECOL, quiero recibir el catálogo 2026 en PDF y el cupón de bienvenida. ' +
+              'Mi correo es: ' + email;
+    setTimeout(function () {
+      window.open('https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
+      var a = document.createElement('a');
+      a.href = 'assets/pdf/Catalogo_CLUBCAFECOL_2026_B2C.pdf';
+      a.download = ''; document.body.appendChild(a); a.click(); a.remove();
+    }, 600);
+    form.reset();
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   9 · WHATSAPP FLOTANTE
+   ═══════════════════════════════════════════════════════════════════ */
+function initWA() {
+  var wrap = $('#wa'), launcher = $('#waLauncher'), panel = $('#waPanel'), quick = $('#waQuick');
+  if (!wrap) return;
+
+  var msgs = [
+    {i:'🎯', l:'No sé cuál elegir, asesórenme',
+     t:'Hola CLUBCAFECOL, no sé cuál café elegir. Preparo el café en ____ y me gustan los sabores ____. ¿Qué me recomiendan?'},
+    {i:'🛒', l:'Quiero hacer un pedido ya',
+     t:'Hola CLUBCAFECOL, quiero hacer un pedido. Me interesa ____ en presentación de ____. Mi ciudad es ____. ¿Me confirman total con envío?'},
+    {i:'🏆', l:'Quiero los cafés premiados',
+     t:'Hola CLUBCAFECOL, me interesan los cafés de la colección Premio Nacional (Corona, Pasión 400, Postre de Galleta). ¿Cuáles tienen disponibles y a qué precio?'},
+    {i:'🎁', l:'Es un regalo, ayúdenme a elegir',
+     t:'Hola CLUBCAFECOL, quiero regalar café de especialidad y busco algo memorable. Mi presupuesto es aprox. ____. ¿Qué me sugieren?'},
+    {i:'🏬', l:'Tengo una cafetería o empresa',
+     t:'Hola CLUBCAFECOL, represento una cafetería/empresa y quiero cotizar al por mayor. Consumimos aprox. ____ kg al mes. ¿Me pasan lista de precios B2B?'},
+    {i:'📦', l:'Consultar envío a mi ciudad',
+     t:'Hola CLUBCAFECOL, quiero saber costo y tiempo de envío a ____. ¿Hacen envío a esa ciudad?'}
+  ];
+
+  quick.innerHTML = msgs.map(function (m) {
+    return '<a class="wa__q" href="https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(m.t) +
+           '" target="_blank" rel="noopener" data-q="' + m.l + '">' +
+           '<span class="wa__q-i">' + m.i + '</span><span>' + m.l + '</span><span class="wa__q-a">›</span></a>';
+  }).join('');
+
+  $$('.wa__q', quick).forEach(function (a) {
+    a.addEventListener('click', function () { track('contact', {method: 'whatsapp_bot', intent: a.dataset.q}); });
+  });
+
+  function open()  { panel.setAttribute('aria-hidden','false'); wrap.classList.add('is-open'); launcher.setAttribute('aria-expanded','true'); }
+  function close() { panel.setAttribute('aria-hidden','true');  wrap.classList.remove('is-open'); launcher.setAttribute('aria-expanded','false'); }
+
+  launcher.addEventListener('click', function (e) {
+    e.stopPropagation();
+    panel.getAttribute('aria-hidden') === 'false' ? close() : open();
+  });
+  $('#waClose').addEventListener('click', close);
+  document.addEventListener('click', function (e) { if (!wrap.contains(e.target)) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+  setTimeout(function () { wrap.classList.add('is-hint'); }, 6000);
+  setTimeout(function () { wrap.classList.remove('is-hint'); }, 14000);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   10 · REVELADO AL HACER SCROLL
+   ═══════════════════════════════════════════════════════════════════ */
+function initReveal() {
+  if (!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+  }, {threshold: 0.08, rootMargin: '0px 0px -40px 0px'});
+  $$('.card, .pilar, .club__card, .bdl, .tst, .trofeo').forEach(function (el) {
+    el.classList.add('rv'); io.observe(el);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ARRANQUE
+   ═══════════════════════════════════════════════════════════════════ */
+function boot() {
+  initLang();
+  initNav();
+  initCatalogo();
+  initModal();
+  initCart();
+  initQuiz();
+  initEmail();
+  initWA();
+  initReveal();
+  requestAnimationFrame(initHeroVideo);
+  track('page_view', {page_title: document.title});
+}
+
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+else boot();
+
 })();

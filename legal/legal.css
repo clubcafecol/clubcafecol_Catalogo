@@ -1,0 +1,33 @@
+:root{--navy:#07101F;--gold:#C9A961;--gold-dk:#9C7F3E;--cream:#FBF8F2;--ink:#16181C;--muted:#6C7480;--line:rgba(10,20,35,.12)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:16px;line-height:1.72;-webkit-font-smoothing:antialiased}
+a{color:var(--gold-dk)}
+.lg-nav{background:var(--navy);padding:16px 24px}
+.lg-nav a{color:var(--gold);font-size:.86rem;font-weight:600;text-decoration:none;letter-spacing:.03em}
+.lg-nav a:hover{color:#E4CB92}
+.lg{max-width:820px;margin:0 auto;padding:56px 24px 72px}
+.lg h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.9rem,4.6vw,2.7rem);
+  line-height:1.16;margin:0 0 10px;letter-spacing:-.015em}
+.lg h2{font-family:'Playfair Display',Georgia,serif;font-size:1.32rem;margin:40px 0 12px;
+  padding-top:22px;border-top:1px solid var(--line)}
+.lg-meta{color:var(--muted);font-size:.83rem;margin:0 0 36px;padding-bottom:22px;border-bottom:2px solid var(--gold)}
+.lg p{margin:0 0 15px}
+.lg ul,.lg ol{margin:0 0 18px;padding-inline-start:22px}
+.lg li{margin-bottom:8px}
+.lg b{font-weight:600}
+.lg code{background:rgba(10,20,35,.06);padding:2px 6px;border-radius:5px;font-size:.9em}
+.lg-tab{width:100%;border-collapse:collapse;margin:0 0 20px;font-size:.9rem;
+  border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.lg-tab th{background:var(--navy);color:var(--gold);text-align:left;padding:11px 14px;
+  font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600}
+.lg-tab td{padding:11px 14px;border-bottom:1px solid var(--line)}
+.lg-tab tr:last-child td{border-bottom:0}
+.lg-nota{margin-top:44px;padding:18px 20px;background:rgba(201,169,97,.11);
+  border-inline-start:3px solid var(--gold);border-radius:0 10px 10px 0;
+  font-size:.85rem;color:var(--muted)}
+.lg-ft{background:var(--navy);color:rgba(245,239,227,.6);text-align:center;
+  padding:26px 24px;font-size:.79rem}
+.lg-ft a{color:var(--gold)}
+@media (max-width:640px){.lg{padding:36px 18px 56px}.lg-tab{font-size:.83rem}}
