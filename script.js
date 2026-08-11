@@ -37,6 +37,16 @@ var $  = function (s, c) { return (c || document).querySelector(s); };
 var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
 function cop(n) { return '$' + Math.round(n).toLocaleString('es-CO'); }
+
+/* ── moneda ────────────────────────────────────────────────────────── */
+var USD_COP = window.CCC_USD_COP || 3125;
+function usd(n) {
+  var v = n / USD_COP;
+  return 'US$ ' + (v < 20 ? v.toFixed(2) : Math.round(v).toLocaleString('en-US'));
+}
+/* Se cobra siempre en COP; en otros idiomas se añade la equivalencia. */
+function precio(n) { return curLang === 'es' ? cop(n) : cop(n) + ' COP'; }
+function precioUsd(n) { return curLang === 'es' ? '' : '≈ ' + usd(n); }
 function fmtLabel(k) { for (var i=0;i<FORMATOS.length;i++) if (FORMATOS[i].k===k) return FORMATOS[i].l; return k; }
 function fmtTazas(k) { for (var i=0;i<FORMATOS.length;i++) if (FORMATOS[i].k===k) return FORMATOS[i].tazas; return 1; }
 function molLabel(v) { for (var i=0;i<MOLIENDAS.length;i++) if (MOLIENDAS[i].v===v) return MOLIENDAS[i].l; return v; }
@@ -101,8 +111,33 @@ function applyLang(code) {
   $$('.lang__op').forEach(function (b) { b.classList.toggle('is-on', b.dataset.lang === code); });
   curLang = code;
   try { localStorage.setItem(LS_LANG, code); } catch (e) {}
+  applyCurrency();
+  renderWaQuick();
   renderCart();   // el carrito se re-renderiza con los textos nuevos
   track('change_language', {language: code});
+}
+
+/* En español se muestra COP a secas; en otros idiomas se añade la
+   equivalencia aproximada en USD bajo cada precio. */
+function applyCurrency() {
+  var esES = curLang === 'es';
+  $$('.card').forEach(function (card) {
+    var out = $('[data-price-out]', card); if (!out) return;
+    var act = $('.fmt.is-active', card) || $('.fmt', card);
+    var p = +act.dataset.precio;
+    var extra = $('.card__usd', card);
+    if (esES) { if (extra) extra.remove(); return; }
+    if (!extra) {
+      extra = document.createElement('div');
+      extra.className = 'card__usd';
+      out.parentNode.appendChild(extra);
+    }
+    extra.textContent = '≈ ' + usd(p) + ' USD';
+  });
+  var note = $('#curNote');
+  if (note) note.textContent = esES
+    ? 'Precios en pesos colombianos (COP)'
+    : t('cat.moneda', 'Prices in Colombian pesos (COP) · USD shown as approximate reference');
 }
 
 function initLang() {
@@ -274,6 +309,7 @@ function initCatalogo() {
       $('[data-price-out]', card).textContent = cop(precio);
       $('[data-unit-out]',  card).textContent = btn.dataset.label;
       $('[data-taza-out]',  card).textContent = '≈ ' + cop(precio / tazas) + ' / taza';
+      applyCurrency();
     });
   });
 
@@ -590,8 +626,10 @@ function renderCart() {
     : '<div class="ship is-free"><p>✓ ¡Tienes envío gratis!</p><div class="ship__bar"><i style="width:100%"></i></div></div>';
 
   $('#cartSub').textContent   = cop(sub);
-  $('#cartShipTxt').textContent = falta > 0 ? 'Se cotiza' : 'Gratis';
-  $('#cartTotal').textContent = cop(sub);
+  $('#cartShipTxt').textContent = falta > 0 ? t('cart.quote', 'Se cotiza') : t('cart.free', 'Gratis');
+  $('#cartTotal').textContent = cop(sub) + (curLang === 'es' ? '' : ' COP');
+  var u = $('#cartTotalUsd');
+  if (u) u.textContent = curLang === 'es' ? '' : '≈ ' + usd(sub) + ' USD';
 }
 
 function openCart() {
@@ -610,6 +648,7 @@ function checkout() {
   if (!cart.length) return;
   var sub    = cartSubtotal();
   var ciudad = ($('#cartCity').value || '').trim();
+  var dir    = ($('#cartAddr') ? $('#cartAddr').value : '').trim();
   var nota   = ($('#cartNote').value || '').trim();
   var falta  = Math.max(0, FREE - sub);
 
@@ -630,12 +669,13 @@ function checkout() {
     L.push('');
   });
   L.push('────────────────');
-  L.push('*Subtotal: ' + cop(sub) + '*');
+  L.push('*Subtotal: ' + cop(sub) + ' COP*' + (curLang === 'es' ? '' : '  (≈ ' + usd(sub) + ' USD)'));
   L.push(falta > 0
     ? 'Envío: por cotizar (faltan ' + cop(falta) + ' para envío gratis)'
     : 'Envío: *GRATIS* ✅');
   L.push('');
-  if (ciudad) L.push('📍 Ciudad de entrega: ' + ciudad);
+  if (ciudad) L.push('📍 Ciudad: ' + ciudad);
+  if (dir)    L.push('🏠 Dirección: ' + dir);
   if (nota)   L.push('📝 Nota: ' + nota);
   L.push('');
   L.push('Quedo atento(a) a la confirmación de disponibilidad, el total final con envío y el medio de pago. ¡Gracias!');
@@ -899,34 +939,45 @@ function initExit() {
 /* ═══════════════════════════════════════════════════════════════════
    9 · WHATSAPP FLOTANTE
    ═══════════════════════════════════════════════════════════════════ */
-function initWA() {
-  var wrap = $('#wa'), launcher = $('#waLauncher'), panel = $('#waPanel'), quick = $('#waQuick');
-  if (!wrap) return;
+/* Accesos rápidos del bot, en el idioma activo. Las claves viven en
+   i18n.js bajo _wa; si un idioma no las trae, se usa el español. */
+var WA_ICONS = ['🎯', '🛒', '🏆', '🎁', '🏬', '📦'];
+var WA_ES = [
+  {l:'No sé cuál elegir, asesórenme',
+   t:'Hola CLUBCAFECOL, no sé cuál café elegir. Preparo el café en ____ y me gustan los sabores ____. ¿Qué me recomiendan?'},
+  {l:'Quiero hacer un pedido ya',
+   t:'Hola CLUBCAFECOL, quiero hacer un pedido. Me interesa ____ en presentación de ____. Mi ciudad es ____. ¿Me confirman total con envío?'},
+  {l:'Quiero los cafés premiados',
+   t:'Hola CLUBCAFECOL, me interesan los cafés de la colección Premio Nacional (Corona, Bourbon Pasión, Postre de Galleta). ¿Cuáles tienen disponibles y a qué precio?'},
+  {l:'Es un regalo, ayúdenme a elegir',
+   t:'Hola CLUBCAFECOL, quiero regalar café de especialidad y busco algo memorable. Mi presupuesto es aprox. ____. ¿Qué me sugieren?'},
+  {l:'Tengo una cafetería o empresa',
+   t:'Hola CLUBCAFECOL, represento una cafetería/empresa y quiero cotizar al por mayor. Consumimos aprox. ____ kg al mes. ¿Me pasan lista de precios B2B?'},
+  {l:'Consultar envío a mi ciudad',
+   t:'Hola CLUBCAFECOL, quiero saber costo y tiempo de envío a ____. ¿Hacen envío a esa ciudad?'}
+];
 
-  var msgs = [
-    {i:'🎯', l:'No sé cuál elegir, asesórenme',
-     t:'Hola CLUBCAFECOL, no sé cuál café elegir. Preparo el café en ____ y me gustan los sabores ____. ¿Qué me recomiendan?'},
-    {i:'🛒', l:'Quiero hacer un pedido ya',
-     t:'Hola CLUBCAFECOL, quiero hacer un pedido. Me interesa ____ en presentación de ____. Mi ciudad es ____. ¿Me confirman total con envío?'},
-    {i:'🏆', l:'Quiero los cafés premiados',
-     t:'Hola CLUBCAFECOL, me interesan los cafés de la colección Premio Nacional (Corona, Pasión 400, Postre de Galleta). ¿Cuáles tienen disponibles y a qué precio?'},
-    {i:'🎁', l:'Es un regalo, ayúdenme a elegir',
-     t:'Hola CLUBCAFECOL, quiero regalar café de especialidad y busco algo memorable. Mi presupuesto es aprox. ____. ¿Qué me sugieren?'},
-    {i:'🏬', l:'Tengo una cafetería o empresa',
-     t:'Hola CLUBCAFECOL, represento una cafetería/empresa y quiero cotizar al por mayor. Consumimos aprox. ____ kg al mes. ¿Me pasan lista de precios B2B?'},
-    {i:'📦', l:'Consultar envío a mi ciudad',
-     t:'Hola CLUBCAFECOL, quiero saber costo y tiempo de envío a ____. ¿Hacen envío a esa ciudad?'}
-  ];
-
-  quick.innerHTML = msgs.map(function (m) {
+function renderWaQuick() {
+  var quick = $('#waQuick'); if (!quick) return;
+  var d = I18N[curLang] || {};
+  var msgs = (d._wa && d._wa.length === WA_ES.length) ? d._wa : WA_ES;
+  quick.innerHTML = msgs.map(function (m, i) {
     return '<a class="wa__q" href="https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(m.t) +
-           '" target="_blank" rel="noopener" data-q="' + m.l + '">' +
-           '<span class="wa__q-i">' + m.i + '</span><span>' + m.l + '</span><span class="wa__q-a">›</span></a>';
+           '" target="_blank" rel="noopener" data-q="' + WA_ES[i].l + '">' +
+           '<span class="wa__q-i">' + WA_ICONS[i] + '</span><span>' + m.l +
+           '</span><span class="wa__q-a">›</span></a>';
   }).join('');
-
   $$('.wa__q', quick).forEach(function (a) {
-    a.addEventListener('click', function () { track('contact', {method: 'whatsapp_bot', intent: a.dataset.q}); });
+    a.addEventListener('click', function () {
+      track('contact', {method: 'whatsapp_bot', intent: a.dataset.q, language: curLang});
+    });
   });
+}
+
+function initWA() {
+  var wrap = $('#wa'), launcher = $('#waLauncher'), panel = $('#waPanel');
+  if (!wrap) return;
+  renderWaQuick();
 
   function open()  { panel.setAttribute('aria-hidden','false'); wrap.classList.add('is-open'); launcher.setAttribute('aria-expanded','true'); }
   function close() { panel.setAttribute('aria-hidden','true');  wrap.classList.remove('is-open'); launcher.setAttribute('aria-expanded','false'); }

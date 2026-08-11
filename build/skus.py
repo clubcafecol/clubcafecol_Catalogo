@@ -264,7 +264,7 @@ LEALTAD = dict(
             "1 punto por cada $1.000 de compra",
             "Acceso al catálogo completo",
             "Asesoría de cata por WhatsApp"]),
-        dict(nombre="Tueste", icon="🔥", desde=300, benef=[
+        dict(nombre="Tostador", icon="🔥", desde=300, benef=[
             "Todo lo anterior",
             "Envío gratis sin monto mínimo",
             "Preventa de lotes de temporada 48 h antes"]),
@@ -341,4 +341,12 @@ WA_NUM = "573154510390"
 NIT = "901731658"
 ENVIO_GRATIS = 85000
 SITE = "https://clubcafecol.github.io/clubcafecol_Catalogo"
-ASSET_VER = "2026.08.3"
+ASSET_VER = "2026.08.4"
+
+# ── MONEDA ──────────────────────────────────────────────────────────────
+# Todos los precios del catálogo están en pesos colombianos (COP) y es la
+# moneda en la que se cobra. Cuando el visitante navega en otro idioma se
+# muestra además una equivalencia aproximada en USD, calculada con esta
+# tasa. ACTUALÍZALA periódicamente: la TRM se mueve todos los días.
+# Fuente: Superintendencia Financiera de Colombia (TRM oficial).
+USD_COP = 3125          # TRM del 11 de agosto de 2026: $3.125,47

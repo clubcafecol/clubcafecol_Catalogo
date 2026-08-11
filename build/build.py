@@ -7,7 +7,7 @@ import json, os, sys, io, datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from skus import (SKUS, CLUB, BUNDLES, TESTIMONIOS, FAQ, QUIZ, FORMATOS, TAZAS,
                   EXOTICOS, WA_NUM, NIT, ENVIO_GRATIS, SITE, ASSET_VER,
-                  MOLIENDAS, DESTACADOS, LEALTAD, REFERIDOS)
+                  MOLIENDAS, DESTACADOS, LEALTAD, REFERIDOS, USD_COP)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANGS = [("es","Español","🇪🇸"),("en","English","🇬🇧"),("pt","Português","🇧🇷"),
@@ -279,7 +279,10 @@ def sec_trofeos():
                                sca=s["sca"], notas=" · ".join(s["notas"]))
 
     raros_html = "".join(
-        '<li><b>%s</b><span>%s · SCA %s</span></li>' % (s["varietal"], s["nombre"], s.get("sca") or "—")
+        '<li><button type="button" class="raro" data-open-sku="%s">'
+        '<span class="raro__txt"><b>%s</b><span>%s · SCA %s</span></span>'
+        '<span class="raro__go" aria-hidden="true">→</span></button></li>'
+        % (s["id"], s["varietal"], s["nombre"], s.get("sca") or "—")
         for s in raros)
 
     return """
@@ -370,7 +373,7 @@ def sec_bundles():
         gam = ""
         if b.get("gamificacion"):
             gam = ('<div class="bdl__gam"><b>🎟️ Pasaporte físico incluido</b>'
-                   '<span>Cada paquete trae un sello. Completa 5 orígenes distintos, '
+                   '<span>Cada paquete trae un sello. Completa los 21 orígenes del Club del Café, '
                    'sube la foto etiquetando a @clubcafecol y te regalamos una bolsa de 250 g.</span></div>')
         tach = '<s>%s</s>' % cop(b["tachado"]) if b.get("tachado") else ""
         ahorro = ('<span class="bdl__save">Ahorras %s</span>' % cop(b["tachado"] - b["precio"])) if b.get("tachado") else ""
@@ -444,6 +447,7 @@ def sec_lealtad():
     <div class="kicker" data-i18n="ly.kicker">Club de Grano · programa de puntos</div>
     <h2 data-i18n="ly.title">Cada taza <em>suma</em></h2>
     <p class="sec-sub" data-i18n="ly.sub">Acumulas 1 punto por cada $1.000 de compra, seas suscriptor o no. Los niveles suben solos y los puntos se canjean por café. No caducan mientras compres al menos una vez al año.</p>
+    <h3 class="lealtad__h3" data-i18n="ly.niveles">Niveles</h3>
     <div class="lealtad__grid">%(niveles)s</div>
     <div class="canje">
       <h3 data-i18n="ly.canje">En qué se convierten tus puntos</h3>
@@ -530,6 +534,20 @@ def sec_faq():
 def build():
     v = "?v=" + ASSET_VER
     cards = "".join(card(s, i) for i, s in enumerate(SKUS))
+
+    # Mosaico del catálogo editorial: 6 etiquetas representativas de las 4 colecciones
+    mosaico = ["pre-008", "pre-007", "tem-007", "pre-004", "ori-002", "res-001"]
+    nombres = {"pre-008": "CORONA · Geisha Top, Campeón Nacional",
+               "pre-007": "BOURBON PASIÓN · Subcampeón Nacional",
+               "tem-007": "TÉ SALVAJE · Wush Wush",
+               "pre-004": "ARÁNDANOS · Landrace",
+               "ori-002": "PANELA DORADA · Caturra",
+               "res-001": "MORA DE NIEBLA · Moka"}
+    dlart = "".join(
+        '<picture><source srcset="assets/productos/%s.webp" type="image/webp">'
+        '<img src="assets/productos/%s.jpg" alt="Etiqueta %s" loading="lazy" '
+        'decoding="async" width="760" height="1429"></picture>' % (k, k, nombres[k])
+        for k in mosaico)
     hreflang = "\n".join(
         '<link rel="alternate" hreflang="%s" href="%s/">' % (c, SITE) for c, _, _ in LANGS)
     langopts = "".join(
@@ -678,7 +696,7 @@ function gtag(){dataLayer.push(arguments);}
   <div class="wrap hero__in">
     <div class="hero__pre"><span class="dot"></span><span data-i18n="hero.pre">Huila, Colombia · Tostado bajo pedido</span></div>
     <h1 data-i18n="hero.title">Tu Café de Especialidad Colombiano<em>Campeones Nacionales directos a tu Taza</em></h1>
-    <p class="hero__sub" data-i18n="hero.sub">21 lotes de café de especialidad del sur de Colombia, de 85 a 89 puntos SCA. Tostados el día de tu pedido y molidos a la medida de tu cafetera.</p>
+    <p class="hero__sub" data-i18n="hero.sub">21 microlotes de café de especialidad del sur de Colombia, de 82 a 89 puntos SCA. Tostados el día de tu pedido y molidos a la medida de tu cafetera.</p>
     <div class="hero__cta">
       <a class="btn btn--gold btn--lg" href="#catalogo" data-i18n="hero.cta1">Ver los 21 lotes</a>
       <a class="btn btn--ghost btn--lg" href="#quiz" data-i18n="hero.cta2">Ayúdame a elegir</a>
@@ -722,6 +740,7 @@ function gtag(){dataLayer.push(arguments);}
         <button type="button" class="tab" data-col="reserva" data-i18n="tab.reserva">Reserva <i>4</i></button>
       </div>
       <label class="cat__sort">
+        <span class="cat__cur" id="curNote" data-i18n="cat.moneda">Precios en pesos colombianos (COP)</span>
         <span data-i18n="cat.sort">Ordenar por</span>
         <select id="sortSel">
           <option value="destacado" data-i18n="sort.dest">Recomendados</option>
@@ -767,14 +786,7 @@ function gtag(){dataLayer.push(arguments);}
       </form>
       <a class="dl__skip" href="assets/pdf/Catalogo_CLUBCAFECOL_2026_B2C.pdf" download data-i18n="dl.skip">o descárgalo directamente sin dejar tu correo</a>
     </div>
-    <div class="dl__art">
-      <picture><source srcset="assets/productos/pre-007.webp" type="image/webp">
-      <img src="assets/productos/pre-007.jpg" alt="Etiqueta PASIÓN 400, Subcampeón Nacional" loading="lazy" width="760" height="1429"></picture>
-      <picture><source srcset="assets/productos/pre-008.webp" type="image/webp">
-      <img src="assets/productos/pre-008.jpg" alt="Etiqueta CORONA, Campeón Nacional" loading="lazy" width="760" height="1429"></picture>
-      <picture><source srcset="assets/productos/tem-007.webp" type="image/webp">
-      <img src="assets/productos/tem-007.jpg" alt="Etiqueta TÉ SALVAJE, Wush Wush" loading="lazy" width="760" height="1429"></picture>
-    </div>
+    <div class="dl__art">%(dlart)s</div>
   </div>
 </section>
 
@@ -833,23 +845,30 @@ function gtag(){dataLayer.push(arguments);}
     </header>
     <div class="cart__ship" id="cartShip"></div>
     <div class="cart__items" id="cartItems"></div>
-    <div class="cart__empty" id="cartEmpty">
+    <div class="cart__empty" id="cartEmpty" hidden>
       <p data-i18n="cart.empty">Tu carrito está vacío.</p>
-      <button type="button" class="btn btn--ghost" id="cartGo" data-i18n="cart.go">Ver el catálogo</button>
+      <button type="button" class="btn btn--ghost btn--sm" id="cartGo" data-i18n="cart.go">Ver el catálogo</button>
     </div>
     <footer class="cart__foot" id="cartFoot" hidden>
-      <label class="cart__field">
-        <span data-i18n="cart.city">Ciudad de entrega</span>
-        <input type="text" id="cartCity" placeholder="Bogotá" autocomplete="address-level2">
-      </label>
-      <label class="cart__field">
-        <span data-i18n="cart.note">Nota para el tostador (opcional)</span>
-        <input type="text" id="cartNote" placeholder="Ej: es un regalo, incluir tarjeta">
-      </label>
+      <div class="cart__fields">
+        <label class="cart__field">
+          <span data-i18n="cart.city">Ciudad</span>
+          <input type="text" id="cartCity" placeholder="Bogotá" autocomplete="address-level2">
+        </label>
+        <label class="cart__field">
+          <span data-i18n="cart.addr">Dirección de entrega</span>
+          <input type="text" id="cartAddr" placeholder="Cra 13 #45-32, apto 501" autocomplete="street-address">
+        </label>
+        <label class="cart__field">
+          <span data-i18n="cart.note">Nota para el tostador (opcional)</span>
+          <input type="text" id="cartNote" placeholder="Ej: es un regalo, incluir tarjeta">
+        </label>
+      </div>
       <div class="cart__tot">
         <div><span data-i18n="cart.sub">Subtotal</span><b id="cartSub">$0</b></div>
         <div class="cart__ship-row"><span data-i18n="cart.shipping">Envío</span><b id="cartShipTxt">—</b></div>
-        <div class="cart__tot-row"><span data-i18n="cart.total">Total</span><b id="cartTotal">$0</b></div>
+        <div class="cart__tot-row"><span data-i18n="cart.total">Total</span>
+          <span class="cart__tot-val"><b id="cartTotal">$0</b><i id="cartTotalUsd"></i></span></div>
       </div>
       <button type="button" class="btn btn--wa btn--lg btn--block" id="cartCheckout">
         <span data-i18n="cart.checkout">Enviar pedido por WhatsApp</span> →</button>
@@ -925,7 +944,7 @@ function gtag(){dataLayer.push(arguments);}
     <div class="exit__body">
       <div class="exit__tag" data-i18n="ex.tag">Antes de que te vayas</div>
       <h3 id="exitTitle" data-i18n="ex.title">Llévate el catálogo <em>y un 10 %% de descuento</em></h3>
-      <p data-i18n="ex.sub">Te enviamos las 21 etiquetas en PDF, una guía de extracción y un cupón del 10 %% para tu primera compra. Un solo correo, sin spam.</p>
+      <p data-i18n="ex.sub">Te enviamos las 21 variedades en PDF y un cupón del 10 %% para tu primera compra. Un solo correo, sin spam.</p>
       <form class="exit__form" id="exitForm" novalidate>
         <input type="email" id="exitEmail" required placeholder="tu@correo.com" aria-label="Correo electrónico" autocomplete="email">
         <button type="submit" class="btn btn--gold" data-i18n="ex.btn">Quiero mi cupón</button>
@@ -942,7 +961,7 @@ function gtag(){dataLayer.push(arguments);}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>window.CCC_SKUS = %(skusjson)s; window.CCC_BUNDLES = %(bundlesjson)s;
-window.CCC_MOLIENDAS = %(moljson)s; window.CCC_DTO_REF = %(dtoref)d;</script>
+window.CCC_MOLIENDAS = %(moljson)s; window.CCC_DTO_REF = %(dtoref)d; window.CCC_USD_COP = %(usdcop)d;</script>
 <script src="i18n.js%(v)s"></script>
 <script src="script.js%(v)s"></script>
 </body>
@@ -953,6 +972,7 @@ window.CCC_MOLIENDAS = %(moljson)s; window.CCC_DTO_REF = %(dtoref)d;</script>
            bundles=sec_bundles(), club=sec_club(), testi=sec_testimonios(), faq=sec_faq(),
            lealtad=sec_lealtad(), referidos=sec_referidos(), dtoref=REFERIDOS["dto_amigo"],
            skusjson=skus_json, bundlesjson=bundles_json, moljson=mol_json,
+           dlart=dlart, usdcop=USD_COP,
            wahelp=wa("Hola CLUBCAFECOL, necesito asesoría para elegir mi café. Preparo el café en ____ y me gustan los sabores ____. ¿Qué me recomiendan?"),
            wab2b=wa("Hola CLUBCAFECOL, represento una empresa/cafetería y quiero cotizar café de especialidad al por mayor. Consumimos aprox. ____ kg al mes."))
 
