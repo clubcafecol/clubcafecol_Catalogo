@@ -81,9 +81,6 @@
 </head>
 <body>
 
-<!-- CURSOR PERSONALIZADO -->
-<div class="cursor" id="cursor"></div>
-
 <!-- NAV -->
 <nav id="navbar">
   <div class="nav-inner">
@@ -117,7 +114,7 @@
   <div class="hero-overlay"></div>
   <div class="hero-layout">
     <div class="hero-content">
-      <span class="hero-pre" data-i18n="hero.pre">Colombia · Huila · Tostado a pedido</span>
+      <span class="hero-pre" data-i18n="hero.pre">Colombia · Tostado a pedido</span>
       <h1 data-i18n="hero.title">Tu café favorito.<br><em>Entregado en tu puerta.</em></h1>
       <p class="hero-sub" data-i18n="hero.sub">21 variedades de especialidad del sur de Colombia. <br>Desde $30.900 · Envío gratis desde $85.000</p>
       <div class="hero-btns">
@@ -750,49 +747,79 @@
 <div class="wa" id="wa">
   <div class="wa-bot" id="waBot" data-mood="neutral" aria-hidden="true">
     <div class="wa-bot__bubble" data-i18n="bot.bubble">¡Llévame! ❤️</div>
-    <svg class="wa-bot__svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+    <svg class="wa-bot__svg" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+      <!-- Steam wisps -->
       <g class="wa-bot__steam">
-        <path d="M35 38 Q38 32 35 26 Q32 20 36 14"/>
-        <path d="M50 38 Q47 31 50 24 Q53 17 49 10"/>
-        <path d="M65 38 Q62 32 65 26 Q68 20 64 14"/>
+        <path class="wa-bot__steam-1" d="M36 40 Q40 33 36 26 Q32 19 36 12" fill="none" stroke="#9A7A28" stroke-width="2.2" stroke-linecap="round"/>
+        <path class="wa-bot__steam-2" d="M50 40 Q46 32 50 24 Q54 16 50 8"  fill="none" stroke="#9A7A28" stroke-width="2.2" stroke-linecap="round"/>
+        <path class="wa-bot__steam-3" d="M64 40 Q60 33 64 26 Q68 19 64 12" fill="none" stroke="#9A7A28" stroke-width="2.2" stroke-linecap="round"/>
       </g>
+      <!-- Floating hearts (happy mood) -->
       <g class="wa-bot__hearts">
-        <path d="M25 28 q-3 -4 -6 0 q-3 4 6 9 q9 -5 6 -9 q-3 -4 -6 0z"/>
-        <path d="M78 25 q-3 -4 -6 0 q-3 4 6 9 q9 -5 6 -9 q-3 -4 -6 0z" transform="scale(0.85)"/>
-        <path d="M50 18 q-3 -4 -6 0 q-3 4 6 9 q9 -5 6 -9 q-3 -4 -6 0z" transform="scale(0.75)"/>
+        <g class="wa-bot__heart-1" transform="translate(18,18)">
+          <path d="M5 2.5 Q5 0 7.5 0 Q10 0 10 2.5 Q10 0 12.5 0 Q15 0 15 2.5 Q15 6 10 9 Q5 6 5 2.5z" fill="#B0563A"/>
+        </g>
+        <g class="wa-bot__heart-2" transform="translate(74,14) scale(0.82)">
+          <path d="M5 2.5 Q5 0 7.5 0 Q10 0 10 2.5 Q10 0 12.5 0 Q15 0 15 2.5 Q15 6 10 9 Q5 6 5 2.5z" fill="#9A7A28"/>
+        </g>
+        <g class="wa-bot__heart-3" transform="translate(44,6) scale(0.65)">
+          <path d="M5 2.5 Q5 0 7.5 0 Q10 0 10 2.5 Q10 0 12.5 0 Q15 0 15 2.5 Q15 6 10 9 Q5 6 5 2.5z" fill="#c8963e"/>
+        </g>
       </g>
-      <ellipse cx="50" cy="116" rx="36" ry="2.5" fill="rgba(0,0,0,0.35)"/>
-      <ellipse cx="50" cy="111" rx="38" ry="5" fill="#D9C499" stroke="#C9A961" stroke-width="1"/>
-      <ellipse cx="50" cy="108" rx="34" ry="3.5" fill="#F0E6D2"/>
-      <path d="M75 64 Q92 64 92 76 Q92 88 75 88" fill="none" stroke="#C9A961" stroke-width="4" stroke-linecap="round"/>
-      <path class="wa-bot__cup" d="M20 48 L24 100 Q25 108 33 108 L67 108 Q75 108 76 100 L80 48 Z" fill="#F0E6D2" stroke="#C9A961" stroke-width="1.5"/>
-      <ellipse cx="50" cy="48" rx="29" ry="4.5" fill="#2A1810"/>
-      <ellipse cx="50" cy="47" rx="27" ry="3" fill="#3D2817"/>
+      <!-- Shadow -->
+      <ellipse cx="50" cy="126" rx="34" ry="2.5" fill="rgba(15,29,51,0.3)"/>
+      <!-- Saucer -->
+      <ellipse cx="50" cy="121" rx="38" ry="5" fill="#D9C499" stroke="#C9A961" stroke-width="1"/>
+      <ellipse cx="50" cy="118" rx="33" ry="3.5" fill="#F0E6D2"/>
+      <!-- Handle -->
+      <path d="M76 68 Q96 68 96 80 Q96 93 76 93" fill="none" stroke="#C9A961" stroke-width="4.5" stroke-linecap="round"/>
+      <!-- Cup body -->
+      <path class="wa-bot__cup" d="M20 52 L24 112 Q25 120 34 120 L66 120 Q75 120 76 112 L80 52 Z" fill="#F0E6D2" stroke="#C9A961" stroke-width="1.5"/>
+      <!-- Coffee surface -->
+      <ellipse cx="50" cy="52" rx="30" ry="5" fill="#0F1D33"/>
+      <ellipse cx="50" cy="51" rx="27" ry="3" fill="#1a2d4a"/>
+      <!-- Latte art (small swirl on coffee) -->
+      <path d="M42 51 Q50 47 58 51" fill="none" stroke="rgba(240,230,210,0.5)" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- Blush -->
       <g class="wa-bot__blush">
-        <circle cx="34" cy="82" r="3.5" fill="#ff8095" opacity="0.55"/>
-        <circle cx="66" cy="82" r="3.5" fill="#ff8095" opacity="0.55"/>
+        <ellipse cx="34" cy="88" rx="4.5" ry="3" fill="#ff8095" opacity="0.5"/>
+        <ellipse cx="66" cy="88" rx="4.5" ry="3" fill="#ff8095" opacity="0.5"/>
       </g>
-      <path class="wa-bot__eyebrow wa-bot__eyebrow--left"  d="M36 64 L44 64" stroke="#07101F" stroke-width="2" stroke-linecap="round"/>
-      <path class="wa-bot__eyebrow wa-bot__eyebrow--right" d="M56 64 L64 64" stroke="#07101F" stroke-width="2" stroke-linecap="round"/>
+      <!-- Eyebrows -->
+      <path class="wa-bot__eyebrow wa-bot__eyebrow--left"  d="M36 69 Q40 67 44 69" stroke="#0F1D33" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <path class="wa-bot__eyebrow wa-bot__eyebrow--right" d="M56 69 Q60 67 64 69" stroke="#0F1D33" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <!-- Eyes: neutral -->
       <g class="wa-bot__eyes-neutral">
-        <circle cx="40" cy="74" r="2.5" fill="#07101F"/>
-        <circle cx="60" cy="74" r="2.5" fill="#07101F"/>
-        <circle cx="40.8" cy="73.2" r="0.8" fill="#fff"/>
-        <circle cx="60.8" cy="73.2" r="0.8" fill="#fff"/>
+        <circle cx="40" cy="79" r="3" fill="#0F1D33"/>
+        <circle cx="60" cy="79" r="3" fill="#0F1D33"/>
+        <circle cx="41.2" cy="77.8" r="1" fill="#fff"/>
+        <circle cx="61.2" cy="77.8" r="1" fill="#fff"/>
       </g>
+      <!-- Eyes: happy (arc ^-^) -->
       <g class="wa-bot__eyes-happy">
-        <path d="M36 75 Q40 70 44 75" stroke="#07101F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-        <path d="M56 75 Q60 70 64 75" stroke="#07101F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <path d="M35 80 Q40 74 45 80" stroke="#0F1D33" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M55 80 Q60 74 65 80" stroke="#0F1D33" stroke-width="2.5" fill="none" stroke-linecap="round"/>
       </g>
+      <!-- Eyes: angry -->
       <g class="wa-bot__eyes-angry">
-        <circle cx="40" cy="76" r="1.6" fill="#07101F"/>
-        <circle cx="60" cy="76" r="1.6" fill="#07101F"/>
+        <circle cx="40" cy="81" r="2" fill="#0F1D33"/>
+        <circle cx="60" cy="81" r="2" fill="#0F1D33"/>
+        <!-- angry pupils: small highlight off-center -->
+        <circle cx="39" cy="80" r="0.6" fill="#fff"/>
+        <circle cx="59" cy="80" r="0.6" fill="#fff"/>
       </g>
-      <path class="wa-bot__mouth-neutral" d="M44 88 Q50 90 56 88" stroke="#07101F" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Mouth: neutral -->
+      <path class="wa-bot__mouth-neutral" d="M43 96 Q50 98 57 96" stroke="#0F1D33" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Mouth: happy -->
       <g class="wa-bot__mouth-happy">
-        <path d="M40 85 Q50 96 60 85" stroke="#07101F" stroke-width="2.2" fill="#5C2E2E" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M38 93 Q50 105 62 93" stroke="#0F1D33" stroke-width="2.5" fill="#9A7A28" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- teeth -->
+        <line x1="44" y1="96" x2="44" y2="100" stroke="rgba(255,255,255,0.7)" stroke-width="1"/>
+        <line x1="50" y1="97" x2="50" y2="102" stroke="rgba(255,255,255,0.7)" stroke-width="1"/>
+        <line x1="56" y1="96" x2="56" y2="100" stroke="rgba(255,255,255,0.7)" stroke-width="1"/>
       </g>
-      <path class="wa-bot__mouth-angry" d="M42 92 Q46 87 50 91 Q54 95 58 90" stroke="#07101F" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Mouth: angry -->
+      <path class="wa-bot__mouth-angry" d="M40 100 Q45 94 50 98 Q55 102 60 95" stroke="#0F1D33" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
 

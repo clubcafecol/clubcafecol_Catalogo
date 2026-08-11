@@ -103,20 +103,7 @@ document.querySelectorAll('.producto-card, .valor-card, .club-card').forEach(el 
   fadeObserver.observe(el);
 });
 
-/* ── CURSOR PERSONALIZADO ────────────────────────────────────*/
-(function initCursor() {
-  const cursor = document.getElementById('cursor');
-  if (!cursor) return;
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top  = e.clientY + 'px';
-  }, { passive: true });
-  document.querySelectorAll('a, button, .col-tab, .wa-bot, .wa__launcher').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('is-hover'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('is-hover'));
-  });
-})();
+/* cursor removed per brand update */
 
 /* ── MODAL DE DETALLE ────────────────────────────────────────*/
 (function initModal() {
@@ -292,7 +279,7 @@ document.querySelectorAll('.producto-card, .valor-card, .club-card').forEach(el 
     en: {
       'nav.brand':'CLUBCAFECOL','nav.colecciones':'Collections','nav.catalogo':'Catalog',
       'nav.club':'Club','nav.pdf':'PDF','nav.cta':'Order now ☕','nav.mobileCta':'☕ Order on WhatsApp',
-      'hero.pre':'Colombia · Huila · Roasted to order',
+      'hero.pre':'Colombia · Roasted to order',
       'hero.title':'Your favorite coffee.<br><em>Delivered to your door.</em>',
       'hero.sub':'21 specialty varieties from southern Colombia.<br>From $30,900 · Free shipping from $85,000',
       'hero.cta1':'☕ Order on WhatsApp','hero.cta2':'View catalog',
@@ -300,7 +287,7 @@ document.querySelectorAll('.producto-card, .valor-card, .club-card').forEach(el 
       'hero.stat3n':'SCA','hero.stat3l':'Certified','hero.stat4n':'24h','hero.stat4l':'dispatch',
       'ig.badge':'LIVE','ig.pre':'Follow us ·','ig.title':'Discover our origin','ig.tag':'@clubcafecol · live',
       'ben.kicker':'Why choose us','ben.title':'A <em>premium</em> experience from start to finish',
-      'ben.t1':'Selected origin','ben.d1':'Beans grown above 1,500 MASL on the finest farms in Huila.',
+      'ben.t1':'Selected origin','ben.d1':'Beans grown above 1,500 MASL on the finest farms in Colombia;',
       'ben.t2':'Roasted to order','ben.d2':'Roasted in small batches the same day as your order.',
       'ben.t3':'Free grinding','ben.d3':'Choose your ideal grind — espresso, filter, press — at no extra charge.',
       'ben.t4':'Fast delivery','ben.d4':'Vacuum-sealed right after roasting. Bogotá 24-48h, rest of country 2-5 days.',
