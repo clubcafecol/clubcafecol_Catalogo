@@ -178,6 +178,22 @@ section h2 em{font-style:italic;color:var(--brown-light)}
 .modal-precio{font-size:1.5rem;font-weight:800;color:var(--gold);font-family:'Playfair Display',serif}
 .modal-wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 24px;background:#25D366;color:#fff;border-radius:14px;font-weight:700;font-size:.93rem;transition:all .2s}
 .modal-wa-btn:hover{background:#1fb857;transform:translateY(-2px);box-shadow:0 6px 20px rgba(37,211,102,.4)}
+/* Modal price table (T13/T14) */
+.modal-precios{margin-top:20px;border-top:1px solid var(--border);padding-top:16px}
+.modal-precios-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px}
+.modal-precio-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.modal-precio-row:last-child{border-bottom:none}
+.mpr-fmt{font-size:.82rem;color:var(--text-soft);min-width:64px;font-weight:500}
+.mpr-price{font-size:.95rem;font-weight:800;color:var(--navy);flex:1;font-family:'Playfair Display',serif}
+.mpr-wa{font-size:.75rem;font-weight:700;background:#25D366;color:#fff;padding:5px 12px;border-radius:20px;white-space:nowrap;transition:all .15s}
+.mpr-wa:hover{background:#1fb857;transform:translateY(-1px);box-shadow:0 4px 12px rgba(37,211,102,.35)}
+/* Card precios-list — compact with 5 rows */
+.precios-list{border-top:1px solid var(--border);padding-top:10px;display:flex;flex-direction:column;gap:4px}
+.precio-row{display:flex;align-items:center;gap:8px;font-size:.8rem}
+.precio-row span{color:var(--text-soft);min-width:52px;font-weight:500}
+.precio-row strong{color:var(--navy);font-weight:700;flex:1}
+.wa-mini{font-size:.68rem;font-weight:700;background:var(--gold-deep);color:#fff;padding:2px 8px;border-radius:12px;transition:all .15s;white-space:nowrap}
+.wa-mini:hover{background:#7a6020}
 
 /* ── CLUB ─────────────────────────────────────────────────── */
 .club{padding:96px 0;background:linear-gradient(150deg,#0F1D33 0%,#152038 100%)}
