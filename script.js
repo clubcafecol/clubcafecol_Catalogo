@@ -567,14 +567,16 @@ function renderCart() {
   var badge = $('#cartCount');
   badge.textContent = n; badge.hidden = n === 0;
 
-  var addMore = $('#cartAddMore');
+  var addMore = $('#cartAddMore'), order = $('#cartOrder');
   if (!cart.length) {
     wrap.innerHTML = ''; empty.hidden = false; foot.hidden = true;
     if (addMore) addMore.hidden = true;
+    if (order) order.hidden = true;
     $('#cartShip').innerHTML = ''; return;
   }
   empty.hidden = true; foot.hidden = false;
   if (addMore) addMore.hidden = false;
+  if (order) order.hidden = false;
 
   wrap.innerHTML = cart.map(function (it, i) {
     if (it.bundle) {
@@ -649,11 +651,10 @@ function closeCart() {
 /* ── CHECKOUT: un solo mensaje de WhatsApp con todo el pedido ──────── */
 function checkout() {
   if (!cart.length) return;
-  var sub    = cartSubtotal();
-  var ciudad = ($('#cartCity').value || '').trim();
-  var dir    = ($('#cartAddr') ? $('#cartAddr').value : '').trim();
-  var nota   = ($('#cartNote').value || '').trim();
-  var falta  = Math.max(0, FREE - sub);
+  var sub   = cartSubtotal();
+  var dir   = ($('#cartAddr') ? $('#cartAddr').value : '').trim();
+  var nota  = ($('#cartNote').value || '').trim();
+  var falta = Math.max(0, FREE - sub);
 
   var L = [];
   L.push('*NUEVO PEDIDO · CLUBCAFECOL*');
@@ -677,9 +678,8 @@ function checkout() {
     ? 'Envío: por cotizar (faltan ' + cop(falta) + ' para envío gratis)'
     : 'Envío: *GRATIS* ✅');
   L.push('');
-  if (ciudad) L.push('📍 Ciudad: ' + ciudad);
-  if (dir)    L.push('🏠 Dirección: ' + dir);
-  if (nota)   L.push('📝 Nota: ' + nota);
+  if (dir)  L.push('📍 Entrega: ' + dir);
+  if (nota) L.push('📝 Nota: ' + nota);
   L.push('');
   L.push('Quedo atento(a) a la confirmación de disponibilidad, el total final con envío y el medio de pago. ¡Gracias!');
 
@@ -843,12 +843,6 @@ function initQuiz() {
     } else done();
   });
 
-  var shareWa = $('#qzShareWa');
-  if (shareWa) shareWa.addEventListener('click', function () {
-    if (!qzTop) return;
-    track('share', {method: 'whatsapp_status', item_id: qzTop.id});
-    window.open('https://wa.me/?text=' + encodeURIComponent(textoShare()), '_blank', 'noopener');
-  });
 }
 
 /* ═══════════════════════════════════════════════════════════════════

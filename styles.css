@@ -584,6 +584,10 @@ body.is-rtl .cart__panel{transform:translateX(-100%)}
 .cart__head h2{font-size:1.3rem}
 .cart__x{font-size:1.8rem;line-height:1;color:var(--muted);width:34px;height:34px;border-radius:50%}
 .cart__x:hover{background:var(--cream)}
+/* Un solo eje de scroll para todo el contenido del pedido. Antes había
+   tres zonas desplazables compitiendo y la lista quedaba en 60 px. */
+.cart__scroll{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch}
 .cart__ship{padding:0 22px}
 .ship{padding:14px 0 4px}
 .ship p{margin:0 0 7px;font-size:.81rem;color:var(--muted)}
@@ -592,10 +596,7 @@ body.is-rtl .cart__panel{transform:translateX(-100%)}
 .ship__bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-dk));
   border-radius:100px;transition:width .4s ease}
 .ship.is-free .ship__bar i{background:#1E7A4B}
-/* La lista se lleva todo el espacio libre y hace scroll; min-height:0 es
-   imprescindible para que un hijo flex pueda encogerse y desbordar. */
-.cart__items{flex:1 1 auto;min-height:0;overflow-y:auto;padding:8px 22px;
-  overscroll-behavior:contain}
+.cart__items{padding:4px 22px}
 .ci{display:grid;grid-template-columns:62px 1fr 26px;gap:13px;padding:15px 0;
   border-bottom:1px solid var(--line)}
 .ci__img img{border-radius:6px;box-shadow:0 3px 10px rgba(0,0,0,.14)}
@@ -615,16 +616,16 @@ body.is-rtl .cart__panel{transform:translateX(-100%)}
 .qty span{min-width:22px;text-align:center;font-size:.85rem;font-weight:600}
 .ci__x{font-size:1.25rem;color:var(--muted);align-self:flex-start;width:26px;height:26px;border-radius:50%}
 .ci__x:hover{background:rgba(179,38,30,.1);color:#B3261E}
-.cart__empty{flex:1 1 auto;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:14px;padding:32px 24px;text-align:center;color:var(--muted)}
+.cart__empty{display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:14px;padding:56px 24px;text-align:center;color:var(--muted)}
 .cart__empty p{margin:0;font-size:.92rem}
 .btn--sm{padding:9px 20px;font-size:.84rem}
 
-/* El pie no debe robarle altura a la lista: se compacta y hace scroll
-   propio si la ventana es baja. */
+/* El pie queda fijo: solo el botón de pedido y el aviso legal. */
 .cart__foot{flex:0 0 auto;padding:14px 22px 18px;background:var(--white);
-  border-top:1px solid var(--line);max-height:62vh;overflow-y:auto}
-.cart__fields{display:grid;gap:8px}
+  border-top:1px solid var(--line)}
+.cart__order{padding:4px 22px 20px}
+.cart__fields{display:grid;gap:9px}
 .cart__field{display:block}
 .cart__field span{display:block;font-size:.72rem;color:var(--muted);margin-bottom:4px;font-weight:500}
 .cart__field input{width:100%;padding:9px 13px;border:1.3px solid var(--line);border-radius:10px;
@@ -788,8 +789,7 @@ body.is-rtl .cart__panel{transform:translateX(-100%)}
 .qzpromo p{margin:0;font-size:.87rem;color:var(--navy-700);line-height:1.6}
 .qzpromo b{font-weight:600;color:var(--gold-dk)}
 .qz__foot{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}
-.cart__add{flex:0 0 auto;padding:6px 22px 12px;text-align:center;
-  border-bottom:1px solid var(--line)}
+.cart__add{padding:4px 22px 14px;text-align:center;border-bottom:1px solid var(--line)}
 .btn--ig{background:linear-gradient(45deg,#F58529,#DD2A7B 45%,#8134AF 70%,#515BD4);
   color:#fff;box-shadow:0 4px 16px rgba(221,42,123,.35)}
 .btn--ig:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(221,42,123,.5)}
@@ -822,8 +822,37 @@ body.is-rtl .cart__panel{transform:translateX(-100%)}
   .ft__in{grid-template-columns:1fr 1fr 1fr}
 }
 @media (max-width:760px){
-  section{padding:64px 0}
+  section{padding:52px 0}
   .wrap{padding:0 18px}
+  section h2{font-size:clamp(1.6rem,6.6vw,2.1rem)}
+  .sec-sub{font-size:.94rem}
+  .kicker{font-size:.66rem;letter-spacing:.16em;margin-bottom:10px}
+  .topbar{font-size:.7rem;padding:7px 12px;line-height:1.4}
+  .nav__in{gap:10px}
+  .nav__brand span{font-size:.92rem}
+  .nav__brand img{width:34px;height:34px}
+  .cartbtn{width:40px;height:40px}
+  .lang__btn{padding:8px 10px}
+  .lang__menu{position:fixed;inset-inline:14px;top:auto;bottom:14px;min-width:0;
+    max-height:56vh}
+  /* Tarjetas: área de toque más generosa */
+  .fmt{min-width:60px;padding:8px 10px}
+  .card__mol{padding:11px 12px;font-size:16px}
+  .btn--add{padding:14px 18px}
+  .btn--wa-icon{width:48px;height:48px}
+  .card__body{padding:18px;gap:10px}
+  /* Tabla de valor: se avisa que hay scroll horizontal */
+  .valorsec__tabla{position:relative}
+  .valorsec__tabla::after{content:'→';position:absolute;top:8px;inset-inline-end:10px;
+    font-size:.9rem;color:var(--gold-lt);pointer-events:none;opacity:.8}
+  .cat__sort{width:100%;justify-content:space-between}
+  .cat__cur{text-align:start}
+  .cat__sort select{flex:1;max-width:60%}
+  .lealtad__grid,.bundles__grid,.club__grid,.testi__grid{grid-template-columns:1fr}
+  .trustbar{grid-template-columns:1fr;padding:18px}
+  .faq__i summary{font-size:1rem;padding:17px 38px 17px 0}
+  .faq__a{padding-inline-end:0}
+  .origen__video figcaption{font-size:.76rem}
   .hero{min-height:auto;padding:70px 0 56px}
   .hero__stats{grid-template-columns:1fr 1fr;gap:20px 12px;padding:22px 0}
   .hero__cta{flex-direction:column}
@@ -875,23 +904,27 @@ body.is-rtl .cart__panel{transform:translateX(-100%)}
      Ocupa toda la pantalla, la lista manda y el botón de pedido queda
      siempre visible pegado abajo. */
   .cart__panel{width:100%;height:100dvh;height:100%}
-  .cart__head{padding:14px 16px}
-  .cart__head h2{font-size:1.14rem}
+  .cart__head{padding:13px 16px}
+  .cart__head h2{font-size:1.12rem}
   .cart__ship{padding:0 16px}
-  .cart__items{padding:6px 16px}
-  .ci{grid-template-columns:52px 1fr 24px;gap:10px;padding:12px 0}
-  .ci__img img{width:52px;height:auto}
-  .ci__img--kit{height:54px;font-size:1.4rem}
-  .ci__body h4{font-size:.9rem}
-  .ci__meta{font-size:.72rem;margin-bottom:6px}
-  .ci__mol{padding:6px 9px;font-size:16px;margin-bottom:7px}
-  .cart__add{padding:8px 16px 10px}
-  .cart__foot{padding:12px 16px calc(14px + env(safe-area-inset-bottom));max-height:none}
-  .cart__fields{gap:7px}
-  .cart__field input{font-size:16px;padding:10px 12px}
-  .cart__tot{margin:10px 0}
+  .cart__items{padding:2px 16px}
+  .ci{grid-template-columns:54px 1fr 26px;gap:11px;padding:13px 0}
+  .ci__img img{width:54px;height:auto}
+  .ci__img--kit{height:56px;font-size:1.4rem}
+  .ci__body h4{font-size:.93rem;line-height:1.3}
+  .ci__meta{font-size:.73rem;margin-bottom:7px}
+  .ci__mol{padding:8px 10px;font-size:16px;margin-bottom:8px}
+  .qty button{width:32px;height:32px}
+  .ci__x{width:30px;height:30px;font-size:1.35rem}
+  .cart__add{padding:2px 16px 12px}
+  .cart__order{padding:4px 16px 18px}
+  .cart__foot{padding:12px 16px calc(14px + env(safe-area-inset-bottom))}
+  .cart__fields{gap:8px}
+  .cart__field input{font-size:16px;padding:11px 13px}
+  .cart__tot{margin:12px 0 0}
   .cart__legal{font-size:.66rem;margin-top:8px}
   #cartCheckout{padding:15px 24px}
+  .cart__empty{padding:40px 24px}
   .dl__art{gap:12px 10px}
   .dl__art picture:nth-child(2) img,.dl__art picture:nth-child(5) img{transform:translateY(12px)}
   /* Pop-up de salida como hoja inferior, no como pantalla completa */
@@ -910,18 +943,22 @@ body.is-rtl .cart__panel{transform:translateX(-100%)}
   .exit__ok{text-align:start}
   .exit__form input[type=email]{font-size:16px}
   .exit__no{display:block;width:100%}
-  /* En táctil no hay hover: los dos botones quedan como círculos fijos
-     y siempre visibles. */
-  .wa{bottom:14px;inset-inline-end:14px;gap:10px}
-  .wa__launcher{width:54px;height:54px}
-  .wa__ig{width:48px;height:48px}
-  .wa__ig:hover,.wa__ig:focus-visible{width:48px;transform:none}
+  /* En táctil no hay hover: los dos botones quedan del mismo tamaño,
+     con área de toque cómoda y separación clara del borde. */
+  .wa{bottom:calc(16px + env(safe-area-inset-bottom));inset-inline-end:16px;gap:12px}
+  .wa__launcher,.wa__ig{width:52px;height:52px;box-shadow:0 6px 18px rgba(0,0,0,.28)}
+  .wa__launcher svg{width:25px;height:25px}
+  .wa__ig:hover,.wa__ig:focus-visible{width:52px;transform:none;
+    box-shadow:0 6px 18px rgba(0,0,0,.28)}
   .wa__ig-txt{display:none}
-  .wa__ig-ico{width:48px;height:48px}
-  .wa__ig-ico svg{width:23px;height:23px}
+  .wa__ig-ico{width:52px;height:52px}
+  .wa__ig-ico svg{width:24px;height:24px}
+  .wa__ig-dot{width:8px;height:8px;top:4px;inset-inline-end:4px}
+  .wa__pulse{animation:none}
   .wa__bubble{display:none}
-  .wa__panel{max-height:min(70dvh,calc(100vh - 110px));
-    width:min(324px,calc(100vw - 28px))}
+  .wa__panel{max-height:min(68dvh,calc(100vh - 120px));
+    width:min(324px,calc(100vw - 32px))}
+  .wa__q{padding:13px 14px}
   .wa.is-open .wa__ig{display:none}
   .valorsec td,.valorsec th{padding:11px 13px}
 }
