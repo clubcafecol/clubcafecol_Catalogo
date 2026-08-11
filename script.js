@@ -22,13 +22,13 @@ var FORMATOS = [
   {k:'2500g',    l:'2,5 kg',    tazas:166}
 ];
 
-var MOLIENDAS = [
-  {v:'grano',    l:'Grano entero (sin moler)'},
+var MOLIENDAS = window.CCC_MOLIENDAS || [
+  {v:'grano',    l:'Grano entero'},
   {v:'espresso', l:'Espresso'},
-  {v:'v60',      l:'V60 / Chemex / filtro'},
+  {v:'v60',      l:'V60 / filtro'},
   {v:'prensa',   l:'Prensa francesa'},
   {v:'aeropress',l:'Aeropress'},
-  {v:'moka',     l:'Moka italiana / greca'},
+  {v:'moka',     l:'Moka / greca'},
   {v:'goteo',    l:'Cafetera de goteo'}
 ];
 
@@ -282,6 +282,7 @@ function initCatalogo() {
     tab.addEventListener('click', function () {
       $$('.tab').forEach(function (t2) { t2.classList.remove('is-active'); });
       tab.classList.add('is-active');
+      abrirTodo();
       var col = tab.dataset.col;
       cards.forEach(function (c) {
         c.classList.toggle('is-hidden', !(col === 'all' || c.dataset.col === col));
@@ -293,6 +294,7 @@ function initCatalogo() {
   /* -- ordenamiento -- */
   var sel = $('#sortSel');
   if (sel) sel.addEventListener('change', function () {
+    abrirTodo();
     var v = sel.value, arr = orden.slice();
     if (v === 'valor')       arr.sort(function (a,b) { return b.dataset.valor - a.dataset.valor; });
     else if (v === 'sca')    arr.sort(function (a,b) { return b.dataset.sca - a.dataset.sca || a.dataset.precio - b.dataset.precio; });
@@ -308,17 +310,48 @@ function initCatalogo() {
     track('sort_catalog', {sort: v});
   });
 
-  /* -- añadir al carrito desde la tarjeta -- */
+  /* -- añadir al carrito desde la tarjeta, con la molienda ya elegida -- */
   $$('[data-add]', grid).forEach(function (btn) {
     btn.addEventListener('click', function () {
       var card = btn.closest('.card');
       var s = SKUS[+btn.dataset.add];
       var act = $('.fmt.is-active', card) || $('.fmt', card);
-      addToCart(s.id, act.dataset.fmt, 1);
+      var mol = $('[data-mol-sel]', card);
+      addToCart(s.id, act.dataset.fmt, 1, mol ? mol.value : 'grano');
       btn.classList.add('is-done');
       setTimeout(function () { btn.classList.remove('is-done'); }, 900);
     });
   });
+
+  /* -- los drips vienen listos: se oculta el selector de molienda -- */
+  $$('.card', grid).forEach(function (card) {
+    var sel = $('[data-mol-sel]', card);
+    if (!sel) return;
+    var wrap = sel.closest('.card__opt');
+    $$('.fmt', card).forEach(function (b) {
+      b.addEventListener('click', function () {
+        wrap.style.display = b.dataset.fmt === 'drip_10g' ? 'none' : '';
+      });
+    });
+  });
+
+  /* -- vista curada: 8 lotes primero, los 21 bajo demanda -- */
+  var verTodos = $('#verTodos');
+  if (verTodos) verTodos.addEventListener('click', function () {
+    grid.classList.add('show-all');
+    $('#moreWrap').style.display = 'none';
+    var msg = $('#curadaMsg'); if (msg) msg.style.display = 'none';
+    track('expand_catalog', {from: 8, to: SKUS.length});
+  });
+
+  /* Filtrar o reordenar implica ver el catálogo completo */
+  function abrirTodo() {
+    if (!grid.classList.contains('show-all')) {
+      grid.classList.add('show-all');
+      var mw = $('#moreWrap'); if (mw) mw.style.display = 'none';
+      var msg = $('#curadaMsg'); if (msg) msg.style.display = 'none';
+    }
+  }
 
   /* -- abrir modal -- */
   $$('[data-open]', grid).forEach(function (btn) {
@@ -354,6 +387,14 @@ var mdlIdx = 0, mdlFmt = '250g';
 function openModal(i) {
   var s = SKUS[i]; if (!s) return;
   mdlIdx = i; mdlFmt = '250g';
+
+  var mm = $('#mdlMol');
+  if (mm && !mm.options.length) {
+    mm.innerHTML = MOLIENDAS.map(function (m) {
+      return '<option value="' + m.v + '">' + m.l + '</option>';
+    }).join('');
+  }
+  if (mm) mm.closest('.mdl__mol').style.display = '';
 
   $('#mdlImg').src = s.img + '.jpg';
   $('#mdlImg').alt = 'Etiqueta del café ' + s.nombre;
@@ -391,6 +432,8 @@ function openModal(i) {
       $$('.mprice').forEach(function (x) { x.classList.remove('is-active'); });
       btn.classList.add('is-active');
       mdlFmt = btn.dataset.fmt;
+      var mw = $('#mdlMol');
+      if (mw) mw.closest('.mdl__mol').style.display = (mdlFmt === 'drip_10g') ? 'none' : '';
       syncMdlWa(s);
     });
   });
@@ -403,9 +446,12 @@ function openModal(i) {
 }
 
 function syncMdlWa(s) {
+  var mm = $('#mdlMol');
+  var molTxt = (mdlFmt === 'drip_10g') ? 'sobre listo para usar'
+             : molLabel(mm && mm.value ? mm.value : 'grano');
   var txt = 'Hola CLUBCAFECOL, quiero pedir ' + s.nombre + ' en ' + fmtLabel(mdlFmt) +
-            ' (' + cop(s.precios[mdlFmt]) + '). Mi ciudad es ____ y prefiero molienda para ____. ' +
-            '¿Me confirman disponibilidad y total con envío?';
+            ' (' + cop(s.precios[mdlFmt]) + '), molienda: ' + molTxt +
+            '. Mi ciudad es ____. ¿Me confirman disponibilidad y total con envío?';
   $('#mdlWa').href = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(txt);
 }
 
@@ -418,8 +464,11 @@ function closeModal() {
 function initModal() {
   $('#mdlClose').addEventListener('click', closeModal);
   $('#mdlScrim').addEventListener('click', closeModal);
+  var mm0 = $('#mdlMol');
+  if (mm0) mm0.addEventListener('change', function () { syncMdlWa(SKUS[mdlIdx]); });
   $('#mdlAdd').addEventListener('click', function () {
-    addToCart(SKUS[mdlIdx].id, mdlFmt, 1);
+    var mm = $('#mdlMol');
+    addToCart(SKUS[mdlIdx].id, mdlFmt, 1, mm ? mm.value : 'grano');
     closeModal();
   });
   document.addEventListener('keydown', function (e) {
@@ -440,18 +489,21 @@ function saveCart() {
   try { localStorage.setItem(LS_CART, JSON.stringify(cart)); } catch (e) {}
 }
 
-function addToCart(skuId, fmt, qty) {
+function addToCart(skuId, fmt, qty, mol) {
   var s = skuById(skuId); if (!s) return;
+  mol = (fmt === 'drip_10g') ? 'listo' : (mol || 'grano');
   var found = null;
   for (var i = 0; i < cart.length; i++) {
-    if (cart[i].sku === skuId && cart[i].fmt === fmt && !cart[i].bundle) { found = cart[i]; break; }
+    if (cart[i].sku === skuId && cart[i].fmt === fmt && cart[i].mol === mol && !cart[i].bundle) {
+      found = cart[i]; break;
+    }
   }
   if (found) found.qty += qty;
-  else cart.push({sku: skuId, fmt: fmt, qty: qty, mol: fmt === 'drip_10g' ? 'listo' : 'grano'});
+  else cart.push({sku: skuId, fmt: fmt, qty: qty, mol: mol});
   saveCart(); renderCart(); openCart();
-  toast(s.nombre + ' · ' + fmtLabel(fmt) + ' → ' + t('cart.title', 'tu pedido'));
+  toast(s.nombre + ' · ' + fmtLabel(fmt) + (mol !== 'listo' ? ' · ' + molLabel(mol) : ''));
   track('add_to_cart', {item_id: skuId, item_name: s.nombre, item_variant: fmtLabel(fmt),
-                        value: s.precios[fmt], currency: 'COP', quantity: qty});
+                        grind: mol, value: s.precios[fmt], currency: 'COP', quantity: qty});
 }
 
 function addBundle(id, nombre, precio) {
@@ -703,12 +755,41 @@ function initQuiz() {
       }).join('') + '</div>';
 
     $$('[data-qz-add]').forEach(function (b) {
-      b.addEventListener('click', function () { addToCart(b.dataset.qzAdd, '250g', 1); });
+      b.addEventListener('click', function () { addToCart(b.dataset.qzAdd, '250g', 1, 'grano'); });
     });
 
+    qzTop = top[0].s;
     track('quiz_complete', {metodo: a.metodo, perfil: a.perfil, nivel: a.nivel,
                             presupuesto: a.presupuesto, recomendado: top[0].s.id});
   }
+
+  /* -- compartir el resultado -- */
+  var qzTop = null;
+  var share = $('#qzShare');
+  if (share) share.addEventListener('click', function () {
+    if (!qzTop) return;
+    var url = location.origin + location.pathname + '#quiz';
+    var txt = 'Hice el test de CLUBCAFECOL y mi café es ' + qzTop.nombre +
+              ' (' + qzTop.varietal + (qzTop.sca ? ', SCA ' + qzTop.sca : '') + '). ' +
+              '¿Cuál es el tuyo? ☕ ' + url;
+    track('share', {method: 'instagram_stories', item_id: qzTop.id});
+
+    if (navigator.share) {
+      navigator.share({title: 'Mi café es ' + qzTop.nombre, text: txt, url: url})
+        .catch(function () {});
+      return;
+    }
+    /* Sin API de compartir: copiamos el texto y abrimos Instagram */
+    var done = function () {
+      toast('Texto copiado. Pégalo en tu historia de Instagram.');
+      setTimeout(function () {
+        window.open('https://instagram.com/clubcafecol', '_blank', 'noopener');
+      }, 900);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done, done);
+    } else done();
+  });
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -742,6 +823,76 @@ function initEmail() {
       a.download = ''; document.body.appendChild(a); a.click(); a.remove();
     }, 600);
     form.reset();
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   8b · POP-UP DE INTENCIÓN DE SALIDA (catálogo + cupón 10 %)
+   ═══════════════════════════════════════════════════════════════════ */
+function initExit() {
+  var box = $('#exit'); if (!box) return;
+  var LS = 'ccc_exit_v1';
+  var yaVisto = false;
+  try { yaVisto = !!localStorage.getItem(LS); } catch (e) {}
+  if (yaVisto) return;
+
+  var abierto = false, armado = false;
+  setTimeout(function () { armado = true; }, 15000);   // no molestar al entrar
+
+  function marcar() { try { localStorage.setItem(LS, Date.now()); } catch (e) {} }
+  function abrir(via) {
+    if (abierto || !armado || $('#cart').classList.contains('is-open')) return;
+    abierto = true;
+    box.classList.add('is-open');
+    box.setAttribute('aria-hidden', 'false');
+    marcar();
+    track('exit_intent_shown', {trigger: via});
+  }
+  function cerrar() {
+    abierto = false;
+    box.classList.remove('is-open');
+    box.setAttribute('aria-hidden', 'true');
+  }
+
+  /* Escritorio: el cursor sale por el borde superior */
+  document.addEventListener('mouseout', function (e) {
+    if (!e.relatedTarget && e.clientY <= 4) abrir('mouseout');
+  });
+  /* Móvil: scroll rápido hacia arriba tras haber recorrido la página */
+  var lastY = window.scrollY, maxY = 0;
+  window.addEventListener('scroll', function () {
+    var y = window.scrollY;
+    maxY = Math.max(maxY, y);
+    if (maxY > 1200 && lastY - y > 90) abrir('scroll_up');
+    lastY = y;
+  }, {passive: true});
+
+  $('#exitClose').addEventListener('click', cerrar);
+  $('#exitNo').addEventListener('click', cerrar);
+  $('#exitScrim').addEventListener('click', cerrar);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && abierto) cerrar(); });
+
+  $('#exitForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = $('#exitEmail').value.trim(), msg = $('#exitMsg');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      msg.textContent = 'Revisa el correo: no parece válido.'; msg.className = 'exit__msg is-err'; return;
+    }
+    if (!$('#exitOk').checked) {
+      msg.textContent = 'Necesitamos tu autorización para escribirte.'; msg.className = 'exit__msg is-err'; return;
+    }
+    track('generate_lead', {method: 'exit_intent', email_domain: email.split('@')[1]});
+    msg.textContent = '✓ Listo. Abrimos WhatsApp para enviarte el catálogo y tu cupón.';
+    msg.className = 'exit__msg is-ok';
+    var txt = 'Hola CLUBCAFECOL, quiero el catálogo 2026 en PDF y mi cupón del 10 % de bienvenida. ' +
+              'Mi correo es: ' + email;
+    setTimeout(function () {
+      window.open('https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
+      var a = document.createElement('a');
+      a.href = 'assets/pdf/Catalogo_CLUBCAFECOL_2026_B2C.pdf';
+      a.download = ''; document.body.appendChild(a); a.click(); a.remove();
+      cerrar();
+    }, 700);
   });
 }
 
@@ -816,6 +967,7 @@ function boot() {
   initCart();
   initQuiz();
   initEmail();
+  initExit();
   initWA();
   initReveal();
   requestAnimationFrame(initHeroVideo);

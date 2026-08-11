@@ -6,7 +6,8 @@ Uso:  python3 build.py        (escribe ../index.html, ../sitemap.xml, ../robots.
 import json, os, sys, io, datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from skus import (SKUS, CLUB, BUNDLES, TESTIMONIOS, FAQ, QUIZ, FORMATOS, TAZAS,
-                  EXOTICOS, WA_NUM, NIT, ENVIO_GRATIS, SITE, ASSET_VER)
+                  EXOTICOS, WA_NUM, NIT, ENVIO_GRATIS, SITE, ASSET_VER,
+                  MOLIENDAS, DESTACADOS, LEALTAD, REFERIDOS)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANGS = [("es","Español","🇪🇸"),("en","English","🇬🇧"),("pt","Português","🇧🇷"),
@@ -25,6 +26,16 @@ def enriquecer():
         s["valor"] = round(s["sca"] / (s["taza"] / 1000), 1) if s.get("sca") else None
         s["exotico"] = s["varietal"] in EXOTICOS
         s["img"] = "assets/productos/" + s["id"].lower()
+        s["destacado"] = s["id"] in DESTACADOS
+        # Línea de procedencia: solo si hay dato real de finca o caficultor
+        if s.get("caficultor") and s.get("finca"):
+            s["proc_txt"] = "Cultivado por %s en %s" % (s["caficultor"], s["finca"])
+        elif s.get("finca"):
+            s["proc_txt"] = "Cultivado en %s" % s["finca"]
+        elif s.get("caficultor"):
+            s["proc_txt"] = "Cultivado por %s" % s["caficultor"]
+        else:
+            s["proc_txt"] = None
     # Etiquetas de mejor relación calidad-precio
     conf = [x for x in SKUS if x.get("sca")]
     mejor_global = max(conf, key=lambda x: x["valor"])
@@ -73,10 +84,30 @@ def card(s, i):
 
     notas = "".join('<span>%s</span>' % n for n in s["notas"])
 
+    mol_ops = "".join('<option value="%s">%s</option>' % (v, l) for v, l in MOLIENDAS)
+
+    # Micro-reseñas — solo si hay datos reales en skus.py
+    rs = s.get("resenas")
+    resenas = ""
+    if rs and rs.get("n") and rs.get("prom"):
+        llenas = int(round(rs["prom"]))
+        estrellas = "★" * llenas + "☆" * (5 - llenas)
+        resenas = ('<div class="card__rate"><span class="card__stars" aria-hidden="true">%s</span>'
+                   '<b>%s</b><span class="card__rate-n">%d reseñas</span></div>'
+                   % (estrellas, str(rs["prom"]).replace(".", ","), rs["n"]))
+
+    # Escasez — solo si hay inventario real declarado
+    stock = ""
+    if s.get("stock") is not None and s["stock"] <= 12:
+        stock = ('<div class="card__stock"><i></i>Solo quedan %d bolsas de este lote</div>'
+                 % s["stock"])
+
+    proc = ('<p class="card__proc">%s</p>' % s["proc_txt"]) if s.get("proc_txt") else ""
+
     return """
-      <article class="card" data-sku="%(id)s" data-idx="%(i)d" data-col="%(col)s"
+      <article class="card%(extra)s" id="%(id)s" data-sku="%(id)s" data-idx="%(i)d" data-col="%(col)s"
                data-sca="%(scanum)d" data-precio="%(p250)d" data-valor="%(valor)s"
-               data-exotico="%(exo)d" data-premio="%(prem)d">
+               data-exotico="%(exo)d" data-premio="%(prem)d" data-dest="%(dest)d">
         <div class="card__media">
           <picture>
             <source srcset="%(img)s.webp" type="image/webp">
@@ -89,9 +120,19 @@ def card(s, i):
         <div class="card__body">
           <div class="card__badges">%(badges)s</div>
           <h3 class="card__name">%(nombre)s</h3>
+          %(resenas)s
           <p class="card__var">%(varietal)s · %(proceso)s · %(msnm)s msnm</p>
+          %(proc)s
           <div class="card__notas">%(notas)s</div>
-          <div class="card__fmts" role="group" aria-label="Formato de %(nombre)s">%(chips)s</div>
+          %(stock)s
+          <div class="card__opt">
+            <span class="card__opt-lbl" data-i18n="opt.fmt">Tamaño</span>
+            <div class="card__fmts" role="group" aria-label="Formato de %(nombre)s">%(chips)s</div>
+          </div>
+          <div class="card__opt">
+            <label class="card__opt-lbl" for="mol-%(id)s" data-i18n="opt.mol">Molienda · sin costo</label>
+            <select class="card__mol" id="mol-%(id)s" data-mol-sel>%(mol_ops)s</select>
+          </div>
           <div class="card__price">
             <div><span class="card__price-now" data-price-out>%(p250fmt)s</span>
                  <span class="card__price-unit" data-unit-out>250 g</span></div>
@@ -111,6 +152,8 @@ def card(s, i):
         id=s["id"], i=i, col=s["col"], scanum=s.get("sca") or 0, p250=s["precios"]["250g"],
         valor=("%.1f" % s["valor"]) if s["valor"] else "0",
         exo=1 if s.get("exotico") else 0, prem=1 if s.get("premio") else 0,
+        dest=1 if s["destacado"] else 0, extra="" if s["destacado"] else " is-extra",
+        resenas=resenas, stock=stock, proc=proc, mol_ops=mol_ops,
         img=s["img"], nombre=s["nombre"], varietal=s["varietal"], proceso=s["proceso"],
         msnm=s["msnm"], sca=sca, badges="".join(badges), notas=notas, chips=chips,
         p250fmt=cop(s["precios"]["250g"]), taza=cop(s["taza"]),
@@ -308,7 +351,12 @@ def sec_quiz():
       <div class="qz__step qz__result" data-step="99">
         <h3 data-i18n="qz.rTitle">Tu café es…</h3>
         <div id="qzOut"></div>
-        <button type="button" class="btn btn--ghost" id="qzReset" data-i18n="qz.again">Repetir el test</button>
+        <div class="qz__foot">
+          <button type="button" class="btn btn--ig" id="qzShare">
+            <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9a3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.9 5.9 0 0 0-2.13 1.38A5.9 5.9 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13a5.9 5.9 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.9 5.9 0 0 0 2.13-1.38 5.9 5.9 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 0 0-1.38-2.13A5.9 5.9 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0m0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32M12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8m7.85-10.4a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0"/></svg>
+            <span data-i18n="qz.share">Compartir en Instagram Stories</span></button>
+          <button type="button" class="btn btn--ghost" id="qzReset" data-i18n="qz.again">Repetir el test</button>
+        </div>
       </div>
     </div>
   </div>
@@ -317,8 +365,13 @@ def sec_quiz():
 
 def sec_bundles():
     items = ""
-    for b in BUNDLES:
+    for b in [x for x in BUNDLES if x.get("activo", True)]:
         inc = "".join("<li>%s</li>" % x for x in b["incluye"])
+        gam = ""
+        if b.get("gamificacion"):
+            gam = ('<div class="bdl__gam"><b>🎟️ Pasaporte físico incluido</b>'
+                   '<span>Cada paquete trae un sello. Completa 5 orígenes distintos, '
+                   'sube la foto etiquetando a @clubcafecol y te regalamos una bolsa de 250 g.</span></div>')
         tach = '<s>%s</s>' % cop(b["tachado"]) if b.get("tachado") else ""
         ahorro = ('<span class="bdl__save">Ahorras %s</span>' % cop(b["tachado"] - b["precio"])) if b.get("tachado") else ""
         items += """
@@ -328,12 +381,13 @@ def sec_bundles():
         <h3>%(nombre)s</h3>
         <p class="bdl__desc">%(desc)s</p>
         <ul class="bdl__inc">%(inc)s</ul>
+        %(gam)s
         <div class="bdl__price">%(tach)s<b>%(precio)s</b>%(ahorro)s</div>
         <button type="button" class="btn btn--add" data-add-bundle="%(id)s" data-nombre="%(nombre)s" data-precio="%(pnum)d">
           <span data-i18n="cta.add">Agregar</span></button>
       </article>""" % dict(id=b["id"], emoji=b["emoji"], tag=b["tag"], nombre=b["nombre"],
                            desc=b["desc"], inc=inc, tach=tach, precio=cop(b["precio"]),
-                           ahorro=ahorro, pnum=b["precio"])
+                           ahorro=ahorro, pnum=b["precio"], gam=gam)
     return """
 <section class="bundles" id="kits">
   <div class="wrap">
@@ -374,16 +428,77 @@ def sec_club():
 </section>""" % dict(cards=cards)
 
 
+def sec_lealtad():
+    niveles = "".join(
+        '<div class="lv"><div class="lv__ico">%s</div><h3>%s</h3>'
+        '<div class="lv__desde">%s</div><ul>%s</ul></div>'
+        % (n["icon"], n["nombre"],
+           "Desde el primer pedido" if n["desde"] == 0 else "Desde %s puntos" % f"{n['desde']:,}".replace(",", "."),
+           "".join("<li>%s</li>" % b for b in n["benef"]))
+        for n in LEALTAD["niveles"])
+    canje = "".join('<div class="cj"><b>%s</b><span>%s</span></div>' % (p, r)
+                    for p, r in LEALTAD["canje"])
+    return """
+<section class="lealtad" id="lealtad">
+  <div class="wrap">
+    <div class="kicker" data-i18n="ly.kicker">Club de Grano · programa de puntos</div>
+    <h2 data-i18n="ly.title">Cada taza <em>suma</em></h2>
+    <p class="sec-sub" data-i18n="ly.sub">Acumulas 1 punto por cada $1.000 de compra, seas suscriptor o no. Los niveles suben solos y los puntos se canjean por café. No caducan mientras compres al menos una vez al año.</p>
+    <div class="lealtad__grid">%(niveles)s</div>
+    <div class="canje">
+      <h3 data-i18n="ly.canje">En qué se convierten tus puntos</h3>
+      <div class="canje__grid">%(canje)s</div>
+    </div>
+    <div class="lealtad__cta">
+      <a class="btn btn--gold btn--lg" href="%(wa)s" target="_blank" rel="noopener" data-i18n="ly.cta">Activar mi cuenta de puntos</a>
+      <p data-i18n="ly.nota">Se activa con tu número de WhatsApp: no hay que registrarse ni crear contraseña.</p>
+    </div>
+  </div>
+</section>""" % dict(niveles=niveles, canje=canje,
+                     wa=wa("Hola CLUBCAFECOL, quiero activar mi cuenta del Club de Grano para acumular puntos. Mi nombre es ____."))
+
+
+def sec_referidos():
+    return """
+<section class="refer" id="referidos">
+  <div class="wrap refer__in">
+    <div class="refer__txt">
+      <div class="kicker" data-i18n="rf.kicker">Programa de referidos</div>
+      <h2 data-i18n="rf.title">Comparte el hallazgo,<br><em>llévate el café</em></h2>
+      <p data-i18n="rf.sub">Pide tu enlace por WhatsApp y compártelo con quien quieras. Tu amigo estrena con %(dto)s%% de descuento en su primera compra y, cuando esa compra se confirme, tú recibes %(premio)s o %(pts)s puntos. Sin tope: si traes cinco, ganas cinco veces.</p>
+      <div class="refer__steps">
+        <div><b>1</b><span data-i18n="rf.s1">Pides tu enlace único</span></div>
+        <div><b>2</b><span data-i18n="rf.s2">Tu amigo compra con %(dto)s%% off</span></div>
+        <div><b>3</b><span data-i18n="rf.s3">Tú recibes tu recompensa</span></div>
+      </div>
+      <a class="btn btn--gold btn--lg" href="%(wa)s" target="_blank" rel="noopener" data-i18n="rf.cta">Quiero mi enlace de referido</a>
+    </div>
+    <div class="refer__card">
+      <div class="refer__badge">🎁</div>
+      <div class="refer__big">%(dto)s%%</div>
+      <p data-i18n="rf.card1">de descuento para quien invites</p>
+      <div class="refer__sep"></div>
+      <div class="refer__big refer__big--alt">%(premio)s</div>
+      <p data-i18n="rf.card2">para ti, por cada amigo que compre</p>
+    </div>
+  </div>
+</section>""" % dict(dto=REFERIDOS["dto_amigo"], premio=REFERIDOS["premio_referente"],
+                     pts=f"{REFERIDOS['puntos_referente']:,}".replace(",", "."),
+                     wa=wa("Hola CLUBCAFECOL, quiero mi enlace de referido para invitar amigos al club. Mi nombre es ____."))
+
+
 def sec_testimonios():
     items = "".join(
-        '<figure class="tst"><div class="tst__stars">%s</div><blockquote>%s</blockquote>'
-        '<figcaption><b>%s</b><span>%s · %s</span></figcaption></figure>'
-        % ("★" * t["r"], t["q"], t["n"], t["c"], t["t"]) for t in TESTIMONIOS)
+        '<figure class="tst" lang="%s"><div class="tst__stars">%s</div><blockquote>%s</blockquote>'
+        '<figcaption><b>%s</b><span>%s %s · %s</span></figcaption></figure>'
+        % (t.get("lang", "es"), "★" * t["r"], t["q"], t["n"], t.get("p", ""), t["c"], t["t"])
+        for t in TESTIMONIOS)
     return """
 <section class="testi" id="opiniones">
   <div class="wrap">
     <div class="kicker" data-i18n="tst.kicker">Lo que dicen quienes ya lo probaron</div>
     <h2 data-i18n="tst.title">Confianza que <em>se toma</em></h2>
+    <p class="sec-sub" data-i18n="tst.sub">De Bogotá a Tokio: despachamos a Estados Unidos, Europa, Brasil y Asia con guía rastreable.</p>
     <div class="testi__grid">%(items)s</div>
     <div class="trustbar">
       <div class="trustbar__i"><b>🔒</b><span data-i18n="trust.t1">Pago confirmado antes de despachar</span></div>
@@ -427,11 +542,14 @@ def build():
         "origen": s["origen"], "notas": s["notas"], "precios": s["precios"],
         "taza": s["taza"], "valor": s["valor"], "img": s["img"],
         "premio": s.get("premio"), "exotico": s.get("exotico", False),
-        "deca": s.get("bajo_cafeina", False),
+        "deca": s.get("bajo_cafeina", False), "proc": s.get("proc_txt"),
+        "resenas": s.get("resenas"), "stock": s.get("stock"),
+        "dest": s["destacado"],
     } for s in SKUS], ensure_ascii=False)
 
     bundles_json = json.dumps([{"id": b["id"], "nombre": b["nombre"], "precio": b["precio"]}
-                               for b in BUNDLES], ensure_ascii=False)
+                               for b in BUNDLES if b.get("activo", True)], ensure_ascii=False)
+    mol_json = json.dumps([{"v": v, "l": l} for v, l in MOLIENDAS], ensure_ascii=False)
 
     html = """<!DOCTYPE html>
 <html lang="es" dir="ltr">
@@ -520,6 +638,7 @@ function gtag(){dataLayer.push(arguments);}
       <a href="#catalogo" data-i18n="nav.catalogo">Catálogo</a>
       <a href="#kits" data-i18n="nav.kits">Kits</a>
       <a href="#club" data-i18n="nav.club">Club</a>
+      <a href="#lealtad" data-i18n="nav.puntos">Puntos</a>
       <a href="#faq" data-i18n="nav.faq">FAQ</a>
     </nav>
     <div class="nav__tools">
@@ -562,7 +681,7 @@ function gtag(){dataLayer.push(arguments);}
     <p class="hero__sub" data-i18n="hero.sub">21 lotes de café de especialidad del sur de Colombia, de 85 a 89 puntos SCA. Tostados el día de tu pedido y molidos a la medida de tu cafetera.</p>
     <div class="hero__cta">
       <a class="btn btn--gold btn--lg" href="#catalogo" data-i18n="hero.cta1">Ver los 21 lotes</a>
-      <a class="btn btn--ghost btn--lg" href="#quiz" data-i18n="hero.cta2">¿Cuál es el mío?</a>
+      <a class="btn btn--ghost btn--lg" href="#quiz" data-i18n="hero.cta2">Ayúdame a elegir</a>
     </div>
     <div class="hero__stats">
       <div><b>21</b><span data-i18n="hero.s1">lotes únicos</span></div>
@@ -578,9 +697,9 @@ function gtag(){dataLayer.push(arguments);}
 <!-- ══ PILARES ══════════════════════════════════════════════════════════ -->
 <section class="pilares">
   <div class="wrap pilares__grid">
-    <div class="pilar"><div class="pilar__i">🌄</div><h3 data-i18n="pil.t1">Origen con nombre</h3><p data-i18n="pil.d1">Fincas de Pitalito y Acevedo, Huila, entre 1.650 y 1.700 msnm. Compra directa al caficultor.</p></div>
+    <div class="pilar"><div class="pilar__i">🌄</div><h3 data-i18n="pil.t1">Del grano a tu taza.</h3><p data-i18n="pil.d1">Fincas de Pitalito y Acevedo, Huila, entre 1.650 y 1.700 msnm. Somos caficultores, sin intermediarios.</p></div>
     <div class="pilar"><div class="pilar__i">🔥</div><h3 data-i18n="pil.t2">Tueste bajo pedido</h3><p data-i18n="pil.d2">Tostamos en lotes pequeños el mismo día que compras. Nunca café de bodega.</p></div>
-    <div class="pilar"><div class="pilar__i">⚙️</div><h3 data-i18n="pil.t3">Molienda a tu medida</h3><p data-i18n="pil.d3">Eliges el método en el carrito — espresso, V60, prensa, moka — y molemos sin costo.</p></div>
+    <div class="pilar"><div class="pilar__i">⚙️</div><h3 data-i18n="pil.t3">Molienda a tu medida</h3><p data-i18n="pil.d3">Eliges el método al agregar el café — espresso, V60, prensa, moka — y molemos sin costo.</p></div>
     <div class="pilar"><div class="pilar__i">🚚</div><h3 data-i18n="pil.t4">Entrega rápida</h3><p data-i18n="pil.d4">Empacado al vacío tras el tueste. Bogotá 24-48 h, resto del país 2-5 días.</p></div>
   </div>
 </section>
@@ -613,7 +732,12 @@ function gtag(){dataLayer.push(arguments);}
         </select>
       </label>
     </div>
+    <p class="cat__curada" id="curadaMsg" data-i18n="cat.curada">Empieza por la selección del fundador: los ocho lotes que mejor representan la casa.</p>
     <div class="cat__grid" id="grid">%(cards)s</div>
+    <div class="cat__more" id="moreWrap">
+      <button type="button" class="btn btn--ghost btn--lg" id="verTodos">
+        <span data-i18n="cat.verTodos">Ver los 21 lotes</span> ↓</button>
+    </div>
     <div class="cat__help">
       <p data-i18n="cat.help">¿Sigues dudando? Te asesoramos gratis, sin compromiso.</p>
       <a class="btn btn--wa" href="%(wahelp)s" target="_blank" rel="noopener" data-i18n="cat.helpCta">Hablar con un catador →</a>
@@ -623,6 +747,8 @@ function gtag(){dataLayer.push(arguments);}
 
 %(bundles)s
 %(club)s
+%(lealtad)s
+%(referidos)s
 %(testi)s
 
 <!-- ══ DESCARGA PDF (con captura de correo) ═════════════════════════════ -->
@@ -672,6 +798,8 @@ function gtag(){dataLayer.push(arguments);}
     <div class="ft__col">
       <h4 data-i18n="ft.emp">Empresa</h4>
       <a href="#club" data-i18n="nav.club">Club de Temporada</a>
+      <a href="#lealtad" data-i18n="ft.puntos">Club de Grano · puntos</a>
+      <a href="#referidos" data-i18n="ft.ref">Programa de referidos</a>
       <a href="#opiniones" data-i18n="ft.op">Opiniones</a>
       <a href="#faq" data-i18n="nav.faq">Preguntas frecuentes</a>
       <a href="%(wab2b)s" target="_blank" rel="noopener" data-i18n="ft.b2b">Venta a empresas (B2B)</a>
@@ -744,6 +872,10 @@ function gtag(){dataLayer.push(arguments);}
         <div class="mdl__notas" id="mdlNotas"></div>
         <dl class="mdl__specs" id="mdlSpecs"></dl>
         <div class="mdl__prices" id="mdlPrices"></div>
+        <label class="mdl__mol">
+          <span data-i18n="opt.mol">Molienda · sin costo</span>
+          <select id="mdlMol"></select>
+        </label>
         <div class="mdl__actions">
           <button type="button" class="btn btn--gold btn--block" id="mdlAdd" data-i18n="cta.addCart">Agregar al carrito</button>
           <a class="btn btn--ghost btn--block" id="mdlWa" href="#" target="_blank" rel="noopener" data-i18n="cta.waDirect">Pedir directo por WhatsApp</a>
@@ -781,10 +913,36 @@ function gtag(){dataLayer.push(arguments);}
   <div class="wa__bubble" data-i18n="wa.bubble">¿Te asesoramos? ☕</div>
 </div>
 
+<!-- ══ POP-UP DE INTENCIÓN DE SALIDA ════════════════════════════════════ -->
+<div class="exit" id="exit" aria-hidden="true">
+  <div class="exit__scrim" id="exitScrim"></div>
+  <div class="exit__box" role="dialog" aria-modal="true" aria-labelledby="exitTitle">
+    <button type="button" class="exit__x" id="exitClose" aria-label="Cerrar">×</button>
+    <div class="exit__art">
+      <picture><source srcset="assets/productos/pre-008.webp" type="image/webp">
+      <img src="assets/productos/pre-008.jpg" alt="Etiqueta CORONA, Campeón Nacional" width="760" height="1429" loading="lazy"></picture>
+    </div>
+    <div class="exit__body">
+      <div class="exit__tag" data-i18n="ex.tag">Antes de que te vayas</div>
+      <h3 id="exitTitle" data-i18n="ex.title">Llévate el catálogo <em>y un 10 %% de descuento</em></h3>
+      <p data-i18n="ex.sub">Te enviamos las 21 etiquetas en PDF, una guía de extracción y un cupón del 10 %% para tu primera compra. Un solo correo, sin spam.</p>
+      <form class="exit__form" id="exitForm" novalidate>
+        <input type="email" id="exitEmail" required placeholder="tu@correo.com" aria-label="Correo electrónico" autocomplete="email">
+        <button type="submit" class="btn btn--gold" data-i18n="ex.btn">Quiero mi cupón</button>
+        <label class="exit__ok"><input type="checkbox" id="exitOk" required>
+          <span data-i18n="ex.legal">Autorizo el tratamiento de mis datos según la <a href="legal/politica-datos.html" target="_blank" rel="noopener">política de privacidad</a>.</span></label>
+        <p class="exit__msg" id="exitMsg" role="status"></p>
+      </form>
+      <button type="button" class="exit__no" id="exitNo" data-i18n="ex.no">No, gracias</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ TOAST ════════════════════════════════════════════════════════════ -->
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script>window.CCC_SKUS = %(skusjson)s; window.CCC_BUNDLES = %(bundlesjson)s;</script>
+<script>window.CCC_SKUS = %(skusjson)s; window.CCC_BUNDLES = %(bundlesjson)s;
+window.CCC_MOLIENDAS = %(moljson)s; window.CCC_DTO_REF = %(dtoref)d;</script>
 <script src="i18n.js%(v)s"></script>
 <script src="script.js%(v)s"></script>
 </body>
@@ -793,7 +951,8 @@ function gtag(){dataLayer.push(arguments);}
            envio=ENVIO_GRATIS, enviofmt=cop(ENVIO_GRATIS), ver=ASSET_VER,
            langopts=langopts, cards=cards, trofeos=sec_trofeos(), valorsec=sec_valor(), quiz=sec_quiz(),
            bundles=sec_bundles(), club=sec_club(), testi=sec_testimonios(), faq=sec_faq(),
-           skusjson=skus_json, bundlesjson=bundles_json,
+           lealtad=sec_lealtad(), referidos=sec_referidos(), dtoref=REFERIDOS["dto_amigo"],
+           skusjson=skus_json, bundlesjson=bundles_json, moljson=mol_json,
            wahelp=wa("Hola CLUBCAFECOL, necesito asesoría para elegir mi café. Preparo el café en ____ y me gustan los sabores ____. ¿Qué me recomiendan?"),
            wab2b=wa("Hola CLUBCAFECOL, represento una empresa/cafetería y quiero cotizar café de especialidad al por mayor. Consumimos aprox. ____ kg al mes."))
 
