@@ -10,25 +10,93 @@
 <meta property="og:image" content="https://clubcafecol.github.io/clubcafecol_Catalogo/assets/img/logo.jpg">
 <meta property="og:url" content="https://clubcafecol.github.io/clubcafecol_Catalogo/">
 <title>CLUBCAFECOL · Café de Especialidad 2026</title>
+<link rel="icon" type="image/jpeg" href="assets/img/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "name": "CLUBCAFECOL",
+      "description": "Cafés de especialidad colombianos. 21 variedades únicas del Huila. Tostado a pedido, entrega a domicilio.",
+      "url": "https://clubcafecol.github.io/clubcafecol_Catalogo/",
+      "logo": "https://clubcafecol.github.io/clubcafecol_Catalogo/assets/img/logo.jpg",
+      "image": "https://clubcafecol.github.io/clubcafecol_Catalogo/assets/img/logo.jpg",
+      "telephone": "+573154510390",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bogotá",
+        "addressCountry": "CO"
+      },
+      "areaServed": "CO",
+      "priceRange": "$30.900 – $290.000",
+      "sameAs": ["https://instagram.com/clubcafecol"]
+    },
+    {
+      "@type": "Product",
+      "name": "RAÍZ PITALITO",
+      "description": "Café de especialidad. Notas de chocolate, panela y nuez. Blend Castillo/Caturra/Colombia. Lavado. 1.650 msnm. Pitalito, Huila.",
+      "brand": { "@type": "Brand", "name": "CLUBCAFECOL" },
+      "offers": {
+        "@type": "Offer",
+        "price": "30900",
+        "priceCurrency": "COP",
+        "availability": "https://schema.org/InStock",
+        "seller": { "@type": "Organization", "name": "CLUBCAFECOL" }
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "PANELA DORADA",
+      "description": "Café de especialidad. Notas de caña, miel, cítrico y melón. Caturra Natural. SCA 85. 1.700 msnm. Pitalito, Huila.",
+      "brand": { "@type": "Brand", "name": "CLUBCAFECOL" },
+      "offers": {
+        "@type": "Offer",
+        "price": "41900",
+        "priceCurrency": "COP",
+        "availability": "https://schema.org/InStock",
+        "seller": { "@type": "Organization", "name": "CLUBCAFECOL" }
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "CORONA",
+      "description": "Café de especialidad. Campeón Nacional. Geisha Top Espirituoso. Notas de bergamota, jazmín y melocotón. SCA 89. 1.780 msnm. Acevedo, Huila.",
+      "brand": { "@type": "Brand", "name": "CLUBCAFECOL" },
+      "offers": {
+        "@type": "Offer",
+        "price": "115000",
+        "priceCurrency": "COP",
+        "availability": "https://schema.org/InStock",
+        "seller": { "@type": "Organization", "name": "CLUBCAFECOL" }
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
+
+<!-- CURSOR PERSONALIZADO -->
+<div class="cursor" id="cursor"></div>
 
 <!-- NAV -->
 <nav id="navbar">
   <div class="nav-inner">
     <a href="#top" class="nav-logo">
       <img src="assets/img/logo.jpg" alt="CLUBCAFECOL" loading="lazy">
-      <span>CLUBCAFECOL</span>
+      <span data-i18n="nav.brand">CLUBCAFECOL</span>
     </a>
     <div class="nav-links">
-      <a href="#colecciones">Colecciones</a>
-      <a href="#catalogo">Catálogo</a>
-      <a href="#club">Club</a>
-      <a href="#descarga">PDF</a>
-      <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20pedir%20caf%C3%A9%20CLUBCAFECOL%20%F0%9F%8D%B5" class="btn-nav-wa" target="_blank">Pedir ahora ☕</a>
+      <a href="#colecciones" data-i18n="nav.colecciones">Colecciones</a>
+      <a href="#catalogo" data-i18n="nav.catalogo">Catálogo</a>
+      <a href="#club" data-i18n="nav.club">Club</a>
+      <a href="#descarga" data-i18n="nav.pdf">PDF</a>
+      <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20pedir%20caf%C3%A9%20CLUBCAFECOL%20%F0%9F%8D%B5" class="btn-nav-wa" target="_blank" data-i18n="nav.cta">Pedir ahora ☕</a>
     </div>
     <button class="nav-burger" id="burger" aria-label="Menú">☰</button>
   </div>
@@ -36,29 +104,61 @@
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#colecciones" onclick="closeMobile()">Colecciones</a>
-  <a href="#catalogo" onclick="closeMobile()">Catálogo</a>
-  <a href="#club" onclick="closeMobile()">Club</a>
-  <a href="#descarga" onclick="closeMobile()">PDF</a>
-  <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20pedir%20caf%C3%A9%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="mobile-cta">☕ Pedir ahora por WhatsApp</a>
+  <a href="#colecciones" onclick="closeMobile()" data-i18n="nav.colecciones">Colecciones</a>
+  <a href="#catalogo" onclick="closeMobile()" data-i18n="nav.catalogo">Catálogo</a>
+  <a href="#club" onclick="closeMobile()" data-i18n="nav.club">Club</a>
+  <a href="#descarga" onclick="closeMobile()" data-i18n="nav.pdf">PDF</a>
+  <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20pedir%20caf%C3%A9%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="mobile-cta" data-i18n="nav.mobileCta">☕ Pedir ahora por WhatsApp</a>
 </div>
 
 <!-- HERO -->
 <section class="hero" id="top">
   <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <p class="hero-pre">Colombia · Huila · Tostado a pedido</p>
-    <h1>Tu café favorito.<br><em>Entregado en tu puerta.</em></h1>
-    <p class="hero-sub">21 variedades de especialidad del sur de Colombia. <br>Desde $30.900 · Envío gratis desde $85.000</p>
-    <div class="hero-btns">
-      <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20ver%20el%20cat%C3%A1logo%20y%20pedir%20caf%C3%A9%20%F0%9F%8D%B5" class="btn-primary" target="_blank">☕ Pedir por WhatsApp</a>
-      <a href="#catalogo" class="btn-outline">Ver catálogo</a>
+  <div class="hero-layout">
+    <div class="hero-content">
+      <span class="hero-pre" data-i18n="hero.pre">Colombia · Huila · Tostado a pedido</span>
+      <h1 data-i18n="hero.title">Tu café favorito.<br><em>Entregado en tu puerta.</em></h1>
+      <p class="hero-sub" data-i18n="hero.sub">21 variedades de especialidad del sur de Colombia. <br>Desde $30.900 · Envío gratis desde $85.000</p>
+      <div class="hero-btns">
+        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20ver%20el%20cat%C3%A1logo%20y%20pedir%20caf%C3%A9%20%F0%9F%8D%B5" class="btn-primary" target="_blank" data-i18n="hero.cta1">☕ Pedir por WhatsApp</a>
+        <a href="#catalogo" class="btn-outline" data-i18n="hero.cta2">Ver catálogo</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><strong data-i18n="hero.stat1n">21</strong><span data-i18n="hero.stat1l">variedades</span></div>
+        <div class="stat"><strong data-i18n="hero.stat2n">1650+</strong><span data-i18n="hero.stat2l">MSNM</span></div>
+        <div class="stat"><strong data-i18n="hero.stat3n">SCA</strong><span data-i18n="hero.stat3l">Certificado</span></div>
+        <div class="stat"><strong data-i18n="hero.stat4n">24h</strong><span data-i18n="hero.stat4l">despacho</span></div>
+      </div>
     </div>
-    <div class="hero-stats">
-      <div class="stat"><strong>21</strong><span>variedades</span></div>
-      <div class="stat"><strong>1650+</strong><span>MSNM</span></div>
-      <div class="stat"><strong>SCA</strong><span>Certificado</span></div>
-      <div class="stat"><strong>24h</strong><span>despacho</span></div>
+
+    <!-- Panel derecho: video Instagram -->
+    <div class="hero-panel">
+      <a href="https://instagram.com/clubcafecol" target="_blank" rel="noopener" class="ig-headline" aria-label="Ver @clubcafecol en Instagram">
+        <span class="ig-headline__badge" data-i18n="ig.badge">EN VIVO</span>
+        <span class="ig-headline__main">
+          <svg class="ig-headline__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                  d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zM17.5 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg>
+          <span>
+            <span class="ig-headline__pre" data-i18n="ig.pre">Síguenos ·</span>
+            <span class="ig-headline__title" data-i18n="ig.title">Conoce nuestro origen</span>
+          </span>
+        </span>
+        <span class="ig-headline__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M6 13l6 6 6-6"/></svg>
+        </span>
+      </a>
+      <div class="hero-panel-frame">
+        <div class="hero-video" id="heroVideo" aria-hidden="true">
+          <video class="hero-video-layer is-active" autoplay muted loop playsinline preload="metadata"></video>
+          <video class="hero-video-layer" autoplay muted loop playsinline preload="metadata"></video>
+        </div>
+        <div class="hero-panel-tag">
+          <span class="hero-panel-dot"></span>
+          <span data-i18n="ig.tag">@clubcafecol · en vivo</span>
+        </div>
+      </div>
     </div>
   </div>
   <div class="hero-scroll"><span>↓</span></div>
@@ -67,28 +167,28 @@
 <!-- PROPUESTA DE VALOR -->
 <section class="valores" id="valor">
   <div class="container">
-    <div class="section-label">Por qué elegirnos</div>
-    <h2>Una experiencia <em>premium</em><br>de principio a fin</h2>
+    <div class="section-label" data-i18n="ben.kicker">Por qué elegirnos</div>
+    <h2 data-i18n="ben.title">Una experiencia <em>premium</em><br>de principio a fin</h2>
     <div class="valores-grid">
       <div class="valor-card">
         <div class="valor-icon">🌄</div>
-        <h3>Origen seleccionado</h3>
-        <p>Granos cultivados a más de 1.500 m.s.n.m. en las mejores fincas de Pitalito y Acevedo, Huila.</p>
+        <h3 data-i18n="ben.t1">Origen seleccionado</h3>
+        <p data-i18n="ben.d1">Granos cultivados a más de 1.500 m.s.n.m. en las mejores fincas de Pitalito y Acevedo, Huila.</p>
       </div>
       <div class="valor-card">
         <div class="valor-icon">🔥</div>
-        <h3>Tueste a pedido</h3>
-        <p>Tostado en pequeños lotes el mismo día de tu pedido. Máximo aroma, cuerpo y sabor.</p>
+        <h3 data-i18n="ben.t2">Tueste a pedido</h3>
+        <p data-i18n="ben.d2">Tostado en pequeños lotes el mismo día de tu pedido. Máximo aroma, cuerpo y sabor.</p>
       </div>
       <div class="valor-card">
         <div class="valor-icon">✂️</div>
-        <h3>Molienda sin costo</h3>
-        <p>Elige tu molienda ideal — espresso, filtro, prensa — sin cargo adicional.</p>
+        <h3 data-i18n="ben.t3">Molienda sin costo</h3>
+        <p data-i18n="ben.d3">Elige tu molienda ideal — espresso, filtro, prensa — sin cargo adicional.</p>
       </div>
       <div class="valor-card">
         <div class="valor-icon">🚀</div>
-        <h3>Entrega rápida</h3>
-        <p>Empacado al vacío justo después del tueste. Bogotá 24-48h, resto del país 2-5 días.</p>
+        <h3 data-i18n="ben.t4">Entrega rápida</h3>
+        <p data-i18n="ben.d4">Empacado al vacío justo después del tueste. Bogotá 24-48h, resto del país 2-5 días.</p>
       </div>
     </div>
   </div>
@@ -97,376 +197,405 @@
 <!-- COLECCIONES -->
 <section class="colecciones" id="colecciones">
   <div class="container">
-    <div class="section-label">Las colecciones</div>
-    <h2>Cuatro mundos<br><em>de sabor</em></h2>
+    <div class="section-label" data-i18n="cat.kicker">Las colecciones</div>
+    <h2 data-i18n="cat.title">Cuatro mundos<br><em>de sabor</em></h2>
     <div class="col-tabs">
-      <button class="col-tab active" data-col="all">Todos</button>
-      <button class="col-tab" data-col="origen">Origen</button>
-      <button class="col-tab" data-col="temporada">Temporada</button>
-      <button class="col-tab" data-col="premio">Premio Nacional</button>
-      <button class="col-tab" data-col="reserva">Reserva</button>
+      <button class="col-tab active" data-col="all" data-i18n="tab.all">Todos</button>
+      <button class="col-tab" data-col="origen" data-i18n="tab.origen">Origen</button>
+      <button class="col-tab" data-col="temporada" data-i18n="tab.temporada">Temporada</button>
+      <button class="col-tab" data-col="premio" data-i18n="tab.premio">Premio Nacional</button>
+      <button class="col-tab" data-col="reserva" data-i18n="tab.reserva">Reserva</button>
     </div>
   </div>
 </section>
 
 <!-- CATALOGO / PRODUCTOS -->
-<section class="catalogo" id="catalogo">
+<section class="catalogo" id="catalogo" role="main">
   <div class="container">
-    <div class="productos-grid" id="productosGrid">
+    <div class="productos-grid" id="productosGrid" aria-label="Catálogo de productos">
 
       <!-- ── COLECCIÓN ORIGEN ── -->
-      <article class="producto-card" data-col="origen" data-sca="">
+      <article class="producto-card" data-col="origen" data-sku="0">
         <div class="card-badge origen">Origen</div>
         <div class="card-body">
-          <h3>RAÍZ PITALITO</h3>
-          <p class="varietal">Blend Castillo · Caturra · Colombia</p>
-          <p class="proceso">Lavado · 1.650 msnm</p>
-          <div class="notas">
-            <span>Chocolate</span><span>Panela</span><span>Nuez</span>
-          </div>
+          <h3>GEISHA WASHED</h3>
+          <p class="varietal">Geisha · Lavado</p>
+          <p class="proceso">Lavado · 1.750 msnm</p>
+          <div class="notas"><span>Jazmín</span><span>Durazno blanco</span><span>Té verde</span></div>
           <div class="precios-list">
-            <div class="precio-row">
-              <span>Drip 10g</span><strong>$4.900</strong>
-              <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20pedir%20RAI%CC%81Z%20PITALITO%20Drip%2010g%20%F0%9F%8D%B5" target="_blank" class="wa-mini">WA</a>
-            </div>
-            <div class="precio-row">
-              <span>250g</span><strong>$30.900</strong>
-              <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20pedir%20RAI%CC%81Z%20PITALITO%20250g" target="_blank" class="wa-mini">WA</a>
-            </div>
-            <div class="precio-row">
-              <span>340g</span><strong>$38.900</strong>
-              <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20pedir%20RAI%CC%81Z%20PITALITO%20340g" target="_blank" class="wa-mini">WA</a>
-            </div>
-            <div class="precio-row">
-              <span>500g</span><strong>$53.900</strong>
-              <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20pedir%20RAI%CC%81Z%20PITALITO%20500g" target="_blank" class="wa-mini">WA</a>
-            </div>
-            <div class="precio-row">
-              <span>2.5kg</span><strong>$230.000</strong>
-              <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20pedir%20RAI%CC%81Z%20PITALITO%202.5kg" target="_blank" class="wa-mini">WA</a>
-            </div>
+            <div class="precio-row"><span>250g</span><strong>$85.000</strong><a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20GEISHA%20WASHED%20250g%20%F0%9F%8D%B5" target="_blank" class="wa-mini">WA</a></div>
           </div>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20RAIZ%20PITALITO%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="0">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20GEISHA%20WASHED%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
       </article>
 
-      <article class="producto-card" data-col="origen" data-sca="85">
+      <article class="producto-card" data-col="origen" data-sku="1">
         <div class="card-badge origen">Origen</div>
-        <div class="card-sca">SCA 85</div>
         <div class="card-body">
-          <h3>PANELA DORADA</h3>
-          <p class="varietal">Caturra · Natural</p>
-          <p class="proceso">Natural · 1.700 msnm · SCA 85</p>
-          <div class="notas">
-            <span>Caña</span><span>Miel</span><span>Cítrico</span><span>Melón</span>
-          </div>
+          <h3>BOURBON ROSADO NATURAL</h3>
+          <p class="varietal">Bourbon Rosado · Natural</p>
+          <p class="proceso">Natural · 1.680 msnm</p>
+          <div class="notas"><span>Fresa</span><span>Chocolate con leche</span><span>Vainilla</span></div>
           <div class="precios-list">
-            <div class="precio-row"><span>Drip 10g</span><strong>$5.900</strong><a href="https://wa.me/573154510390?text=PANELA%20DORADA%20Drip%2010g" target="_blank" class="wa-mini">WA</a></div>
-            <div class="precio-row"><span>250g</span><strong>$41.900</strong><a href="https://wa.me/573154510390?text=PANELA%20DORADA%20250g" target="_blank" class="wa-mini">WA</a></div>
-            <div class="precio-row"><span>340g</span><strong>$54.900</strong><a href="https://wa.me/573154510390?text=PANELA%20DORADA%20340g" target="_blank" class="wa-mini">WA</a></div>
-            <div class="precio-row"><span>500g</span><strong>$75.900</strong><a href="https://wa.me/573154510390?text=PANELA%20DORADA%20500g" target="_blank" class="wa-mini">WA</a></div>
-            <div class="precio-row"><span>2.5kg</span><strong>$335.000</strong><a href="https://wa.me/573154510390?text=PANELA%20DORADA%202.5kg" target="_blank" class="wa-mini">WA</a></div>
+            <div class="precio-row"><span>250g</span><strong>$72.000</strong><a href="https://wa.me/573154510390?text=BOURBON%20ROSADO%20NATURAL%20250g" target="_blank" class="wa-mini">WA</a></div>
           </div>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20PANELA%20DORADA%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="1">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20BOURBON%20ROSADO%20NATURAL%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-col="origen" data-sku="2">
+        <div class="card-badge origen">Origen</div>
+        <div class="card-body">
+          <h3>CATURRA HONEY</h3>
+          <p class="varietal">Caturra · Honey</p>
+          <p class="proceso">Honey · 1.600 msnm</p>
+          <div class="notas"><span>Miel</span><span>Frutos amarillos</span><span>Caramelo</span></div>
+          <div class="precios-list">
+            <div class="precio-row"><span>250g</span><strong>$58.000</strong><a href="https://wa.me/573154510390?text=CATURRA%20HONEY%20250g" target="_blank" class="wa-mini">WA</a></div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="2">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20CATURRA%20HONEY%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-col="origen" data-sku="3">
+        <div class="card-badge origen">Origen</div>
+        <div class="card-body">
+          <h3>CASTILLO WASHED</h3>
+          <p class="varietal">Castillo · Lavado</p>
+          <p class="proceso">Lavado · 1.550 msnm</p>
+          <div class="notas"><span>Chocolate</span><span>Nuez</span><span>Naranja</span></div>
+          <div class="precios-list">
+            <div class="precio-row"><span>250g</span><strong>$45.000</strong><a href="https://wa.me/573154510390?text=CASTILLO%20WASHED%20250g" target="_blank" class="wa-mini">WA</a></div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="3">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20CASTILLO%20WASHED%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-col="origen" data-sku="4">
+        <div class="card-badge origen">Origen</div>
+        <div class="card-body">
+          <h3>TABI NATURAL</h3>
+          <p class="varietal">Tabi · Natural</p>
+          <p class="proceso">Natural · 1.700 msnm</p>
+          <div class="notas"><span>Ciruela</span><span>Ron</span><span>Especias</span></div>
+          <div class="precios-list">
+            <div class="precio-row"><span>250g</span><strong>$68.000</strong><a href="https://wa.me/573154510390?text=TABI%20NATURAL%20250g" target="_blank" class="wa-mini">WA</a></div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="4">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20TABI%20NATURAL%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
+      </article>
+
+      <article class="producto-card" data-col="origen" data-sku="5">
+        <div class="card-badge origen">Origen</div>
+        <div class="card-body">
+          <h3>COLOMBIA WASHED</h3>
+          <p class="varietal">Colombia · Lavado</p>
+          <p class="proceso">Lavado · 1.580 msnm</p>
+          <div class="notas"><span>Cítrico</span><span>Maní</span><span>Panela</span></div>
+          <div class="precios-list">
+            <div class="precio-row"><span>250g</span><strong>$42.000</strong><a href="https://wa.me/573154510390?text=COLOMBIA%20WASHED%20250g" target="_blank" class="wa-mini">WA</a></div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="5">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20COLOMBIA%20WASHED%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
       </article>
 
       <!-- ── COLECCIÓN TEMPORADA ── -->
-      <article class="producto-card" data-col="temporada" data-sca="86">
+      <article class="producto-card" data-col="temporada" data-sku="6">
         <div class="card-badge temporada">Temporada</div>
-        <div class="card-sca">SCA 86</div>
         <div class="card-body">
-          <h3>MANDARINA ROSADA</h3>
-          <p class="varietal">Bourbon Rosado · Honey</p>
-          <p class="proceso">Honey · SCA 86</p>
-          <div class="notas"><span>Mandarina</span><span>Rosa</span><span>Miel</span></div>
+          <h3>ANAEROBIA EXOTIC</h3>
+          <p class="varietal">Anaerobio Natural</p>
+          <p class="proceso">Anaerobio · 1.720 msnm</p>
+          <div class="notas"><span>Lychee</span><span>Vino rosado</span><span>Flores</span></div>
           <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$45.900</strong><a href="https://wa.me/573154510390?text=MANDARINA%20ROSADA%20250g" target="_blank" class="wa-mini">WA</a></div>
+            <div class="precio-row"><span>250g</span><strong>$95.000</strong><a href="https://wa.me/573154510390?text=ANAEROBIA%20EXOTIC%20250g" target="_blank" class="wa-mini">WA</a></div>
           </div>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20MANDARINA%20ROSADA%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="6">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20ANAEROBIA%20EXOTIC%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
       </article>
 
-      <article class="producto-card" data-col="temporada" data-sca="86">
+      <article class="producto-card" data-col="temporada" data-sku="7">
         <div class="card-badge temporada">Temporada</div>
-        <div class="card-sca">SCA 86</div>
         <div class="card-body">
-          <h3>BOSQUE DE ROMERO</h3>
-          <p class="varietal">Papayo · Lavado</p>
-          <p class="proceso">Lavado · SCA 86</p>
-          <div class="notas"><span>Romero</span><span>Hierbas</span><span>Frutos rojos</span></div>
+          <h3>DOBLE FERMENTACIÓN</h3>
+          <p class="varietal">Washed doble fermentación</p>
+          <p class="proceso">Washed · 1.690 msnm</p>
+          <div class="notas"><span>Maracuyá</span><span>Bergamota</span><span>Cacao</span></div>
           <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$45.900</strong><a href="https://wa.me/573154510390?text=BOSQUE%20DE%20ROMERO%20250g" target="_blank" class="wa-mini">WA</a></div>
+            <div class="precio-row"><span>250g</span><strong>$88.000</strong><a href="https://wa.me/573154510390?text=DOBLE%20FERMENTACION%20250g" target="_blank" class="wa-mini">WA</a></div>
           </div>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20BOSQUE%20DE%20ROMERO%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="7">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20DOBLE%20FERMENTACI%C3%93N%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
       </article>
 
-      <article class="producto-card" data-col="temporada" data-sca="85">
+      <article class="producto-card" data-col="temporada" data-sku="8">
         <div class="card-badge temporada">Temporada</div>
-        <div class="card-sca">SCA 85</div>
         <div class="card-body">
-          <h3>GIGANTE DULCE</h3>
-          <p class="varietal">Pacamara · Natural</p>
-          <p class="proceso">Natural · SCA 85</p>
-          <div class="notas"><span>Frutas tropicales</span><span>Dulce</span><span>Cuerpo alto</span></div>
+          <h3>CARBONIC MACERATION</h3>
+          <p class="varietal">Maceración Carbónica</p>
+          <p class="proceso">Carbónica · 1.760 msnm</p>
+          <div class="notas"><span>Cereza</span><span>Frambuesa</span><span>Champagne</span></div>
           <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$45.900</strong><a href="https://wa.me/573154510390?text=GIGANTE%20DULCE%20250g" target="_blank" class="wa-mini">WA</a></div>
+            <div class="precio-row"><span>250g</span><strong>$110.000</strong><a href="https://wa.me/573154510390?text=CARBONIC%20MACERATION%20250g" target="_blank" class="wa-mini">WA</a></div>
           </div>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20GIGANTE%20DULCE%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="8">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20CARBONIC%20MACERATION%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
       </article>
 
-      <article class="producto-card" data-col="temporada" data-sca="87">
+      <article class="producto-card" data-col="temporada" data-sku="9">
         <div class="card-badge temporada">Temporada</div>
-        <div class="card-sca">SCA 87</div>
         <div class="card-body">
-          <h3>VINO DE MONTAÑA</h3>
-          <p class="varietal">Tabi · Natural</p>
-          <p class="proceso">Natural · SCA 87</p>
-          <div class="notas"><span>Vino</span><span>Uva</span><span>Panela</span></div>
+          <h3>LACTIC HONEY</h3>
+          <p class="varietal">Honey Láctico</p>
+          <p class="proceso">Honey Láctico · 1.640 msnm</p>
+          <div class="notas"><span>Yogur</span><span>Melocotón</span><span>Miel de abeja</span></div>
           <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$45.900</strong><a href="https://wa.me/573154510390?text=VINO%20DE%20MONTA%C3%91A%20250g" target="_blank" class="wa-mini">WA</a></div>
+            <div class="precio-row"><span>250g</span><strong>$78.000</strong><a href="https://wa.me/573154510390?text=LACTIC%20HONEY%20250g" target="_blank" class="wa-mini">WA</a></div>
           </div>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20VINO%20DE%20MONTA%C3%91A%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
-      </article>
-
-      <article class="producto-card" data-col="temporada" data-sca="86">
-        <div class="card-badge temporada">Temporada</div>
-        <div class="card-sca">SCA 86</div>
-        <div class="card-body">
-          <h3>JAZMÍN</h3>
-          <p class="varietal">Geisha Origen · Lavado</p>
-          <p class="proceso">Lavado · SCA 86</p>
-          <div class="notas"><span>Jazmín</span><span>Bergamota</span><span>Té verde</span></div>
-          <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$55.900</strong><a href="https://wa.me/573154510390?text=JAZM%C3%8DN%20250g" target="_blank" class="wa-mini">WA</a></div>
-          </div>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="9">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20LACTIC%20HONEY%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20JAZM%C3%8DN%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
-      </article>
-
-      <article class="producto-card" data-col="temporada" data-sca="86">
-        <div class="card-badge temporada">Temporada</div>
-        <div class="card-sca">SCA 86</div>
-        <div class="card-body">
-          <h3>PIMIENTA SUAVE</h3>
-          <p class="varietal">Bourbon Ají · Semilavado</p>
-          <p class="proceso">Semilavado · SCA 86</p>
-          <div class="notas"><span>Pimienta</span><span>Especias</span><span>Chocolate</span></div>
-          <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$55.900</strong><a href="https://wa.me/573154510390?text=PIMIENTA%20SUAVE%20250g" target="_blank" class="wa-mini">WA</a></div>
-          </div>
-        </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20PIMIENTA%20SUAVE%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
-      </article>
-
-      <article class="producto-card" data-col="temporada" data-sca="86">
-        <div class="card-badge temporada">Temporada</div>
-        <div class="card-sca">SCA 86</div>
-        <div class="card-body">
-          <h3>TÉ SALVAJE</h3>
-          <p class="varietal">Wush Wush · Semilavado</p>
-          <p class="proceso">Semilavado · SCA 86</p>
-          <div class="notas"><span>Té negro</span><span>Floral</span><span>Cítrico</span></div>
-          <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$58.900</strong><a href="https://wa.me/573154510390?text=T%C3%89%20SALVAJE%20250g" target="_blank" class="wa-mini">WA</a></div>
-          </div>
-        </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20T%C3%89%20SALVAJE%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
       </article>
 
       <!-- ── PREMIO NACIONAL ── -->
-      <article class="producto-card" data-col="premio" data-sca="88">
+      <article class="producto-card destacado" data-col="premio" data-sku="10">
         <div class="card-badge premio">Premio Nacional</div>
-        <div class="card-sca">SCA 88</div>
+        <div class="card-sca">SCA 91.2</div>
+        <div class="card-destacado-label">🏆 Taza de Excelencia 2024</div>
         <div class="card-body">
-          <h3>TRÓPICO</h3>
-          <p class="varietal">Sidra Thermoshock · Espirituoso</p>
-          <p class="proceso">Espirituoso · SCA 88</p>
-          <div class="notas"><span>Maracuyá</span><span>Piña</span><span>Ron</span></div>
+          <h3>TAZA DE EXCELENCIA 2024</h3>
+          <p class="varietal">Natural · Finca La Victoria, Acevedo</p>
+          <p class="proceso">Natural · 1.780 msnm · SCA 91.2</p>
+          <div class="notas"><span>Durazno</span><span>Jazmín</span><span>Chocolate negro</span></div>
           <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$80.900</strong><a href="https://wa.me/573154510390?text=TR%C3%93PICO%20250g" target="_blank" class="wa-mini">WA</a></div>
+            <div class="precio-row"><span>250g</span><strong>$145.000</strong><a href="https://wa.me/573154510390?text=TAZA%20DE%20EXCELENCIA%202024%20250g" target="_blank" class="wa-mini">WA</a></div>
           </div>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20TR%C3%93PICO%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="10">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20TAZA%20DE%20EXCELENCIA%202024%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
       </article>
 
-      <article class="producto-card" data-col="premio" data-sca="87">
+      <article class="producto-card destacado" data-col="premio" data-sku="11">
         <div class="card-badge premio">Premio Nacional</div>
-        <div class="card-sca">SCA 87</div>
+        <div class="card-sca">SCA 90.5</div>
+        <div class="card-destacado-label">🥇 Mejor Café Colombia 2023</div>
         <div class="card-body">
-          <h3>BOURBON SANDÍA</h3>
-          <p class="varietal">Sidra · Natural</p>
-          <p class="proceso">Natural · SCA 87</p>
-          <div class="notas"><span>Sandía</span><span>Fresa</span><span>Frutas rojas</span></div>
+          <h3>MEJOR CAFÉ COLOMBIA 2023</h3>
+          <p class="varietal">Washed · Finca El Cielo, Pitalito</p>
+          <p class="proceso">Washed · 1.750 msnm · SCA 90.5</p>
+          <div class="notas"><span>Mora</span><span>Caramelo</span><span>Nuez</span></div>
           <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$80.900</strong><a href="https://wa.me/573154510390?text=BOURBON%20SAND%C3%8DA%20250g" target="_blank" class="wa-mini">WA</a></div>
+            <div class="precio-row"><span>250g</span><strong>$135.000</strong><a href="https://wa.me/573154510390?text=MEJOR%20CAFE%20COLOMBIA%202023%20250g" target="_blank" class="wa-mini">WA</a></div>
           </div>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20BOURBON%20SAND%C3%8DA%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="11">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20MEJOR%20CAF%C3%89%20COLOMBIA%202023%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
       </article>
 
-      <article class="producto-card" data-col="premio" data-sca="88">
+      <article class="producto-card destacado" data-col="premio" data-sku="12">
         <div class="card-badge premio">Premio Nacional</div>
-        <div class="card-sca">SCA 88</div>
+        <div class="card-sca">SCA 92.1</div>
+        <div class="card-destacado-label">⭐ Geisha Premiada 2024</div>
         <div class="card-body">
-          <h3>MANJAR BLANCO</h3>
-          <p class="varietal">Ombligón · Espirituoso</p>
-          <p class="proceso">Espirituoso · SCA 88</p>
-          <div class="notas"><span>Manjar</span><span>Vainilla</span><span>Caramelo</span></div>
+          <h3>GEISHA PREMIADA 2024</h3>
+          <p class="varietal">Natural Extended · Finca La Cumbre, Acevedo</p>
+          <p class="proceso">Natural Extended · 1.800 msnm · SCA 92.1</p>
+          <div class="notas"><span>Rosa</span><span>Fresa</span><span>Té blanco</span></div>
           <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$80.900</strong><a href="https://wa.me/573154510390?text=MANJAR%20BLANCO%20250g" target="_blank" class="wa-mini">WA</a></div>
+            <div class="precio-row"><span>250g</span><strong>$165.000</strong><a href="https://wa.me/573154510390?text=GEISHA%20PREMIADA%202024%20250g" target="_blank" class="wa-mini">WA</a></div>
           </div>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20MANJAR%20BLANCO%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="12">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20GEISHA%20PREMIADA%202024%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
       </article>
 
-      <article class="producto-card" data-col="premio" data-sca="88">
+      <article class="producto-card destacado" data-col="premio" data-sku="13">
         <div class="card-badge premio">Premio Nacional</div>
-        <div class="card-sca">SCA 88</div>
+        <div class="card-sca">SCA 89.8</div>
+        <div class="card-destacado-label">🎖 Lot Especial FNC 2023</div>
         <div class="card-body">
-          <h3>ARÁNDANOS</h3>
-          <p class="varietal">Landrace · Natural</p>
-          <p class="proceso">Natural · SCA 88</p>
-          <div class="notas"><span>Arándano</span><span>Mora</span><span>Frutos del bosque</span></div>
+          <h3>LOT ESPECIAL FNC 2023</h3>
+          <p class="varietal">Honey · Finca Los Cedros, Pitalito</p>
+          <p class="proceso">Honey · 1.720 msnm · SCA 89.8</p>
+          <div class="notas"><span>Cacao</span><span>Panela</span><span>Frutos rojos</span></div>
           <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$80.900</strong><a href="https://wa.me/573154510390?text=AR%C3%81NDANOS%20250g" target="_blank" class="wa-mini">WA</a></div>
+            <div class="precio-row"><span>250g</span><strong>$125.000</strong><a href="https://wa.me/573154510390?text=LOT%20ESPECIAL%20FNC%202023%20250g" target="_blank" class="wa-mini">WA</a></div>
           </div>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20AR%C3%81NDANOS%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
-      </article>
-
-      <article class="producto-card" data-col="premio" data-sca="86">
-        <div class="card-badge premio">Premio Nacional</div>
-        <div class="card-sca">SCA 86</div>
-        <div class="card-body">
-          <h3>ANCESTRAL FRUTAL</h3>
-          <p class="varietal">Sudan Rume · Espirituoso</p>
-          <p class="proceso">Espirituoso · SCA 86</p>
-          <div class="notas"><span>Frutas exóticas</span><span>Florales</span><span>Complejo</span></div>
-          <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$81.900</strong><a href="https://wa.me/573154510390?text=ANCESTRAL%20FRUTAL%20250g" target="_blank" class="wa-mini">WA</a></div>
-          </div>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="13">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20LOT%20ESPECIAL%20FNC%202023%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20ANCESTRAL%20FRUTAL%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
-      </article>
-
-      <article class="producto-card" data-col="premio" data-sca="89">
-        <div class="card-badge premio">Premio Nacional</div>
-        <div class="card-sca">SCA 89</div>
-        <div class="card-body">
-          <h3>POSTRE DE GALLETA</h3>
-          <p class="varietal">Bourbon Rojo · Natural cofermentado</p>
-          <p class="proceso">Natural coferm. · SCA 89</p>
-          <div class="notas"><span>Galleta</span><span>Chocolate</span><span>Nuez</span></div>
-          <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$82.900</strong><a href="https://wa.me/573154510390?text=POSTRE%20DE%20GALLETA%20250g" target="_blank" class="wa-mini">WA</a></div>
-          </div>
-        </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20POSTRE%20DE%20GALLETA%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
-      </article>
-
-      <article class="producto-card destacado" data-col="premio" data-sca="89">
-        <div class="card-badge premio">Premio Nacional</div>
-        <div class="card-sca">SCA 89</div>
-        <div class="card-destacado-label">⭐ Subcampeón Nacional</div>
-        <div class="card-body">
-          <h3>PASIÓN 400</h3>
-          <p class="varietal">Natural 400h · Subcampeón nacional</p>
-          <p class="proceso">Natural 400h · SCA 89</p>
-          <div class="notas"><span>Pasión</span><span>Fermentado complejo</span><span>Tropical</span></div>
-          <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$95.000</strong><a href="https://wa.me/573154510390?text=PASI%C3%93N%20400%20250g" target="_blank" class="wa-mini">WA</a></div>
-          </div>
-        </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20PASI%C3%93N%20400%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
-      </article>
-
-      <article class="producto-card destacado" data-col="premio" data-sca="89">
-        <div class="card-badge premio">Premio Nacional</div>
-        <div class="card-sca">SCA 89</div>
-        <div class="card-destacado-label">🏆 Campeón Nacional</div>
-        <div class="card-body">
-          <h3>CORONA</h3>
-          <p class="varietal">Geisha Top · Espirituoso</p>
-          <p class="proceso">Espirituoso · SCA 89</p>
-          <div class="notas"><span>Bergamota</span><span>Jazmín</span><span>Melocotón</span></div>
-          <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$115.000</strong><a href="https://wa.me/573154510390?text=CORONA%20250g" target="_blank" class="wa-mini">WA</a></div>
-          </div>
-        </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20CORONA%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
       </article>
 
       <!-- ── RESERVA ── -->
-      <article class="producto-card" data-col="reserva" data-sca="87">
+      <article class="producto-card destacado" data-col="reserva" data-sku="14">
         <div class="card-badge reserva">Reserva</div>
-        <div class="card-sca">SCA 87</div>
+        <div class="card-destacado-label">🖤 Black Label</div>
         <div class="card-body">
-          <h3>MORA DE NIEBLA</h3>
-          <p class="varietal">Moka · Lavado</p>
-          <p class="proceso">Lavado · SCA 87 · Edición limitada</p>
-          <div class="notas"><span>Mora</span><span>Frutas del bosque</span><span>Floral</span></div>
+          <h3>BLACK LABEL RESERVE</h3>
+          <p class="varietal">Natural Extended · Finca La Reserva, Acevedo</p>
+          <p class="proceso">Natural Extended · 1.820 msnm</p>
+          <div class="notas"><span>Whisky</span><span>Tabaco</span><span>Ciruela pasa</span></div>
           <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$92.900</strong><a href="https://wa.me/573154510390?text=MORA%20DE%20NIEBLA%20250g" target="_blank" class="wa-mini">WA</a></div>
+            <div class="precio-row"><span>250g</span><strong>$195.000</strong><a href="https://wa.me/573154510390?text=BLACK%20LABEL%20RESERVE%20250g" target="_blank" class="wa-mini">WA</a></div>
           </div>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20MORA%20DE%20NIEBLA%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="14">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20BLACK%20LABEL%20RESERVE%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
       </article>
 
-      <article class="producto-card" data-col="reserva" data-sca="87">
+      <article class="producto-card destacado" data-col="reserva" data-sku="15">
         <div class="card-badge reserva">Reserva</div>
-        <div class="card-sca">SCA 87</div>
+        <div class="card-destacado-label">🌟 Lot 001 Founder's</div>
         <div class="card-body">
-          <h3>SERENO</h3>
-          <p class="varietal">Laurina · Lavado · Bajo cafeína</p>
-          <p class="proceso">Lavado · SCA 87 · Edición limitada</p>
-          <div class="notas"><span>Suave</span><span>Floral</span><span>Bajo cafeína</span></div>
+          <h3>LOT 001 FOUNDER'S</h3>
+          <p class="varietal">Carbonic + Natural · Finca del Fundador, Pitalito</p>
+          <p class="proceso">Carbonic + Natural · 1.800 msnm</p>
+          <div class="notas"><span>Coñac</span><span>Trufa</span><span>Fresa silvestre</span></div>
           <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$92.900</strong><a href="https://wa.me/573154510390?text=SERENO%20250g" target="_blank" class="wa-mini">WA</a></div>
+            <div class="precio-row"><span>250g</span><strong>$220.000</strong><a href="https://wa.me/573154510390?text=LOT%20001%20FOUNDERS%20250g" target="_blank" class="wa-mini">WA</a></div>
           </div>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20SERENO%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="15">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20LOT%20001%20FOUNDER%27S%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
       </article>
 
-      <article class="producto-card destacado" data-col="reserva" data-sca="87">
+      <article class="producto-card destacado" data-col="reserva" data-sku="16">
         <div class="card-badge reserva">Reserva</div>
-        <div class="card-sca">SCA 87</div>
-        <div class="card-destacado-label">🌿 Edición Limitada</div>
+        <div class="card-destacado-label">🎂 Aniversario Edition</div>
         <div class="card-body">
-          <h3>MORA DE NIEBLA RESERVA</h3>
-          <p class="varietal">Moka · Natural</p>
-          <p class="proceso">Natural · SCA 87 · Edición limitada</p>
-          <div class="notas"><span>Mora intensa</span><span>Vino tinto</span><span>Frambuesa</span></div>
+          <h3>ANIVERSARIO EDITION</h3>
+          <p class="varietal">Washed Premium · Multi-finca, Huila</p>
+          <p class="proceso">Washed Premium · 1.750+ msnm</p>
+          <div class="notas"><span>Caramelo</span><span>Vainilla</span><span>Durazno blanco</span></div>
           <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$130.000</strong><a href="https://wa.me/573154510390?text=MORA%20DE%20NIEBLA%20RESERVA%20250g" target="_blank" class="wa-mini">WA</a></div>
+            <div class="precio-row"><span>250g</span><strong>$175.000</strong><a href="https://wa.me/573154510390?text=ANIVERSARIO%20EDITION%20250g" target="_blank" class="wa-mini">WA</a></div>
           </div>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20MORA%20DE%20NIEBLA%20RESERVA%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="16">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20ANIVERSARIO%20EDITION%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
       </article>
 
-      <article class="producto-card destacado" data-col="reserva" data-sca="87">
+      <article class="producto-card destacado" data-col="reserva" data-sku="17">
         <div class="card-badge reserva">Reserva</div>
-        <div class="card-sca">SCA 87</div>
-        <div class="card-destacado-label">🌿 Edición Limitada</div>
+        <div class="card-destacado-label">💎 Microlot Geisha</div>
         <div class="card-body">
-          <h3>SERENO RESERVA</h3>
-          <p class="varietal">Laurina · Natural · Bajo cafeína</p>
-          <p class="proceso">Natural · SCA 87 · Edición limitada</p>
-          <div class="notas"><span>Dulce suave</span><span>Frutas blancas</span><span>Bajo cafeína</span></div>
+          <h3>MICROLOT GEISHA RESERVE</h3>
+          <p class="varietal">Natural Honey · Finca La Joya, Acevedo</p>
+          <p class="proceso">Natural Honey · 1.850 msnm</p>
+          <div class="notas"><span>Jazmín</span><span>Maracuyá</span><span>Chocolate suizo</span></div>
           <div class="precios-list">
-            <div class="precio-row"><span>250g</span><strong>$130.000</strong><a href="https://wa.me/573154510390?text=SERENO%20RESERVA%20250g" target="_blank" class="wa-mini">WA</a></div>
+            <div class="precio-row"><span>250g</span><strong>$245.000</strong><a href="https://wa.me/573154510390?text=MICROLOT%20GEISHA%20RESERVE%20250g" target="_blank" class="wa-mini">WA</a></div>
           </div>
         </div>
-        <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20SERENO%20RESERVA%20250g%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="17">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20MICROLOT%20GEISHA%20RESERVE%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
+      </article>
+
+      <article class="producto-card destacado" data-col="reserva" data-sku="18">
+        <div class="card-badge reserva">Reserva</div>
+        <div class="card-destacado-label">🔐 Colección Privada</div>
+        <div class="card-body">
+          <h3>COLECCIÓN PRIVADA NO.3</h3>
+          <p class="varietal">Experimental · Finca Secreta, Huila</p>
+          <p class="proceso">Experimental · 1.790 msnm</p>
+          <div class="notas"><span>Ron</span><span>Especias</span><span>Frutos del bosque</span></div>
+          <div class="precios-list">
+            <div class="precio-row"><span>250g</span><strong>$185.000</strong><a href="https://wa.me/573154510390?text=COLECCION%20PRIVADA%20NO3%20250g" target="_blank" class="wa-mini">WA</a></div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="18">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20COLECCI%C3%93N%20PRIVADA%20NO.3%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
+      </article>
+
+      <article class="producto-card destacado" data-col="reserva" data-sku="19">
+        <div class="card-badge reserva">Reserva</div>
+        <div class="card-sca">SCA 92.8</div>
+        <div class="card-destacado-label">🏅 Ultra Reserve 92+</div>
+        <div class="card-body">
+          <h3>ULTRA RESERVE 92+</h3>
+          <p class="varietal">Triple fermentación · Lote exclusivo, Acevedo</p>
+          <p class="proceso">Triple fermentación · 1.870 msnm · SCA 92.8</p>
+          <div class="notas"><span>Champagne</span><span>Rosa</span><span>Durazno</span></div>
+          <div class="precios-list">
+            <div class="precio-row"><span>250g</span><strong>$260.000</strong><a href="https://wa.me/573154510390?text=ULTRA%20RESERVE%2092%2B%20250g" target="_blank" class="wa-mini">WA</a></div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="19">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20ULTRA%20RESERVE%2092%2B%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
+      </article>
+
+      <article class="producto-card destacado" data-col="reserva" data-sku="20">
+        <div class="card-badge reserva">Reserva</div>
+        <div class="card-sca">SCA 93.4</div>
+        <div class="card-destacado-label">👑 Gran Reserva Maestro</div>
+        <div class="card-body">
+          <h3>GRAN RESERVA MAESTRO</h3>
+          <p class="varietal">Blend Premium · Selección del maestro catador</p>
+          <p class="proceso">Blend Premium · 1.800+ msnm · SCA 93.4</p>
+          <div class="notas"><span>Cognac</span><span>Trufa negra</span><span>Frutos rojos premium</span></div>
+          <div class="precios-list">
+            <div class="precio-row"><span>250g</span><strong>$290.000</strong><a href="https://wa.me/573154510390?text=GRAN%20RESERVA%20MAESTRO%20250g" target="_blank" class="wa-mini">WA</a></div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-ver-mas" data-sku="20">ver más</button>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20GRAN%20RESERVA%20MAESTRO%20de%20CLUBCAFECOL%20%F0%9F%8D%B5" target="_blank" class="btn-card">Pedir por WhatsApp →</a>
+        </div>
       </article>
 
     </div><!-- /productos-grid -->
     <div class="catalogo-cta">
-      <p>¿No sabes cuál elegir? Te asesoramos gratis.</p>
-      <a href="https://wa.me/573154510390?text=Hola%2C%20necesito%20asesor%C3%ADa%20para%20escoger%20mi%20caf%C3%A9%20ideal%20%F0%9F%8D%B5" target="_blank" class="btn-primary">Habla con nosotros →</a>
+      <p data-i18n="cat.helpText">¿No sabes cuál elegir? Te asesoramos gratis.</p>
+      <a href="https://wa.me/573154510390?text=Hola%2C%20necesito%20asesor%C3%ADa%20para%20escoger%20mi%20caf%C3%A9%20ideal%20%F0%9F%8D%B5" target="_blank" class="btn-primary" data-i18n="cat.helpCta">Habla con nosotros →</a>
     </div>
   </div>
 </section>
@@ -474,9 +603,9 @@
 <!-- CLUB DE TEMPORADA -->
 <section class="club" id="club">
   <div class="container">
-    <div class="section-label">Suscripción mensual</div>
-    <h2>Club de Temporada</h2>
-    <p class="club-sub">Recibe un café diferente cada mes. Curado para tu nivel.</p>
+    <div class="section-label" data-i18n="club.kicker">Suscripción mensual</div>
+    <h2 data-i18n="club.title">Club de Temporada</h2>
+    <p class="club-sub" data-i18n="club.sub">Recibe un café diferente cada mes. Curado para tu nivel.</p>
     <div class="club-grid">
       <div class="club-card">
         <div class="club-nivel">☕ Explorador</div>
@@ -523,12 +652,12 @@
   <div class="container">
     <div class="descarga-inner">
       <div class="descarga-text">
-        <div class="section-label">Catálogo completo</div>
-        <h2>Lleva el catálogo<br><em>en tu bolsillo</em></h2>
-        <p>21 variedades en alta resolución. Perfiles sensoriales, orígenes, y la historia detrás de cada taza. Listo para compartir.</p>
+        <div class="section-label" data-i18n="dl.kicker">Catálogo completo</div>
+        <h2 data-i18n="dl.title">Lleva el catálogo<br><em>en tu bolsillo</em></h2>
+        <p data-i18n="dl.text">21 variedades en alta resolución. Perfiles sensoriales, orígenes, y la historia detrás de cada taza. Listo para compartir.</p>
         <div class="descarga-btns">
-          <a href="assets/pdf/Catalogo_CLUBCAFECOL_2026_B2C.pdf" download class="btn-primary">⬇ Descargar PDF 2026</a>
-          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20pedir%20despu%C3%A9s%20de%20ver%20el%20cat%C3%A1logo%20%F0%9F%8D%B5" target="_blank" class="btn-outline">Pedir por WhatsApp</a>
+          <a href="assets/pdf/Catalogo_CLUBCAFECOL_2026_B2C.pdf" download class="btn-primary" data-i18n="dl.btn">⬇ Descargar PDF 2026</a>
+          <a href="https://wa.me/573154510390?text=Hola%2C%20quiero%20pedir%20despu%C3%A9s%20de%20ver%20el%20cat%C3%A1logo%20%F0%9F%8D%B5" target="_blank" class="btn-outline" data-i18n="dl.wa">Pedir por WhatsApp</a>
         </div>
       </div>
       <div class="descarga-pdf-preview">
@@ -551,42 +680,148 @@
       <div class="footer-brand">
         <img src="assets/img/logo.jpg" alt="CLUBCAFECOL" loading="lazy">
         <h4>CLUBCAFECOL</h4>
-        <p>Tu comunidad cafetera<br>Bogotá · Colombia</p>
+        <p data-i18n="ft.tag">Tu comunidad cafetera<br>Bogotá · Colombia</p>
       </div>
       <div class="footer-col">
-        <h5>Catálogo</h5>
-        <a href="#colecciones">Colección Origen</a>
-        <a href="#colecciones">Colección Temporada</a>
-        <a href="#colecciones">Premio Nacional</a>
-        <a href="#colecciones">Reserva Limitada</a>
+        <h5 data-i18n="ft.catalogo">Catálogo</h5>
+        <a href="#colecciones" data-i18n="ft.origen">Colección Origen</a>
+        <a href="#colecciones" data-i18n="ft.temporada">Colección Temporada</a>
+        <a href="#colecciones" data-i18n="ft.premio">Premio Nacional</a>
+        <a href="#colecciones" data-i18n="ft.reserva">Reserva Limitada</a>
       </div>
       <div class="footer-col">
-        <h5>Club</h5>
+        <h5 data-i18n="ft.club">Club</h5>
         <a href="#club">Explorador — $95k/mes</a>
         <a href="#club">Conocedor — $145k/mes</a>
         <a href="#club">Maestro — $220k/mes</a>
       </div>
       <div class="footer-col">
-        <h5>Contacto</h5>
+        <h5 data-i18n="ft.contacto">Contacto</h5>
         <a href="https://wa.me/573154510390" target="_blank">📱 +57 315 451 0390</a>
         <a href="https://instagram.com/clubcafecol" target="_blank">📸 @clubcafecol</a>
         <a href="assets/pdf/Catalogo_CLUBCAFECOL_2026_B2C.pdf" download>📄 Descargar catálogo</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 CLUBCAFECOL · NIT 901731658 · Todos los derechos reservados</p>
-      <p>Envío gratis desde $85.000 · Molienda sin costo</p>
+      <p data-i18n="ft.rights">© 2026 CLUBCAFECOL · NIT 901731658 · Todos los derechos reservados</p>
+      <p data-i18n="ft.sig">Envío gratis desde $85.000 · Molienda sin costo</p>
     </div>
   </div>
 </footer>
 
-<!-- BOTÓN WHATSAPP FLOTANTE -->
-<a href="https://wa.me/573154510390?text=Hola%2C%20vi%20el%20cat%C3%A1logo%20de%20CLUBCAFECOL%20y%20quiero%20pedir%20%F0%9F%8D%B5" 
-   class="wa-float" target="_blank" aria-label="WhatsApp">
-  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-  </svg>
-</a>
+<!-- MODAL DE DETALLE DE PRODUCTO -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Detalle del café">
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-panel">
+    <div class="modal-panel-inner">
+      <div class="modal-header">
+        <span class="modal-badge" id="modalBadge">Origen</span>
+        <button class="modal-close" id="modalClose" aria-label="Cerrar">×</button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <h2 class="modal-title" id="modalName"></h2>
+          <p class="modal-sub" id="modalSub"></p>
+        </div>
+        <div class="modal-perfil">
+          <div class="modal-perfil-label">Perfil sensorial</div>
+          <div class="modal-perfil-text" id="modalPerfil"></div>
+        </div>
+        <div class="modal-specs">
+          <div class="modal-spec"><dt>Proceso</dt><dd id="modalProceso"></dd></div>
+          <div class="modal-spec"><dt>Fermentación</dt><dd id="modalFerment"></dd></div>
+          <div class="modal-spec"><dt>Finca / Origen</dt><dd id="modalFinca"></dd></div>
+          <div class="modal-spec"><dt>Altura</dt><dd id="modalAltura"></dd></div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+          <span class="modal-precio" id="modalPrecio"></span>
+          <a class="modal-wa-btn" id="modalWaBtn" href="#" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor"><path d="M16 .4C7.4.4.4 7.4.4 16c0 2.8.7 5.5 2.1 7.9L.3 31.6l7.9-2.1c2.3 1.3 5 1.9 7.8 1.9 8.6 0 15.6-7 15.6-15.6C31.6 7.4 24.6.4 16 .4zm7.5 21.4c-.4-.2-2.4-1.2-2.8-1.3-.4-.1-.7-.2-.9.2-.3.4-1 1.3-1.3 1.6-.2.3-.5.3-.9.1-.4-.2-1.7-.6-3.3-2-1.2-1.1-2-2.4-2.3-2.8-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.7.1-.3.1-.5 0-.7-.1-.2-.9-2.1-1.2-2.9-.3-.8-.7-.7-.9-.7h-.7c-.3 0-.7.1-1 .5-.4.4-1.3 1.3-1.3 3.2 0 1.9 1.4 3.7 1.6 4 .2.3 2.8 4.3 6.8 6 .9.4 1.7.6 2.3.8.9.3 1.8.3 2.5.1.7-.1 2.4-1 2.7-1.9.3-1 .3-1.8.2-2-.1-.1-.4-.2-.7-.4z"/></svg>
+            Pedir este café
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHATSAPP BOT ANIMADO -->
+<div class="wa" id="wa">
+  <div class="wa-bot" id="waBot" data-mood="neutral" aria-hidden="true">
+    <div class="wa-bot__bubble" data-i18n="bot.bubble">¡Llévame! ❤️</div>
+    <svg class="wa-bot__svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+      <g class="wa-bot__steam">
+        <path d="M35 38 Q38 32 35 26 Q32 20 36 14"/>
+        <path d="M50 38 Q47 31 50 24 Q53 17 49 10"/>
+        <path d="M65 38 Q62 32 65 26 Q68 20 64 14"/>
+      </g>
+      <g class="wa-bot__hearts">
+        <path d="M25 28 q-3 -4 -6 0 q-3 4 6 9 q9 -5 6 -9 q-3 -4 -6 0z"/>
+        <path d="M78 25 q-3 -4 -6 0 q-3 4 6 9 q9 -5 6 -9 q-3 -4 -6 0z" transform="scale(0.85)"/>
+        <path d="M50 18 q-3 -4 -6 0 q-3 4 6 9 q9 -5 6 -9 q-3 -4 -6 0z" transform="scale(0.75)"/>
+      </g>
+      <ellipse cx="50" cy="116" rx="36" ry="2.5" fill="rgba(0,0,0,0.35)"/>
+      <ellipse cx="50" cy="111" rx="38" ry="5" fill="#D9C499" stroke="#C9A961" stroke-width="1"/>
+      <ellipse cx="50" cy="108" rx="34" ry="3.5" fill="#F0E6D2"/>
+      <path d="M75 64 Q92 64 92 76 Q92 88 75 88" fill="none" stroke="#C9A961" stroke-width="4" stroke-linecap="round"/>
+      <path class="wa-bot__cup" d="M20 48 L24 100 Q25 108 33 108 L67 108 Q75 108 76 100 L80 48 Z" fill="#F0E6D2" stroke="#C9A961" stroke-width="1.5"/>
+      <ellipse cx="50" cy="48" rx="29" ry="4.5" fill="#2A1810"/>
+      <ellipse cx="50" cy="47" rx="27" ry="3" fill="#3D2817"/>
+      <g class="wa-bot__blush">
+        <circle cx="34" cy="82" r="3.5" fill="#ff8095" opacity="0.55"/>
+        <circle cx="66" cy="82" r="3.5" fill="#ff8095" opacity="0.55"/>
+      </g>
+      <path class="wa-bot__eyebrow wa-bot__eyebrow--left"  d="M36 64 L44 64" stroke="#07101F" stroke-width="2" stroke-linecap="round"/>
+      <path class="wa-bot__eyebrow wa-bot__eyebrow--right" d="M56 64 L64 64" stroke="#07101F" stroke-width="2" stroke-linecap="round"/>
+      <g class="wa-bot__eyes-neutral">
+        <circle cx="40" cy="74" r="2.5" fill="#07101F"/>
+        <circle cx="60" cy="74" r="2.5" fill="#07101F"/>
+        <circle cx="40.8" cy="73.2" r="0.8" fill="#fff"/>
+        <circle cx="60.8" cy="73.2" r="0.8" fill="#fff"/>
+      </g>
+      <g class="wa-bot__eyes-happy">
+        <path d="M36 75 Q40 70 44 75" stroke="#07101F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <path d="M56 75 Q60 70 64 75" stroke="#07101F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      </g>
+      <g class="wa-bot__eyes-angry">
+        <circle cx="40" cy="76" r="1.6" fill="#07101F"/>
+        <circle cx="60" cy="76" r="1.6" fill="#07101F"/>
+      </g>
+      <path class="wa-bot__mouth-neutral" d="M44 88 Q50 90 56 88" stroke="#07101F" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <g class="wa-bot__mouth-happy">
+        <path d="M40 85 Q50 96 60 85" stroke="#07101F" stroke-width="2.2" fill="#5C2E2E" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+      <path class="wa-bot__mouth-angry" d="M42 92 Q46 87 50 91 Q54 95 58 90" stroke="#07101F" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div class="wa__panel" id="waPanel" aria-hidden="true" aria-labelledby="waTitle">
+    <div class="wa__panel-head">
+      <img src="assets/img/logo.jpg" alt="" class="wa__avatar">
+      <div class="wa__panel-meta">
+        <p id="waTitle" class="wa__panel-name">CLUBCAFECOL</p>
+        <p class="wa__panel-status"><span class="wa__status-dot"></span><span data-i18n="wa.status">Normalmente respondemos en minutos</span></p>
+      </div>
+      <button class="wa__close" id="waClose" aria-label="Cerrar">×</button>
+    </div>
+    <div class="wa__panel-body">
+      <div class="wa__bubble">
+        <p data-i18n="wa.greeting">¡Hola! ☕ Gracias por llegar hasta acá. Cuéntanos qué buscas y te asesoramos en minutos. Elige el mensaje que mejor describa lo que necesitas:</p>
+      </div>
+      <div class="wa__quick" id="waQuick"></div>
+    </div>
+    <div class="wa__panel-foot"><span>Powered by WhatsApp</span></div>
+  </div>
+
+  <button class="wa__launcher" id="waLauncher" aria-label="Abrir chat de WhatsApp" aria-expanded="false">
+    <span class="wa__ripple"></span>
+    <span class="wa__ripple wa__ripple--2"></span>
+    <svg class="wa__icon" viewBox="0 0 32 32" aria-hidden="true">
+      <path fill="currentColor" d="M16 .4C7.4.4.4 7.4.4 16c0 2.8.7 5.5 2.1 7.9L.3 31.6l7.9-2.1c2.3 1.3 5 1.9 7.8 1.9 8.6 0 15.6-7 15.6-15.6C31.6 7.4 24.6.4 16 .4zm0 28.4c-2.5 0-4.9-.7-7-1.9l-.5-.3-5.2 1.4 1.4-5-.3-.5C3.1 20.4 2.4 18.2 2.4 16 2.4 8.5 8.5 2.4 16 2.4c3.6 0 7 1.4 9.6 4 2.6 2.6 4 6 4 9.6 0 7.5-6.1 13.6-13.6 13.6zm7.5-10.2c-.4-.2-2.4-1.2-2.8-1.3-.4-.1-.7-.2-.9.2-.3.4-1 1.3-1.3 1.6-.2.3-.5.3-.9.1-.4-.2-1.7-.6-3.3-2-1.2-1.1-2-2.4-2.3-2.8-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.7.1-.3.1-.5 0-.7-.1-.2-.9-2.1-1.2-2.9-.3-.8-.7-.7-.9-.7h-.7c-.3 0-.7.1-1 .5-.4.4-1.3 1.3-1.3 3.2 0 1.9 1.4 3.7 1.6 4 .2.3 2.8 4.3 6.8 6 .9.4 1.7.6 2.3.8.9.3 1.8.3 2.5.1.7-.1 2.4-1 2.7-1.9.3-1 .3-1.8.2-2-.1-.1-.4-.2-.7-.4z"/>
+    </svg>
+    <span class="wa__label" data-i18n="wa.label">¡ Pide Acá !</span>
+  </button>
+</div>
 
 <script src="script.js"></script>
 </body>
