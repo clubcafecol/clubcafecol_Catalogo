@@ -451,7 +451,7 @@ def build():
 <meta property="og:site_name" content="CLUBCAFECOL">
 <meta property="og:locale" content="es_CO">
 <meta property="og:title" content="Café de especialidad colombiano — 21 lotes del Huila, SCA 85-89">
-<meta property="og:description" content="Del Campeón Nacional a tu taza. Tostado bajo pedido, molienda sin costo, envío gratis desde $85.000.">
+<meta property="og:description" content="Campeones Nacionales directos a tu taza. Tostado bajo pedido, molienda sin costo, envío gratis desde $85.000.">
 <meta property="og:image" content="%(site)s/assets/productos/pre-008.jpg">
 <meta property="og:image:alt" content="Etiqueta del café CORONA, Geisha Top Roast, Campeón Nacional">
 <meta property="og:url" content="%(site)s/">
@@ -736,7 +736,7 @@ function gtag(){dataLayer.push(arguments);}
   <div class="mdl__box" role="dialog" aria-modal="true" aria-labelledby="mdlName">
     <button type="button" class="mdl__x" id="mdlClose" aria-label="Cerrar">×</button>
     <div class="mdl__grid">
-      <div class="mdl__media"><img id="mdlImg" src="" alt="" width="760" height="1429"></div>
+      <div class="mdl__media"><img id="mdlImg" alt="" width="760" height="1429" loading="lazy"></div>
       <div class="mdl__info">
         <div class="mdl__badges" id="mdlBadges"></div>
         <h3 id="mdlName"></h3>
