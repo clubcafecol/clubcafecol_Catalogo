@@ -458,7 +458,7 @@ def sec_bundles():
         inc = "".join("<li>%s</li>" % x for x in b["incluye"])
         gam = ""
         if b.get("gamificacion"):
-            gam = ('<div class="bdl__gam"><b>🎟️ Pasaporte físico incluido</b>'
+            gam = ('<div class="bdl__gam">'
                    '<span>Completa los 21 orígenes del Club del Café, sube la foto con todos '
                    'los empaques etiquetando a @clubcafecol y te regalamos una bolsa de 250 g '
                    'de café de temporada.</span></div>')

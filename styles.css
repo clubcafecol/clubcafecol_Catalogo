@@ -27,8 +27,12 @@
    "carrito vacío" aparece encima de los productos. */
 [hidden]{display:none!important}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{overflow-x:clip}
 body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.65;color:var(--ink);
-  background:var(--cream-2);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  background:var(--cream-2);overflow-x:clip;-webkit-font-smoothing:antialiased;
+  max-width:100%}
+/* Nada puede ser más ancho que su contenedor */
+img,svg,video,iframe,canvas{max-width:100%}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit;text-decoration:none}
 button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
@@ -90,14 +94,16 @@ section h2{font-size:clamp(2rem,4.6vw,3.3rem)}
 .nav__in{max-width:1240px;margin:0 auto;padding:0 24px;height:var(--nav-h);
   display:flex;align-items:center;gap:20px}
 .nav__brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);
-  font-weight:700;font-size:1.02rem;letter-spacing:.04em;flex-shrink:0}
+  font-weight:700;font-size:1.02rem;letter-spacing:.04em;min-width:0;flex-shrink:1}
+.nav__brand span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav__brand img{flex-shrink:0}
 .nav__brand img{width:38px;height:38px;border-radius:50%;object-fit:cover}
 .nav__links{display:flex;gap:26px;margin-inline-start:auto;font-size:.88rem;font-weight:500}
 .nav__links a{position:relative;padding:4px 0;color:var(--navy-700)}
 .nav__links a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1.5px;
   background:var(--gold);transition:.25s}
 .nav__links a:hover::after{width:100%}
-.nav__tools{display:flex;align-items:center;gap:10px;margin-inline-start:auto}
+.nav__tools{display:flex;align-items:center;gap:10px;margin-inline-start:auto;flex-shrink:0}
 .nav__links+.nav__tools{margin-inline-start:0}
 .nav__cta{padding:10px 20px;font-size:.85rem}
 
@@ -311,7 +317,7 @@ section h2{font-size:clamp(2rem,4.6vw,3.3rem)}
 .napa p{margin:0;font-size:.88rem;color:var(--navy-700);line-height:1.6}
 .napa b{color:var(--pink-dk);font-weight:600}
 .valorsec__tabla{margin-top:36px;overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-lg)}
-.valorsec table{width:100%;border-collapse:collapse;min-width:660px;font-size:.9rem}
+.valorsec table{width:100%;border-collapse:collapse;min-width:min(660px,100%);font-size:.9rem}
 .valorsec th{text-align:start;padding:15px 18px;background:var(--navy-900);color:var(--gold-lt);
   font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;font-weight:600;white-space:nowrap}
 .valorsec td{padding:13px 18px;border-bottom:1px solid var(--line);vertical-align:middle}
@@ -986,7 +992,19 @@ body.is-rtl .wa{right:auto;left:22px}
   .refer__steps{grid-template-columns:1fr;gap:12px}
   .refer__steps div{flex-direction:row;align-items:center;gap:11px}
   .canje__grid{grid-template-columns:1fr}
-  /* Barra superior y menú: navegación clara en celular */
+  /* Barra superior: el conjunto debe caber en 360 px sin desbordar */
+  .nav__in{gap:8px;padding:0 14px}
+  .nav__brand{gap:8px;font-size:.9rem}
+  .nav__brand img{width:32px;height:32px}
+  .nav__tools{gap:7px}
+  .lang__btn{padding:8px 9px;gap:4px;font-size:.75rem}
+  .cartbtn{width:38px;height:38px}
+  .burger{min-width:46px;height:40px;padding:0 8px;gap:3px}
+  .burger span{width:17px}
+  .burger i{font-size:.5rem;letter-spacing:.06em}
+  .topbar{font-size:.68rem;padding:6px 12px}
+
+  /* Menú lateral: navegación clara en celular */
   .nav__mobile{gap:0;padding:8px 18px 20px}
   .nav__mobile a{padding:15px 6px;font-size:1rem;font-weight:500;display:flex;
     align-items:center;justify-content:space-between}
@@ -1077,6 +1095,16 @@ body.is-rtl .wa{right:auto;left:22px}
   .hero__stats{grid-template-columns:1fr 1fr}
   .ft__in{grid-template-columns:1fr}
   .card__fmts .fmt{min-width:52px;padding:5px 7px}
+  /* En pantallas muy estrechas el logotipo habla por sí solo */
+  .nav__brand span{display:none}
+  .nav__in{padding:0 12px}
+  .origen__stats{grid-template-columns:1fr 1fr}
+  .origen__reg{grid-template-columns:1fr}
+  .vb{grid-template-columns:26px 36px 1fr;gap:8px}
+  .vb__img{width:36px}
+  .dl__art{grid-template-columns:repeat(3,1fr);gap:8px}
+  .qzpromo__pasos li{font-size:.83rem}
+  .scaexp__badge{width:70px;height:70px}
 }
 
 /* ── PREFERENCIAS DEL SISTEMA ────────────────────────────────────────── */
