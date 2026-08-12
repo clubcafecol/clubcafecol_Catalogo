@@ -38,10 +38,10 @@ MOLIENDAS = [
     ("goteo",     "Cafetera de goteo"),
 ]
 
-# Varietales raros / difíciles de encontrar en Colombia
+# Variedades de siembra escasa o difícil de encontrar en Colombia
 EXOTICOS = {"Wush Wush", "Sudan Rume", "Laurina", "Pacamara", "Ombligon",
             "Ombligón", "Geisha Origen", "Geisha Top", "Landrace",
-            "Sidra Termochok", "Sidra", "Bourbon Rosado", "Moka", "Papayo"}
+            "Sidra Termoshock", "Sidra", "Bourbon Rosado", "Moka", "Papayo"}
 
 # Selección del founder: lo que se muestra primero para no abrumar
 DESTACADOS = ["ORI-001", "ORI-002", "TEM-001", "TEM-007",
@@ -109,33 +109,34 @@ SKUS = [
     dict(id="TEM-004", nombre="VINO DE MONTAÑA", col="temporada",
          varietal="Tabi", proceso="Natural",
          msnm=1650, sca=87, cuerpo="Medio", origen="Pitalito, Huila",
-         notas=["Frutos rojos", "Vino", "Cítrico", "Chocolate"],
+         notas=["Frutos morados", "Vino", "Cítrico", "Chocolate"],
          finca=None, caficultor=None, resenas=None, stock=None,
          precios={"drip_10g": 5900, "250g": 45900, "340g": 59900, "500g": 81900, "2500g": 365000}),
     dict(id="TEM-005", nombre="JAZMÍN", col="temporada",
          varietal="Geisha Origen", proceso="Lavado",
          msnm=1650, sca=86, cuerpo="Ligero-medio", origen="Pitalito, Huila",
-         notas=["Limoncillo", "Toronja", "Miel", "Floral"],
+         notas=["Limoncillo", "Acidez cítrica", "Miel", "Floral"],
          finca=None, caficultor=None, resenas=None, stock=None,
          precios={"drip_10g": 6900, "250g": 55900, "340g": 71900, "500g": 105000, "2500g": 455000}),
-    dict(id="TEM-006", nombre="PIMIENTA SUAVE", col="temporada",
+    dict(id="TEM-006", nombre="BOURBON AJÍ", col="temporada",
          varietal="Bourbon Ají", proceso="Semilavado",
          msnm=1650, sca=86, cuerpo="Medio", origen="Pitalito, Huila",
          notas=["Albahaca", "Pimienta", "Caramelo", "Cítrico", "Melón"],
          finca=None, caficultor=None, resenas=None, stock=None,
          precios={"drip_10g": 6900, "250g": 55900, "340g": 72900, "500g": 105000, "2500g": 455000}),
-    dict(id="TEM-007", nombre="TÉ SALVAJE", col="temporada",
+    dict(id="TEM-007", nombre="WUSH WUSH", col="temporada",
          varietal="Wush Wush", proceso="Semilavado",
-         msnm=1650, sca=86, cuerpo="Ligero", origen="Pitalito, Huila",
-         notas=["Floral intenso", "Frutal", "Té", "Dulzor prolongado"],
+         msnm=1650, sca=86, cuerpo="Cremoso", origen="Pitalito, Huila",
+         notas=["Dulce y aromático", "Té verde", "Cítrico y floral",
+                "Cuerpo cremoso", "Acidez baja", "Delicado"],
          finca=None, caficultor=None, resenas=None, stock=None,
          precios={"drip_10g": 6900, "250g": 58900, "340g": 76900, "500g": 110000, "2500g": 485000}),
 
     # ── COLECCIÓN PREMIO NACIONAL ───────────────────────────────────────
     dict(id="PRE-001", nombre="TRÓPICO", col="premio",
-         varietal="Sidra Termochok", proceso="Espirituoso",
+         varietal="Sidra Termoshock", proceso="Espirituoso",
          msnm=1650, sca=88, cuerpo="Medio", origen="Pitalito, Huila",
-         notas=["Maracuyá", "Gulupa", "Uchuva", "Frutos amarillos"],
+         notas=["Limón", "Jazmín", "Galleta", "Uva", "Frambuesa", "Cuerpo medio"],
          finca=None, caficultor=None, resenas=None, stock=None,
          precios={"drip_10g": 8900, "250g": 80900, "340g": 110000, "500g": 150000, "2500g": 690000}),
     dict(id="PRE-002", nombre="BOURBON SANDÍA", col="premio",
@@ -153,7 +154,7 @@ SKUS = [
     dict(id="PRE-004", nombre="ARÁNDANOS", col="premio",
          varietal="Landrace", proceso="Natural",
          msnm=1650, sca=88, cuerpo="Medio", origen="Pitalito, Huila",
-         notas=["Frutos morados", "Frambuesa", "Uva", "Lichi", "Vino"],
+         notas=["Frutos morados", "Frambuesa", "Uva", "Arándanos", "Vino"],
          finca=None, caficultor=None, resenas=None, stock=None,
          precios={"drip_10g": 8900, "250g": 80900, "340g": 110000, "500g": 150000, "2500g": 690000}),
     dict(id="PRE-005", nombre="ANCESTRAL FRUTAL", col="premio",
@@ -172,7 +173,7 @@ SKUS = [
          varietal="Natural Passion", proceso="Natural 400 h",
          msnm=1650, sca=89, cuerpo="Alto", origen="Pitalito, Huila",
          premio="Subcampeón Nacional", premio_icon="🥈",
-         notas=["Tamarindo", "Sandía", "Chocolate negro", "Licor"],
+         notas=["Maracuyá", "Gulupa", "Acidez media", "Cuerpo jugoso"],
          finca=None, caficultor=None, resenas=None, stock=None,
          precios={"drip_10g": 10900, "250g": 95000, "340g": 125000, "500g": 175000, "2500g": 795000}),
     dict(id="PRE-008", nombre="CORONA", col="premio",
@@ -232,7 +233,7 @@ BUNDLES = [
     dict(id="BDL-001", nombre="Pasaporte Drip", emoji="🎫", activo=True,
          desc="Cinco drips de cinco colecciones distintas. La forma más inteligente de descubrir tu perfil sin comprometerte con una bolsa.",
          incluye=["Raíz Pitalito", "Panela Dorada", "Mandarina Rosada",
-                  "Té Salvaje", "Bourbon Sidra"],
+                  "Wush Wush", "Bourbon Sidra"],
          precio=34900, tachado=39500, tag="Ideal para empezar",
          gamificacion=True),
     dict(id="BDL-002", nombre="Trilogía de Campeones", emoji="🏆", activo=True,
@@ -258,7 +259,7 @@ TESTIMONIOS = [
     dict(n="Andrea M.", c="Bogotá", p="🇨🇴", t="Club Explorador", r=5, lang="es",
          q="Pedí el Vino de Montaña un martes y el jueves ya estaba en mi casa, tostado el mismo día del pedido. La diferencia con el café de supermercado es abismal."),
     dict(n="Camilo R.", c="Medellín", p="🇨🇴", t="Cliente B2B", r=5, lang="es",
-         q="Compramos 2,5 kg mensuales para la cafetería. Consistencia de lote a lote impecable y la asesoría por WhatsApp es inmediata."),
+         q="Compramos 25 kg mensuales para la cafetería. Consistencia de lote a lote impecable y la asesoría por WhatsApp es inmediata."),
     dict(n="Sarah K.", c="Atlanta, USA", p="🇺🇸", t="International order", r=5, lang="en",
          q="Shipping to Georgia took nine days and the bag still had a roast date from the week I ordered. The Corona geisha is genuinely competition-grade."),
     dict(n="Lukas B.", c="Berlín, Alemania", p="🇩🇪", t="Internationale Bestellung", r=5, lang="de",
@@ -266,7 +267,7 @@ TESTIMONIOS = [
     dict(n="James W.", c="Londres, UK", p="🇬🇧", t="International order", r=5, lang="en",
          q="Ordered the Wush Wush on a whim. Floral, clean, nothing like the supermarket Colombian I was used to. Customs was painless."),
     dict(n="Valentina S.", c="Cali", p="🇨🇴", t="Club Conocedor", r=5, lang="es",
-         q="Llevo seis meses en el Club. Nunca me han repetido un café y aprendí a identificar notas que antes no percibía."),
+         q="Llevo seis meses con la suscripción mensual del club. Nunca me han repetido un café y aprendí a identificar notas que antes no percibía."),
     dict(n="Ana Paula L.", c="Rio de Janeiro, BR", p="🇧🇷", t="Pedido internacional", r=5, lang="pt",
          q="A moagem chegou exatamente como pedi para a prensa francesa. O Mandarina Rosada tem uma doçura que não encontro nos cafés brasileiros que costumo tomar."),
     dict(n="Ricardo A.", c="São Paulo, BR", p="🇧🇷", t="Pedido internacional", r=5, lang="pt",
@@ -316,9 +317,9 @@ LEALTAD = dict(
 # por debajo del margen que deja el referido. Revisar si sube el flete.
 REFERIDOS = dict(
     dto_amigo=15,      # % de descuento para el referido, en su primera compra
-    premio_referente="una bolsa de 250 g gratis",
+    premio_referente="una bolsa de 125 g gratis",
     cuando="en tu próximo pedido",
-    puntos_referente=800,
+    puntos_referente=500,
 )
 
 # ── ÑAPA ────────────────────────────────────────────────────────────────
@@ -345,10 +346,10 @@ FAQ = [
      "Bogotá: 24 a 48 horas. Resto del país: 2 a 5 días hábiles. El envío es gratis en pedidos desde $85.000; por debajo de ese monto se cotiza según destino y te lo confirmamos por WhatsApp antes de despachar."),
     ("¿Cómo pago?",
      "Coordinamos el pago por WhatsApp una vez confirmado el pedido: transferencia bancaria, Nequi, Daviplata o contra entrega en Bogotá. Para pedidos internacionales usamos transferencia o pasarela con enlace seguro. Te confirmamos el total, incluido el envío, antes de cualquier pago."),
-    ("¿Cómo funcionan los puntos del Club de Grano?",
+    ("¿Cómo funcionan los puntos del Club de la Semilla?",
      "Acumulas 1 punto por cada $1.000 de compra, en cualquier pedido, seas o no suscriptor. Los puntos suben de nivel automáticamente y se canjean por café. No caducan mientras compres al menos una vez al año."),
     ("¿Cuánto dura el café una vez tostado?",
-     "En grano y bien cerrado, el punto óptimo va de los 7 a los 45 días después del tueste. Tostamos bajo pedido, así que recibes el café dentro de su mejor ventana. Guárdalo en un lugar fresco, seco y sin luz directa; no lo refrigeres."),
+     "En grano y con la bolsa bien cerrada, la ventana óptima va de los 7 a los 45 días después del tueste. Los primeros días el café todavía libera CO₂ de la tostión y la extracción sale irregular; por eso la válvula de la bolsa deja salir el gas sin dejar entrar oxígeno. Pasados los 45 días no se daña, pero pierde aroma y los matices frutales se apagan.\n\nMolido dura mucho menos: entre 7 y 15 días, porque al partir el grano se multiplica la superficie expuesta al aire. Si puedes, compra en grano y muele justo antes de preparar.\n\nGuárdalo en su bolsa original, en un lugar fresco, seco y sin luz directa. No lo pases a frascos de vidrio transparente ni lo refrigeres: la nevera genera condensación y el café absorbe olores con facilidad. Congelar solo sirve si vas a dejarlo meses sin abrir y en porciones selladas.\n\nTostamos bajo pedido, así que siempre recibes el café dentro de su mejor ventana y con la fecha de tueste impresa en el empaque."),
     ("¿Puedo cancelar la suscripción del Club?",
      "Sí, cuando quieras y sin penalidad. Basta un mensaje por WhatsApp antes de la fecha de despacho del mes siguiente."),
 ]
@@ -381,7 +382,7 @@ WA_NUM = "573154510390"
 NIT = "901731658"
 ENVIO_GRATIS = 85000
 SITE = "https://clubcafecol.github.io/clubcafecol_Catalogo"
-ASSET_VER = "2026.08.5"
+ASSET_VER = "2026.08.6"
 
 # ── MONEDA ──────────────────────────────────────────────────────────────
 # Todos los precios del catálogo están en pesos colombianos (COP) y es la

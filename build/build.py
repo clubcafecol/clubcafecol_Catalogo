@@ -221,7 +221,7 @@ def jsonld():
         {"@type": "Organization", "@id": SITE + "/#org", "name": "CLUBCAFECOL",
          "url": SITE + "/", "logo": SITE + "/assets/img/logo.jpg",
          "description": "Tostador colombiano de café de especialidad. 21 variedades del Huila, SCA 85–89, tostado bajo pedido.",
-         "taxID": NIT, "email": "hola@clubcafecol.com",
+         "taxID": NIT, "email": "corporacionclubdelcafe@gmail.com",
          "contactPoint": [{"@type": "ContactPoint", "telephone": "+57" + WA_NUM[2:],
                            "contactType": "sales", "areaServed": "CO",
                            "availableLanguage": ["es", "en"]}],
@@ -312,7 +312,7 @@ def sec_origen():
       <div class="kicker" data-i18n="or.kicker">Quiénes están detrás</div>
       <h2 data-i18n="or.title">No compramos el café.<br><em>Lo cultivamos.</em></h2>
       <p data-i18n="or.p1">CLUBCAFECOL nace en el Huila, entre Pitalito y Acevedo, y hoy cultivamos también en Barbosa (Santander), Sevilla (Valle del Cauca), el Macizo del Cauca y el altiplano de Nariño. Somos caficultores: la misma gente que poda, recolecta y controla la fermentación es la que decide la curva de tueste y sella la bolsa que llega a tu casa.</p>
-      <p data-i18n="or.p2">Entre el árbol y tu taza no hay intermediarios, ni comisionistas, ni una bodega donde el café espere meses. Eso cambia dos cosas: el margen se queda en la finca, y podemos arriesgarnos con variedades de baja productividad que ningún comprador nos pediría, porque la decisión de qué sembrar es nuestra.</p>
+      <p data-i18n="or.p2">Entre el grano y tu taza no hay intermediarios, ni comisionistas, ni una bodega donde el café espere meses. Eso cambia dos cosas: el margen se queda en la finca, y podemos arriesgarnos con variedades especiales, exóticas y cofermentadas, aclamadas por su excelente sabor.</p>
       <ul class="origen__reg">%(regiones)s</ul>
       <div class="origen__stats">
         <div><b>1.650–1.700</b><span data-i18n="or.s1">msnm de cultivo</span></div>
@@ -459,8 +459,9 @@ def sec_bundles():
         gam = ""
         if b.get("gamificacion"):
             gam = ('<div class="bdl__gam"><b>🎟️ Pasaporte físico incluido</b>'
-                   '<span>Cada paquete trae un sello. Completa los 21 orígenes del Club del Café, '
-                   'sube la foto etiquetando a @clubcafecol y te regalamos una bolsa de 250 g.</span></div>')
+                   '<span>Completa los 21 orígenes del Club del Café, sube la foto con todos '
+                   'los empaques etiquetando a @clubcafecol y te regalamos una bolsa de 250 g '
+                   'de café de temporada.</span></div>')
         tach = '<s>%s</s>' % cop(b["tachado"]) if b.get("tachado") else ""
         ahorro = ('<span class="bdl__save">Ahorras %s</span>' % cop(b["tachado"] - b["precio"])) if b.get("tachado") else ""
         items += """
@@ -610,7 +611,8 @@ def sec_testimonios():
 
 def sec_faq():
     items = "".join(
-        '<details class="faq__i"><summary>%s</summary><div class="faq__a"><p>%s</p></div></details>' % (q, a)
+        '<details class="faq__i"><summary>%s</summary><div class="faq__a">%s</div></details>'
+        % (q, "".join('<p>%s</p>' % x for x in a.split("\n\n")))
         for q, a in FAQ)
     return """
 <section class="faq" id="faq">
@@ -860,7 +862,7 @@ function gtag(){dataLayer.push(arguments);}
     </div>
     <div class="cat__help">
       <p data-i18n="cat.help">¿Sigues dudando? Te asesoramos gratis, sin compromiso.</p>
-      <a class="btn btn--wa btn--lg" href="%(wahelp)s" target="_blank" rel="noopener" data-i18n="cat.helpCta">☕ Llama al catador →</a>
+      <a class="btn btn--wa btn--lg" href="%(wahelp)s" target="_blank" rel="noopener" data-i18n="cat.helpCta">☕ Pregúntale al catador →</a>
     </div>
   </div>
 </section>
@@ -927,7 +929,7 @@ function gtag(){dataLayer.push(arguments);}
       <h4 data-i18n="ft.con">Contacto</h4>
       <a href="https://wa.me/%(wa)s" target="_blank" rel="noopener">WhatsApp +57 315 451 0390</a>
       <a href="https://instagram.com/clubcafecol" target="_blank" rel="noopener">@clubcafecol</a>
-      <a href="mailto:hola@clubcafecol.com">hola@clubcafecol.com</a>
+      <a href="mailto:corporacionclubdelcafe@gmail.com">corporacionclubdelcafe@gmail.com</a>
     </div>
   </div>
   <div class="ft__bot"><div class="wrap">
