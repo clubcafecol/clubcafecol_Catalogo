@@ -57,7 +57,7 @@ VITRINA = ["TEM-004",   # Vino de Montaña
            "PRE-002"]   # Bourbon Sandía (varietal Sidra)
 
 # ── REGIONES DE CULTIVO ─────────────────────────────────────────────────
-# Zonas donde cultivamos. Los lotes del catálogo indican su origen exacto;
+# Zonas donde cultivamos. Cada variedad del catálogo indica su origen exacto;
 # esto describe la huella de la marca a nivel de departamento.
 REGIONES = [
     ("Huila",           "Pitalito · Acevedo"),
@@ -222,7 +222,7 @@ CLUB = [
                      "Molienda a tu medida", "Cancela cuando quieras"]),
     dict(id="CLUB-3", icon="🏆", nombre="Maestro", precio=220000,
          beneficios=["2 cafés de 250 g de colecciones premium (Premio Nacional y Reserva)",
-                     "Acceso exclusivo a lotes limitados", "Envío prioritario incluido",
+                     "Acceso exclusivo a variedades limitadas", "Envío prioritario incluido",
                      "Molienda a tu medida", "Cancela cuando quieras"]),
 ]
 
@@ -236,7 +236,7 @@ BUNDLES = [
          precio=34900, tachado=39500, tag="Ideal para empezar",
          gamificacion=True),
     dict(id="BDL-002", nombre="Trilogía de Campeones", emoji="🏆", activo=True,
-         desc="Los tres lotes que nos pusieron en el podio nacional. 250 g de cada uno, en su punto de tueste.",
+         desc="Las tres variedades que nos pusieron en el podio nacional. 250 g de cada una, en su punto de tueste.",
          incluye=["Corona · SCA 89", "Bourbon Pasión · SCA 89",
                   "Landrace Arándanos · SCA 88"],
          precio=265000, tachado=292900, tag="Regalo memorable"),
@@ -285,33 +285,48 @@ TESTIMONIOS = [
 LEALTAD = dict(
     puntos_por_peso=1,          # 1 punto por cada $1.000 COP
     niveles=[
-        dict(nombre="Grano", icon="🌱", desde=0, benef=[
+        dict(nombre="Semilla", icon="🌱", desde=0, benef=[
             "1 punto por cada $1.000 de compra",
             "Acceso al catálogo completo",
             "Asesoría de cata por WhatsApp"]),
         dict(nombre="Tostador", icon="🔥", desde=300, benef=[
             "Todo lo anterior",
             "Envío gratis sin monto mínimo",
-            "Preventa de lotes de temporada 48 h antes"]),
+            "Preventa de variedades de temporada 48 h antes"]),
         dict(nombre="Barista", icon="⚗️", desde=800, benef=[
             "Todo lo anterior",
             "10 % de descuento permanente",
             "Un drip sorpresa en cada pedido"]),
         dict(nombre="Catador", icon="🏅", desde=2000, benef=[
             "Todo lo anterior",
-            "Acceso a microlotes de competencia antes que nadie",
+            "15 % de descuento permanente",
+            "Acceso a variedades de competencia antes que nadie",
             "Invitación a catas y visita a finca"]),
     ],
-    canje=[("500 puntos", "Drip de cualquier colección"),
+    canje=[("500 puntos", "Bolsa de 125 g de Origen o Temporada"),
            ("1.200 puntos", "Bolsa de 250 g de Origen o Temporada"),
            ("2.500 puntos", "Bolsa de 250 g de Premio Nacional")],
 )
 
 # ── PROGRAMA DE REFERIDOS ───────────────────────────────────────────────
+# El premio se entrega EN EL SIGUIENTE PEDIDO del referente: así no se
+# duplica el costo de envío, que es lo que hunde la economía de este tipo
+# de programas. Con un primer pedido medio de $85.000 y margen bruto del
+# 60 %, el costo total (15 % de descuento + costo de la bolsa) se queda
+# por debajo del margen que deja el referido. Revisar si sube el flete.
 REFERIDOS = dict(
-    dto_amigo=15,      # % de descuento para el referido
+    dto_amigo=15,      # % de descuento para el referido, en su primera compra
     premio_referente="una bolsa de 250 g gratis",
+    cuando="en tu próximo pedido",
     puntos_referente=800,
+)
+
+# ── ÑAPA ────────────────────────────────────────────────────────────────
+# Costumbre colombiana del regalito que se añade a la compra. Funciona muy
+# bien con público adulto: no es un descuento, es un gesto.
+NAPA = dict(
+    desde=120000,      # a partir de este subtotal
+    regalo="un drip de la variedad del mes",
 )
 
 # ── FAQ ─────────────────────────────────────────────────────────────────
@@ -354,7 +369,7 @@ QUIZ = {
         dict(id="nivel", titulo="¿Qué tanto conoces el café de especialidad?",
              ops=[("nuevo", "🌱", "Estoy empezando"),
                   ("medio", "☕", "Ya tomo especialidad regularmente"),
-                  ("experto", "🎖️", "Busco lotes raros y competencia")]),
+                  ("experto", "🎖️", "Busco variedades exclusivas y de competencia")]),
         dict(id="presupuesto", titulo="¿Cuánto quieres invertir por bolsa de 250 g?",
              ops=[("bajo", "💵", "Hasta $50.000"),
                   ("medio", "💳", "Entre $50.000 y $90.000"),
@@ -366,7 +381,7 @@ WA_NUM = "573154510390"
 NIT = "901731658"
 ENVIO_GRATIS = 85000
 SITE = "https://clubcafecol.github.io/clubcafecol_Catalogo"
-ASSET_VER = "2026.08.4"
+ASSET_VER = "2026.08.5"
 
 # ── MONEDA ──────────────────────────────────────────────────────────────
 # Todos los precios del catálogo están en pesos colombianos (COP) y es la

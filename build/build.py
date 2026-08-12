@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from skus import (SKUS, CLUB, BUNDLES, TESTIMONIOS, FAQ, QUIZ, FORMATOS, TAZAS,
                   EXOTICOS, WA_NUM, NIT, ENVIO_GRATIS, SITE, ASSET_VER,
                   MOLIENDAS, DESTACADOS, LEALTAD, REFERIDOS, USD_COP,
-                  VITRINA, VIDEO_ORIGEN, REGIONES)
+                  VITRINA, VIDEO_ORIGEN, REGIONES, NAPA)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANGS = [("es","Español","🇪🇸"),("en","English","🇬🇧"),("pt","Português","🇧🇷"),
@@ -67,7 +67,7 @@ def card(s, i):
     if s.get("premio"):
         badges.append('<span class="bdg bdg--premio">%s %s</span>' % (s["premio_icon"], s["premio"]))
     if s.get("exotico"):
-        badges.append('<span class="bdg bdg--exotico" title="Varietal poco común en Colombia">✦ Varietal raro</span>')
+        badges.append('<span class="bdg bdg--exotico" title="Variedad de siembra escasa en Colombia">✦ Variedad exclusiva</span>')
     if s.get("bajo_cafeina"):
         badges.append('<span class="bdg bdg--deca">Bajo en cafeína</span>')
     if s.get("valor_tag"):
@@ -158,7 +158,7 @@ def card(s, i):
         img=s["img"], nombre=s["nombre"], varietal=s["varietal"], proceso=s["proceso"],
         msnm=s["msnm"], sca=sca, badges="".join(badges), notas=notas, chips=chips,
         p250fmt=cop(s["precios"]["250g"]), taza=cop(s["taza"]),
-        waurl=wa("Hola CLUBCAFECOL, quiero pedir %s en presentación de 250 g. Mi ciudad es ____ y prefiero molienda para ____. ¿Me confirman total con envío?" % s["nombre"]))
+        waurl=wa("Hola CLUBCAFECOL, me antojé del %s (%s) en presentación de 250 g. Mi ciudad es ____ y lo quiero molido para ____. ¿Me confirman total con envío?" % (s["nombre"], ", ".join(s["notas"][:3]).lower())))
 
 # ═══════════════════════════════════════════════════════════════════════
 #  JSON-LD
@@ -187,7 +187,7 @@ def jsonld():
         } for k, lbl in FORMATOS]
 
         props = [
-            {"@type": "PropertyValue", "name": "Varietal", "value": s["varietal"]},
+            {"@type": "PropertyValue", "name": "Variedad", "value": s["varietal"]},
             {"@type": "PropertyValue", "name": "Proceso", "value": s["proceso"]},
             {"@type": "PropertyValue", "name": "Altitud", "value": "%s msnm" % s["msnm"]},
             {"@type": "PropertyValue", "name": "Origen", "value": s["origen"]},
@@ -204,7 +204,7 @@ def jsonld():
             "sku": s["id"],
             "mpn": s["id"],
             "category": "Café de especialidad > %s" % COL_LABEL[s["col"]],
-            "description": "Café de especialidad colombiano %s. Varietal %s, proceso %s, cultivado a %s msnm en %s.%s Notas de cata: %s. Tostado bajo pedido y molido a tu medida sin costo." % (
+            "description": "Café de especialidad colombiano %s. Variedad %s, proceso %s, cultivado a %s msnm en %s.%s Notas de cata: %s. Tostado bajo pedido y molido a tu medida sin costo." % (
                 s["nombre"], s["varietal"], s["proceso"].lower(), s["msnm"], s["origen"],
                 (" Puntaje SCA %d." % s["sca"]) if s.get("sca") else "", ", ".join(s["notas"]).lower()),
             "image": ["%s/%s.jpg" % (SITE, s["img"])],
@@ -289,12 +289,12 @@ def sec_trofeos():
   <div class="wrap">
     <div class="kicker" data-i18n="tro.kicker">Lo que nos separa del resto</div>
     <h2 data-i18n="tro.title">La Selección de los<br><em>Granos Premiados</em></h2>
-    <p class="sec-sub" data-i18n="tro.sub">Dos de nuestros lotes subieron al podio del campeonato nacional de cafés especiales. El resto del portafolio se cultiva con el mismo estándar.</p>
+    <p class="sec-sub" data-i18n="tro.sub">Dos de nuestras variedades subieron al podio del campeonato nacional de cafés especiales. El resto del portafolio se cultiva con el mismo estándar.</p>
     <div class="trofeos__grid">%(camp)s%(sub)s</div>
     <div class="raros">
       <div class="raros__head">
         <h3 data-i18n="tro.raros">Los más pedidos de la casa</h3>
-        <p data-i18n="tro.rarosSub">Los seis lotes que más salen de nuestra tostadora, entre clásicos de origen y perfiles de competencia. Toca cualquiera para ver su ficha completa.</p>
+        <p data-i18n="tro.rarosSub">Las seis variedades que más salen de nuestra tostadora, entre clásicos de origen y perfiles de competencia. Toca cualquiera para ver su ficha completa.</p>
       </div>
       <ul class="raros__list">%(raros)s</ul>
     </div>
@@ -312,7 +312,7 @@ def sec_origen():
       <div class="kicker" data-i18n="or.kicker">Quiénes están detrás</div>
       <h2 data-i18n="or.title">No compramos el café.<br><em>Lo cultivamos.</em></h2>
       <p data-i18n="or.p1">CLUBCAFECOL nace en el Huila, entre Pitalito y Acevedo, y hoy cultivamos también en Barbosa (Santander), Sevilla (Valle del Cauca), el Macizo del Cauca y el altiplano de Nariño. Somos caficultores: la misma gente que poda, recolecta y controla la fermentación es la que decide la curva de tueste y sella la bolsa que llega a tu casa.</p>
-      <p data-i18n="or.p2">Entre el árbol y tu taza no hay intermediarios, ni comisionistas, ni una bodega donde el café espere meses. Eso cambia dos cosas: el margen se queda en la finca, y podemos arriesgarnos con varietales de baja productividad que ningún comprador nos pediría, porque la decisión de qué sembrar es nuestra.</p>
+      <p data-i18n="or.p2">Entre el árbol y tu taza no hay intermediarios, ni comisionistas, ni una bodega donde el café espere meses. Eso cambia dos cosas: el margen se queda en la finca, y podemos arriesgarnos con variedades de baja productividad que ningún comprador nos pediría, porque la decisión de qué sembrar es nuestra.</p>
       <ul class="origen__reg">%(regiones)s</ul>
       <div class="origen__stats">
         <div><b>1.650–1.700</b><span data-i18n="or.s1">msnm de cultivo</span></div>
@@ -341,6 +341,43 @@ def sec_origen():
 
 
 def sec_valor():
+    """Comparación visual del rendimiento: barras, medallas y color."""
+    orden = sorted([x for x in SKUS if x["valor"]], key=lambda x: -x["valor"])
+    top = orden[0]["valor"]
+    medallas = {0: ("oro", "🥇"), 1: ("plata", "🥈"), 2: ("bronce", "🥉")}
+
+    def barra(s, i):
+        pct = max(14, int(s["valor"] / top * 100))
+        med = medallas.get(i)
+        cls = " is-podio is-%s" % med[0] if med else ""
+        icono = ('<span class="vb__med">%s</span>' % med[1]) if med else \
+                ('<span class="vb__pos">%d</span>' % (i + 1))
+        return ('<button type="button" class="vb%s" data-open-sku="%s" data-col="%s">'
+                '%s'
+                '<span class="vb__img"><picture><source srcset="%s.webp" type="image/webp">'
+                '<img src="%s.jpg" alt="%s" loading="lazy" width="760" height="1429"></picture></span>'
+                '<span class="vb__main">'
+                '<span class="vb__top"><b>%s</b><span class="vb__sca">SCA %d</span></span>'
+                '<span class="vb__bar"><i style="width:%d%%"></i></span>'
+                '<span class="vb__meta">%s la bolsa de 250 g</span></span>'
+                '<span class="vb__taza"><b>%s</b><span>por taza</span></span></button>'
+                % (cls, s["id"], s["col"], icono, s["img"], s["img"], s["nombre"],
+                   s["nombre"], s["sca"], pct, cop(s["precios"]["250g"]), cop(s["taza"])))
+
+    barras = "".join(barra(s, i) for i, s in enumerate(orden))
+    return """
+<section class="valorsec" id="valor">
+  <div class="wrap">
+    <div class="kicker kicker--hot" data-i18n="val.kicker">💰 Relación calidad-precio</div>
+    <h2 data-i18n="val.title">¿Cuál rinde <em>más por peso invertido?</em></h2>
+    <p class="sec-sub" data-i18n="val.sub">Una bolsa de 250 g rinde unas 16 tazas. Mientras más larga la barra, más puntaje SCA te llevas por cada peso. Toca cualquiera para ver su ficha.</p>
+    <div class="valorsec__bars">%(barras)s</div>
+    <p class="valorsec__nota" data-i18n="val.nota">Índice de valor = puntos SCA por cada $1.000 de costo por taza. Un café de competencia a $7.188 la taza sigue costando menos que uno de cafetería.</p>
+  </div>
+</section>""" % dict(barras=barras)
+
+
+def _sec_valor_tabla_legacy():
     def fila(s):
         if s["valor"]:
             idx = '<span class="vbar"><i style="width:%d%%"></i></span>' % min(
@@ -358,7 +395,7 @@ def sec_valor():
   <div class="wrap">
     <div class="kicker" data-i18n="val.kicker">Relación calidad-precio</div>
     <h2 data-i18n="val.title">¿Cuál rinde <em>más por peso invertido?</em></h2>
-    <p class="sec-sub" data-i18n="val.sub">Una bolsa de 250 g rinde unas 16 tazas con dosis de 15 g. Así se ve el costo real por taza frente al puntaje SCA de cada lote. Ordenado de mejor a menor valor.</p>
+    <p class="sec-sub" data-i18n="val.sub">Una bolsa de 250 g rinde unas 16 tazas con dosis de 15 g. Así se ve el costo real por taza frente al puntaje SCA de cada variedad, de mejor a menor valor.</p>
     <div class="valorsec__tabla">
       <table>
         <thead><tr><th data-i18n="val.c1">Café</th><th data-i18n="val.c2">Puntaje</th><th data-i18n="val.c3">Bolsa 250 g</th><th data-i18n="val.c4">Por taza</th><th data-i18n="val.c5">Índice de valor</th></tr></thead>
@@ -381,8 +418,8 @@ def sec_quiz():
     return """
 <section class="quiz" id="quiz">
   <div class="wrap">
-    <div class="kicker" data-i18n="qz.kicker">Motor de recomendación</div>
-    <h2 data-i18n="qz.title">21 cafés son muchos.<br><em>Encontremos el tuyo.</em></h2>
+    <div class="kicker kicker--hot" data-i18n="qz.kicker">✨ Test rápido · 30 segundos</div>
+    <h2 data-i18n="qz.title">21 cafés son muchos.<br><em>Encontremos el tuyo en 30 segundos.</em></h2>
     <p class="sec-sub" data-i18n="qz.sub">Cuatro preguntas, treinta segundos. Te decimos exactamente cuál pedir y por qué.</p>
     <div class="qz" id="qz">
       <div class="qz__bar"><i id="qzBar"></i></div>
@@ -391,11 +428,17 @@ def sec_quiz():
         <h3 data-i18n="qz.rTitle">Tu café es…</h3>
         <div id="qzOut"></div>
         <div class="qzpromo">
-          <div class="qzpromo__gift">🎁</div>
-          <div class="qzpromo__txt">
+          <div class="qzpromo__head">
+            <span class="qzpromo__gift">🎁</span>
             <h4 data-i18n="qz.promoT">Presume tu café y llévate otro gratis</h4>
-            <p data-i18n="qz.promoP">Sube tu resultado a tu historia de Instagram etiquetando a <b>@clubcafecol</b>. Con cualquier pedido que hagas, te sumamos un <b>drip de temporada de regalo</b>. Sin letra pequeña: solo muéstranos la historia por WhatsApp al momento de pedir.</p>
           </div>
+          <ol class="qzpromo__pasos">
+            <li><b>1</b><span data-i18n="qz.pa1">Toma un <b>pantallazo</b> de este resultado</span></li>
+            <li><b>2</b><span data-i18n="qz.pa2">Súbelo a tu <b>historia de Instagram</b> y etiquétanos</span></li>
+            <li><b>3</b><span data-i18n="qz.pa3"><b>Síguenos</b> en @clubcafecol y muéstranos la historia por WhatsApp</span></li>
+          </ol>
+          <p class="qzpromo__premio" data-i18n="qz.promoP">Con cualquier pedido que hagas, te sumamos un <b>drip de temporada de regalo</b>. Sin letra pequeña.</p>
+          <a class="btn btn--ig btn--block" href="https://instagram.com/clubcafecol" target="_blank" rel="noopener" data-i18n="qz.seguir">Seguir a @clubcafecol</a>
         </div>
         <div class="qz__foot">
           <button type="button" class="btn btn--ig" id="qzShare">
@@ -437,7 +480,7 @@ def sec_bundles():
     return """
 <section class="bundles" id="kits">
   <div class="wrap">
-    <div class="kicker" data-i18n="bdl.kicker">Kits y experiencias</div>
+    <div class="kicker kicker--hot" data-i18n="bdl.kicker">🎁 Kits y experiencias</div>
     <h2 data-i18n="bdl.title">Combinaciones que <em>valen más juntas</em></h2>
     <div class="bundles__grid">%(items)s</div>
   </div>
@@ -487,14 +530,21 @@ def sec_lealtad():
     return """
 <section class="lealtad" id="lealtad">
   <div class="wrap">
-    <div class="kicker" data-i18n="ly.kicker">Club de Grano · programa de puntos</div>
-    <h2 data-i18n="ly.title">Cada taza <em>suma</em></h2>
-    <p class="sec-sub" data-i18n="ly.sub">Acumulas 1 punto por cada $1.000 de compra, seas suscriptor o no. Los niveles suben solos y los puntos se canjean por café. No caducan mientras compres al menos una vez al año.</p>
+    <div class="kicker kicker--hot" data-i18n="ly.kicker">⭐ Club de la Semilla · programa de puntos</div>
+    <h2 data-i18n="ly.title">Cada taza <em>te acerca al próximo café gratis</em></h2>
+    <p class="sec-sub" data-i18n="ly.sub">Acumulas 1 punto por cada $1.000 de compra, seas suscriptor o no. Los niveles suben solos y los puntos se canjean por café de verdad, no por descuentos. No caducan mientras compres al menos una vez al año.</p>
     <h3 class="lealtad__h3" data-i18n="ly.niveles">Niveles</h3>
     <div class="lealtad__grid">%(niveles)s</div>
     <div class="canje">
       <h3 data-i18n="ly.canje">En qué se convierten tus puntos</h3>
       <div class="canje__grid">%(canje)s</div>
+    </div>
+    <div class="napa">
+      <div class="napa__ico">🎁</div>
+      <div class="napa__txt">
+        <h3 data-i18n="ly.napaT">Y la ñapa, que nunca falta</h3>
+        <p data-i18n="ly.napaP">Como en la tienda de la esquina: en todo pedido desde <b>%(napa)s</b> te metemos <b>%(napaR)s</b> sin que lo pidas. No es un descuento, es un gesto.</p>
+      </div>
     </div>
     <div class="lealtad__cta">
       <a class="btn btn--gold btn--lg" href="%(wa)s" target="_blank" rel="noopener" data-i18n="ly.cta">Activar mi cuenta de puntos</a>
@@ -502,7 +552,8 @@ def sec_lealtad():
     </div>
   </div>
 </section>""" % dict(niveles=niveles, canje=canje,
-                     wa=wa("Hola CLUBCAFECOL, quiero activar mi cuenta del Club de Grano para acumular puntos. Mi nombre es ____."))
+                     napa=cop(NAPA["desde"]), napaR=NAPA["regalo"],
+                     wa=wa("Hola CLUBCAFECOL, quiero activar mi cuenta del Club de la Semilla para acumular puntos. Mi nombre es ____."))
 
 
 def sec_referidos():
@@ -510,9 +561,9 @@ def sec_referidos():
 <section class="refer" id="referidos">
   <div class="wrap refer__in">
     <div class="refer__txt">
-      <div class="kicker" data-i18n="rf.kicker">Programa de referidos</div>
-      <h2 data-i18n="rf.title">Comparte el hallazgo,<br><em>llévate el café</em></h2>
-      <p data-i18n="rf.sub">Pide tu enlace por WhatsApp y compártelo con quien quieras. Tu amigo estrena con %(dto)s%% de descuento en su primera compra y, cuando esa compra se confirme, tú recibes %(premio)s o %(pts)s puntos. Sin tope: si traes cinco, ganas cinco veces.</p>
+      <div class="kicker kicker--hot" data-i18n="rf.kicker">🔥 Programa de referidos</div>
+      <h2 data-i18n="rf.title">Trae a un amigo<br><em>y el café va por la casa</em></h2>
+      <p data-i18n="rf.sub">Pide tu enlace por WhatsApp y compártelo con quien quieras. Tu amigo estrena con %(dto)s%% de descuento en su primera compra y, cuando esa compra se confirme, tú recibes %(premio)s %(cuando)s, o %(pts)s puntos si prefieres. Sin tope: si traes cinco, ganas cinco veces.</p>
       <div class="refer__steps">
         <div><b>1</b><span data-i18n="rf.s1">Pides tu enlace único</span></div>
         <div><b>2</b><span data-i18n="rf.s2">Tu amigo compra con %(dto)s%% off</span></div>
@@ -530,7 +581,7 @@ def sec_referidos():
     </div>
   </div>
 </section>""" % dict(dto=REFERIDOS["dto_amigo"], premio=REFERIDOS["premio_referente"],
-                     pts=f"{REFERIDOS['puntos_referente']:,}".replace(",", "."),
+                     pts=f"{REFERIDOS['puntos_referente']:,}".replace(",", "."), cuando=REFERIDOS["cuando"],
                      wa=wa("Hola CLUBCAFECOL, quiero mi enlace de referido para invitar amigos al club. Mi nombre es ____."))
 
 
@@ -543,7 +594,7 @@ def sec_testimonios():
     return """
 <section class="testi" id="opiniones">
   <div class="wrap">
-    <div class="kicker" data-i18n="tst.kicker">Lo que dicen quienes ya lo probaron</div>
+    <div class="kicker kicker--hot" data-i18n="tst.kicker">⭐ Lo que dicen quienes ya lo probaron</div>
     <h2 data-i18n="tst.title">Confianza que <em>se toma</em></h2>
     <p class="sec-sub" data-i18n="tst.sub">De Bogotá a Tokio: despachamos a Estados Unidos, Europa, Brasil y Asia con guía rastreable.</p>
     <div class="testi__grid">%(items)s</div>
@@ -618,8 +669,8 @@ def build():
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#07101F">
-<title>Café de especialidad colombiano | 21 lotes del Huila SCA 85-89 | CLUBCAFECOL</title>
-<meta name="description" content="Compra café de especialidad del Huila: 21 lotes de SCA 85 a 89, incluido el Campeón Nacional. Tostado bajo pedido, molienda gratis y envío a toda Colombia desde $30.900.">
+<title>Café de especialidad colombiano | 21 variedades SCA 82-89 | CLUBCAFECOL</title>
+<meta name="description" content="Compra café de especialidad colombiano: 21 variedades de 82 a 89 puntos SCA, incluida la Campeona Nacional. Tostado bajo pedido, molienda gratis y envío a toda Colombia desde $30.900.">
 <meta name="author" content="CLUBCAFECOL">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <link rel="canonical" href="%(site)s/">
@@ -629,14 +680,14 @@ def build():
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CLUBCAFECOL">
 <meta property="og:locale" content="es_CO">
-<meta property="og:title" content="Café de especialidad colombiano — 21 lotes del Huila, SCA 85-89">
+<meta property="og:title" content="Café de especialidad colombiano — 21 variedades, SCA 82-89">
 <meta property="og:description" content="Campeones Nacionales directos a tu taza. Tostado bajo pedido, molienda sin costo, envío gratis desde $85.000.">
 <meta property="og:image" content="%(site)s/assets/productos/pre-008.jpg">
 <meta property="og:image:alt" content="Etiqueta del café CORONA, Geisha Top Roast, Campeón Nacional">
 <meta property="og:url" content="%(site)s/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="CLUBCAFECOL — Café de especialidad del Huila">
-<meta name="twitter:description" content="21 lotes SCA 85-89. Tostado bajo pedido. Envío a toda Colombia.">
+<meta name="twitter:description" content="21 variedades SCA 82-89. Tostado bajo pedido. Envío a toda Colombia.">
 <meta name="twitter:image" content="%(site)s/assets/productos/pre-008.jpg">
 
 <link rel="icon" type="image/jpeg" href="assets/img/logo.jpg">
@@ -716,7 +767,7 @@ function gtag(){dataLayer.push(arguments);}
         <span class="cartbtn__n" id="cartCount" hidden>0</span>
       </button>
       <a class="btn btn--gold nav__cta" href="#catalogo" data-i18n="nav.cta">Pedir ahora</a>
-      <button type="button" class="burger" id="burger" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span></button>
+      <button type="button" class="burger" id="burger" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span><i data-i18n="nav.menu">Menú</i></button>
     </div>
   </div>
   <div class="nav__mobile" id="navMobile">
@@ -738,21 +789,19 @@ function gtag(){dataLayer.push(arguments);}
     <div class="hero__scrim"></div>
   </div>
   <div class="wrap hero__in">
-    <div class="hero__pre"><span class="dot"></span><span data-i18n="hero.pre">Huila, Colombia · Tostado bajo pedido</span></div>
+    <div class="hero__pre"><span class="dot"></span><span data-i18n="hero.pre">Café 100%% Colombiano · Tostado bajo pedido</span></div>
     <h1 data-i18n="hero.title">Tu Café de Especialidad Colombiano<em>Campeones Nacionales directos a tu Taza</em></h1>
-    <p class="hero__sub" data-i18n="hero.sub">21 microlotes de café de especialidad de las montañas de Colombia, de 82 a 89 puntos SCA. Tostados el día de tu pedido y molidos a la medida de tu cafetera.</p>
+    <p class="hero__sub" data-i18n="hero.sub">21 variedades de café de especialidad de las montañas de Colombia, con 82 a 89 puntos SCA. Tostados el día de tu pedido y molidos a la medida de tu cafetera.</p>
     <div class="hero__cta">
-      <a class="btn btn--gold btn--lg" href="#catalogo" data-i18n="hero.cta1">Ver los 21 lotes</a>
-      <a class="btn btn--ghost btn--lg" href="#quiz" data-i18n="hero.cta2">Ayúdame a elegir</a>
+      <a class="btn btn--gold btn--lg" href="#catalogo" data-i18n="hero.cta1">Ver las 21 variedades</a>
+      <a class="btn btn--hot btn--lg" href="#quiz" data-i18n="hero.cta2">✨ Ayúdame a elegir</a>
     </div>
     <div class="hero__stats">
-      <div><b>21</b><span data-i18n="hero.s1">lotes únicos</span></div>
-      <div><b>SCA 85–89</b><span data-i18n="hero.s2">rango de puntaje</span></div>
+      <div><b>21</b><span data-i18n="hero.s1">variedades únicas</span></div>
+      <div><b>SCA 82–89</b><span data-i18n="hero.s2">puntaje de catación</span></div>
       <div><b>1.650+</b><span data-i18n="hero.s3">msnm de altura</span></div>
       <div><b>24 h</b><span data-i18n="hero.s4">del tueste al despacho</span></div>
     </div>
-    <a class="hero__ig" href="https://instagram.com/clubcafecol" target="_blank" rel="noopener">
-      <span class="hero__ig-dot"></span><span data-i18n="hero.ig">Conoce el origen en @clubcafecol</span> →</a>
   </div>
 </section>
 
@@ -760,7 +809,7 @@ function gtag(){dataLayer.push(arguments);}
 <section class="pilares">
   <div class="wrap pilares__grid">
     <div class="pilar"><div class="pilar__i">🌄</div><h3 data-i18n="pil.t1">Del grano a tu taza.</h3><p data-i18n="pil.d1">Fincas propias en Huila, Santander, Valle del Cauca, Cauca y Nariño, entre 1.650 y 1.700 msnm. Somos caficultores, sin intermediarios.</p></div>
-    <div class="pilar"><div class="pilar__i">🔥</div><h3 data-i18n="pil.t2">Tueste bajo pedido</h3><p data-i18n="pil.d2">Tostamos en lotes pequeños el mismo día que compras. Nunca café de bodega.</p></div>
+    <div class="pilar"><div class="pilar__i">🔥</div><h3 data-i18n="pil.t2">Tueste bajo pedido</h3><p data-i18n="pil.d2">Tostamos en pequeñas cantidades el mismo día que compras. Nunca café de bodega.</p></div>
     <div class="pilar"><div class="pilar__i">⚙️</div><h3 data-i18n="pil.t3">Molienda a tu medida</h3><p data-i18n="pil.d3">Eliges el método al agregar el café — espresso, V60, prensa, moka — y molemos sin costo.</p></div>
     <div class="pilar"><div class="pilar__i">🚚</div><h3 data-i18n="pil.t4">Entrega rápida</h3><p data-i18n="pil.d4">Empacado al vacío tras el tueste. Bogotá 24-48 h, resto del país 2-5 días.</p></div>
   </div>
@@ -775,7 +824,14 @@ function gtag(){dataLayer.push(arguments);}
 <section class="cat" id="catalogo">
   <div class="wrap">
     <div class="kicker" data-i18n="cat.kicker">El catálogo completo</div>
-    <h2 data-i18n="cat.title">Cuatro colecciones,<br><em>veintiún lotes</em></h2>
+    <h2 data-i18n="cat.title">Cuatro colecciones,<br><em>veintiuna variedades</em></h2>
+    <div class="scaexp">
+      <div class="scaexp__badge"><b>SCA</b><span>82–89</span></div>
+      <div class="scaexp__txt">
+        <h3 data-i18n="cat.scaT">¿Qué significa ese número?</h3>
+        <p data-i18n="cat.scaP">Es el puntaje que un catador certificado le da a la taza sobre 100, siguiendo el protocolo de la <b>Specialty Coffee Association</b>. Evalúa aroma, sabor, acidez, cuerpo y dulzor. De 80 para arriba ya se considera café de especialidad: en Colombia solo una fracción muy pequeña de la cosecha llega ahí. Nuestras variedades van de <b>82 a 89</b>.</p>
+      </div>
+    </div>
     <div class="cat__controls">
       <div class="cat__tabs" role="tablist">
         <button type="button" class="tab is-active" data-col="all" data-i18n="tab.all">Todos <i>21</i></button>
@@ -796,15 +852,15 @@ function gtag(){dataLayer.push(arguments);}
         </select>
       </label>
     </div>
-    <p class="cat__curada" id="curadaMsg" data-i18n="cat.curada">Empieza por la selección del fundador: los ocho lotes que mejor representan la casa.</p>
+    <p class="cat__curada" id="curadaMsg" data-i18n="cat.curada">Empieza por la selección del fundador: las ocho variedades que mejor representan la casa.</p>
     <div class="cat__grid" id="grid">%(cards)s</div>
     <div class="cat__more" id="moreWrap">
-      <button type="button" class="btn btn--ghost btn--lg" id="verTodos">
-        <span data-i18n="cat.verTodos">Ver los 21 lotes</span> ↓</button>
+      <button type="button" class="btn btn--hot btn--lg btn--late" id="verTodos">
+        <span data-i18n="cat.verTodos">Ver las 21 variedades</span> ↓</button>
     </div>
     <div class="cat__help">
       <p data-i18n="cat.help">¿Sigues dudando? Te asesoramos gratis, sin compromiso.</p>
-      <a class="btn btn--wa" href="%(wahelp)s" target="_blank" rel="noopener" data-i18n="cat.helpCta">Hablar con un catador →</a>
+      <a class="btn btn--wa btn--lg" href="%(wahelp)s" target="_blank" rel="noopener" data-i18n="cat.helpCta">☕ Llama al catador →</a>
     </div>
   </div>
 </section>
@@ -820,8 +876,8 @@ function gtag(){dataLayer.push(arguments);}
   <div class="wrap dl__in">
     <div class="dl__txt">
       <div class="kicker" data-i18n="dl.kicker">Catálogo editorial</div>
-      <h2 data-i18n="dl.title">Las 21 etiquetas,<br><em>en tu bolsillo</em></h2>
-      <p data-i18n="dl.sub">Perfiles sensoriales, procesos de fermentación, altitudes y la historia de cada lote. Te lo enviamos al correo junto con una guía de extracción y un cupón de bienvenida.</p>
+      <h2 data-i18n="dl.title">Las 21 Variedades,<br><em>en tu bolsillo</em></h2>
+      <p data-i18n="dl.sub">Perfiles sensoriales, procesos de fermentación, altitudes y la historia de cada variedad. Te lo enviamos al correo junto con una guía de extracción y un cupón de bienvenida.</p>
       <form class="dl__form" id="dlForm" novalidate>
         <input type="email" id="dlEmail" required placeholder="tu@correo.com" aria-label="Correo electrónico" autocomplete="email">
         <button type="submit" class="btn btn--gold" data-i18n="dl.btn">Enviarme el catálogo</button>
@@ -855,7 +911,7 @@ function gtag(){dataLayer.push(arguments);}
     <div class="ft__col">
       <h4 data-i18n="ft.emp">Empresa</h4>
       <a href="#club" data-i18n="nav.club">Club de Temporada</a>
-      <a href="#lealtad" data-i18n="ft.puntos">Club de Grano · puntos</a>
+      <a href="#lealtad" data-i18n="ft.puntos">Club de la Semilla · puntos</a>
       <a href="#referidos" data-i18n="ft.ref">Programa de referidos</a>
       <a href="#opiniones" data-i18n="ft.op">Opiniones</a>
       <a href="#faq" data-i18n="nav.faq">Preguntas frecuentes</a>

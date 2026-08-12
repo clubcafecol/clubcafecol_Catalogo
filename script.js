@@ -441,14 +441,14 @@ function openModal(i) {
   var b = ['<span class="bdg bdg--col bdg--' + s.col + '">' + COLS[s.col] + '</span>'];
   if (s.sca)     b.push('<span class="bdg bdg--sca">SCA ' + s.sca + '</span>');
   if (s.premio)  b.push('<span class="bdg bdg--premio">🏆 ' + s.premio + '</span>');
-  if (s.exotico) b.push('<span class="bdg bdg--exotico">✦ Varietal raro</span>');
+  if (s.exotico) b.push('<span class="bdg bdg--exotico">✦ Variedad exclusiva</span>');
   if (s.deca)    b.push('<span class="bdg bdg--deca">Bajo en cafeína</span>');
   $('#mdlBadges').innerHTML = b.join('');
 
   $('#mdlNotas').innerHTML = s.notas.map(function (n) { return '<span>' + n + '</span>'; }).join('');
 
   $('#mdlSpecs').innerHTML =
-    '<div><dt>Varietal</dt><dd>' + s.varietal + '</dd></div>' +
+    '<div><dt>Variedad</dt><dd>' + s.varietal + '</dd></div>' +
     '<div><dt>Proceso</dt><dd>' + s.proceso + '</dd></div>' +
     '<div><dt>Origen</dt><dd>' + s.origen + '</dd></div>' +
     '<div><dt>Altura</dt><dd>' + s.msnm + ' msnm</dd></div>' +

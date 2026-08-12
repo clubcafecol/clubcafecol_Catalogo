@@ -8,6 +8,11 @@
   --ink:#16181C;      --muted:#6C7480;    --line:rgba(10,20,35,.10);
   --c-origen:#4A2010; --c-temporada:#252060; --c-premio:#8A6A22; --c-reserva:#7A2E1E;
   --wa:#25D366;       --wa-dk:#128C7E;
+  /* Paleta viva: rosado y morado para energía comercial, dorado para lujo */
+  --pink:#DD2A7B;     --pink-dk:#B01F61;  --purple:#8134AF;  --indigo:#515BD4;
+  --grad-hot:linear-gradient(45deg,#F58529 0%,#DD2A7B 45%,#8134AF 70%,#515BD4 100%);
+  --grad-gold:linear-gradient(135deg,#E4CB92,#C9A961 55%,#9C7F3E);
+  --grad-pink:linear-gradient(135deg,#F06AA5,#DD2A7B 60%,#8134AF);
   --serif:'Playfair Display',Georgia,serif;
   --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   --r:14px; --r-lg:22px;
@@ -58,6 +63,23 @@ section h2{font-size:clamp(2rem,4.6vw,3.3rem)}
 .btn--block{width:100%}
 .btn:active{transform:scale(.97)}
 
+/* CTA caliente: degradado vivo con brillo que recorre el botón */
+.btn--hot{position:relative;overflow:hidden;background:var(--grad-hot);color:#fff;
+  box-shadow:0 6px 22px rgba(221,42,123,.42);border:0;font-weight:700}
+.btn--hot:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(221,42,123,.55)}
+.btn--hot::after{content:'';position:absolute;top:0;bottom:0;width:38%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.42),transparent);
+  transform:skewX(-18deg);animation:brillo 3.4s ease-in-out infinite}
+@keyframes brillo{0%{left:-45%}55%{left:125%}100%{left:125%}}
+/* Latido suave para el CTA principal del catálogo */
+.btn--late{animation:late 2.6s ease-in-out infinite}
+@keyframes late{0%,100%{transform:none}50%{transform:scale(1.035)}}
+.btn--late:hover{animation-play-state:paused}
+
+.kicker--hot{display:inline-block;background:var(--grad-hot);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  font-weight:700;letter-spacing:.16em}
+
 /* ── TOPBAR + NAV ────────────────────────────────────────────────────── */
 .topbar{background:var(--navy-900);color:var(--gold-lt);text-align:center;
   font-size:.78rem;letter-spacing:.04em;padding:8px 16px;font-weight:500}
@@ -101,12 +123,18 @@ section h2{font-size:clamp(2rem,4.6vw,3.3rem)}
   background:var(--terra);color:#fff;border-radius:100px;font-size:.68rem;font-weight:700;
   display:flex;align-items:center;justify-content:center;line-height:1}
 
-.burger{display:none;flex-direction:column;gap:4.5px;width:42px;height:42px;
-  align-items:center;justify-content:center;border-radius:10px}
-.burger span{display:block;width:20px;height:1.8px;background:var(--navy-700);transition:.25s}
-.burger.is-open span:nth-child(1){transform:translateY(6.3px) rotate(45deg)}
+/* Menú: con etiqueta y fondo para que se vea de verdad */
+.burger{display:none;flex-direction:column;gap:3.5px;min-width:52px;height:44px;
+  align-items:center;justify-content:center;border-radius:12px;
+  background:var(--navy-900);padding:0 10px}
+.burger span{display:block;width:19px;height:2px;background:var(--gold-lt);
+  border-radius:2px;transition:.25s}
+.burger i{font-style:normal;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gold-lt);margin-top:2px;font-weight:600}
+.burger.is-open span:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
 .burger.is-open span:nth-child(2){opacity:0}
-.burger.is-open span:nth-child(3){transform:translateY(-6.3px) rotate(-45deg)}
+.burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
+.burger.is-open i{opacity:0}
 .nav__mobile{display:none;flex-direction:column;gap:2px;padding:10px 24px 22px;
   background:var(--cream-2);border-top:1px solid var(--line)}
 .nav__mobile a{padding:13px 4px;font-weight:500;border-bottom:1px solid var(--line)}
@@ -233,8 +261,55 @@ section h2{font-size:clamp(2rem,4.6vw,3.3rem)}
 .raros__list b{display:block;font-family:var(--serif);font-size:1.06rem;color:var(--gold-lt)}
 .raros__list span span,.raro__txt>span{font-size:.76rem;color:rgba(245,239,227,.6)}
 
-/* ── TABLA DE VALOR ──────────────────────────────────────────────────── */
+/* ── COMPARACIÓN DE VALOR (visual, no tabla) ─────────────────────────── */
 .valorsec{background:var(--white)}
+.valorsec__bars{display:grid;gap:9px;margin-top:34px}
+.vb{display:grid;grid-template-columns:34px 46px 1fr auto;gap:14px;align-items:center;
+  width:100%;text-align:start;padding:11px 16px 11px 10px;border-radius:14px;
+  border:1px solid var(--line);background:var(--white);transition:.22s;color:inherit}
+.vb:hover{border-color:var(--pink);background:rgba(221,42,123,.05);transform:translateX(3px)}
+.vb__pos{font-family:var(--serif);font-size:1rem;color:var(--muted);text-align:center}
+.vb__med{font-size:1.4rem;text-align:center}
+.vb__img{width:46px;border-radius:6px;overflow:hidden;box-shadow:0 3px 10px rgba(7,16,31,.28)}
+.vb__img img{width:100%;height:auto;display:block}
+.vb__main{min-width:0}
+.vb__top{display:flex;align-items:center;gap:9px;margin-bottom:5px;flex-wrap:wrap}
+.vb__top b{font-family:var(--serif);font-size:1.02rem}
+.vb__sca{font-size:.66rem;font-weight:700;letter-spacing:.06em;padding:2px 8px;
+  border-radius:100px;background:var(--navy-900);color:var(--gold-lt)}
+.vb__bar{display:block;height:9px;border-radius:100px;background:var(--line);overflow:hidden}
+.vb__bar i{display:block;height:100%;border-radius:100px;background:var(--grad-pink);
+  transition:width .6s cubic-bezier(.4,0,.2,1)}
+.vb__meta{display:block;font-size:.73rem;color:var(--muted);margin-top:5px}
+.vb__taza{text-align:end;flex-shrink:0}
+.vb__taza b{display:block;font-family:var(--serif);font-size:1.16rem;color:var(--pink-dk)}
+.vb__taza span{font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.vb.is-podio{border-width:1.5px}
+.vb.is-oro{border-color:var(--gold);background:linear-gradient(90deg,rgba(201,169,97,.15),transparent 60%)}
+.vb.is-oro .vb__bar i{background:var(--grad-gold)}
+.vb.is-plata{border-color:#B9BDC4;background:linear-gradient(90deg,rgba(185,189,196,.16),transparent 60%)}
+.vb.is-bronce{border-color:#C08552;background:linear-gradient(90deg,rgba(192,133,82,.14),transparent 60%)}
+
+/* Explicación de SCA */
+.scaexp{display:flex;align-items:center;gap:22px;margin:30px 0 6px;padding:22px 26px;
+  border-radius:var(--r-lg);background:var(--navy-900);color:var(--cream)}
+.scaexp__badge{flex-shrink:0;width:82px;height:82px;border-radius:50%;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;
+  border:2px solid var(--gold);background:rgba(201,169,97,.14)}
+.scaexp__badge b{font-family:var(--serif);font-size:1.3rem;color:var(--gold-lt);line-height:1}
+.scaexp__badge span{font-size:.72rem;color:rgba(245,239,227,.72);margin-top:2px}
+.scaexp h3{font-size:1.16rem;color:var(--gold-lt);margin-bottom:6px}
+.scaexp p{margin:0;font-size:.88rem;line-height:1.65;color:rgba(245,239,227,.85)}
+.scaexp b{color:var(--gold-lt)}
+
+/* Ñapa */
+.napa{display:flex;align-items:center;gap:18px;margin-top:26px;padding:20px 24px;
+  border-radius:var(--r-lg);border:1px dashed var(--pink);
+  background:linear-gradient(120deg,rgba(221,42,123,.10),rgba(129,52,175,.06))}
+.napa__ico{font-size:2rem;flex-shrink:0}
+.napa h3{font-size:1.1rem;margin-bottom:4px;color:var(--pink-dk)}
+.napa p{margin:0;font-size:.88rem;color:var(--navy-700);line-height:1.6}
+.napa b{color:var(--pink-dk);font-weight:600}
 .valorsec__tabla{margin-top:36px;overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-lg)}
 .valorsec table{width:100%;border-collapse:collapse;min-width:660px;font-size:.9rem}
 .valorsec th{text-align:start;padding:15px 18px;background:var(--navy-900);color:var(--gold-lt);
@@ -780,14 +855,24 @@ body.is-rtl .cart__panel{transform:translateX(-100%)}
 .exit__msg.is-err{color:#B3261E} .exit__msg.is-ok{color:#1E7A4B;font-weight:600}
 .exit__no{margin-top:14px;font-size:.79rem;color:var(--muted);text-decoration:underline}
 
-/* Promoción de compartir: drip gratis por etiquetarnos */
-.qzpromo{display:flex;gap:16px;align-items:flex-start;margin-top:28px;padding:20px 22px;
-  border-radius:var(--r-lg);border:1px dashed var(--gold);
-  background:linear-gradient(135deg,rgba(201,169,97,.16),rgba(201,169,97,.05))}
-.qzpromo__gift{font-size:1.9rem;line-height:1;flex-shrink:0}
-.qzpromo h4{font-size:1.1rem;margin-bottom:6px}
-.qzpromo p{margin:0;font-size:.87rem;color:var(--navy-700);line-height:1.6}
-.qzpromo b{font-weight:600;color:var(--gold-dk)}
+/* Promoción de compartir: tarjeta pensada para que se vea bien en un pantallazo */
+.qzpromo{margin-top:28px;padding:24px;border-radius:var(--r-lg);color:#fff;
+  background:var(--grad-hot);box-shadow:0 14px 40px rgba(221,42,123,.34)}
+.qzpromo__head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.qzpromo__gift{font-size:1.9rem;line-height:1}
+.qzpromo h4{font-size:1.22rem;color:#fff;margin:0}
+.qzpromo__pasos{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:9px}
+.qzpromo__pasos li{display:flex;align-items:center;gap:11px;font-size:.88rem;line-height:1.45}
+.qzpromo__pasos b{flex-shrink:0;width:26px;height:26px;border-radius:50%;
+  background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-family:var(--serif)}
+.qzpromo__pasos span b{width:auto;height:auto;background:none;display:inline;font-family:inherit;
+  font-size:inherit;font-weight:700}
+.qzpromo__premio{margin:0 0 16px;font-size:.9rem;padding:12px 14px;border-radius:11px;
+  background:rgba(255,255,255,.16);line-height:1.5}
+.qzpromo__premio b{font-weight:700}
+.qzpromo .btn--ig{background:#fff;color:var(--pink-dk);box-shadow:none}
+.qzpromo .btn--ig:hover{background:var(--cream);transform:translateY(-2px)}
 .qz__foot{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}
 .cart__add{padding:4px 22px 14px;text-align:center;border-bottom:1px solid var(--line)}
 .btn--ig{background:linear-gradient(45deg,#F58529,#DD2A7B 45%,#8134AF 70%,#515BD4);
@@ -894,6 +979,24 @@ body.is-rtl .cart__panel{transform:translateX(-100%)}
   .refer__steps{grid-template-columns:1fr;gap:12px}
   .refer__steps div{flex-direction:row;align-items:center;gap:11px}
   .canje__grid{grid-template-columns:1fr}
+  /* Barra superior y menú: navegación clara en celular */
+  .nav__mobile{gap:0;padding:8px 18px 20px}
+  .nav__mobile a{padding:15px 6px;font-size:1rem;font-weight:500;display:flex;
+    align-items:center;justify-content:space-between}
+  .nav__mobile a::after{content:'›';color:var(--gold-dk);font-size:1.2rem}
+  .nav__mobile .btn{margin-top:16px;justify-content:center;font-size:1rem;padding:15px 24px}
+  .nav__mobile .btn::after{content:none}
+  /* Comparación de valor apilada */
+  .vb{grid-template-columns:28px 40px 1fr;gap:10px;padding:12px 14px 12px 8px;
+    row-gap:6px}
+  .vb__img{width:40px}
+  .vb__taza{grid-column:2 / -1;text-align:start;display:flex;align-items:baseline;gap:6px}
+  .vb__taza b{font-size:1rem}
+  .vb__top b{font-size:.95rem}
+  .scaexp{flex-direction:column;text-align:center;gap:14px;padding:22px 18px}
+  .napa{flex-direction:column;text-align:center;gap:10px}
+  .qzpromo{padding:20px 18px}
+  .qzpromo__head{flex-direction:column;text-align:center;gap:8px}
   .origen__stats{grid-template-columns:repeat(3,1fr);gap:12px}
   .origen__stats b{font-size:1.16rem}
   .origen__stats span{font-size:.65rem;letter-spacing:.04em}
