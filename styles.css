@@ -926,13 +926,17 @@ body.is-rtl .wa{right:auto;left:22px}
   .nav__brand img{width:34px;height:34px}
   .cartbtn{width:40px;height:40px}
   .lang__btn{padding:8px 10px}
-  /* OJO: no usar position:fixed aquí. El backdrop-filter del nav crea un
-     bloque contenedor, así que un fixed se ancla al nav y el menú queda
-     recortado e inalcanzable. Se mantiene absolute y se limita la altura. */
-  .lang__menu{position:absolute;top:calc(100% + 8px);right:0;inset-inline-end:0;
-    left:auto;min-width:172px;max-height:min(60vh,320px);overflow-y:auto;
-    -webkit-overflow-scrolling:touch}
-  .lang__op{padding:12px 14px;font-size:.92rem}
+  /* El desplegable no se ancla al botón: se anclaba a su borde derecho y,
+     al ser más ancho que el espacio disponible, se salía por la izquierda.
+     Tampoco puede ser fixed, porque el backdrop-filter del nav crea un
+     bloque contenedor. Se posiciona respecto al nav y ocupa su ancho. */
+  .lang{position:static}
+  .lang__menu{position:absolute;top:calc(100% + 6px);left:12px;right:12px;
+    inset-inline:12px;min-width:0;width:auto;
+    max-height:min(58vh,340px);overflow-y:auto;-webkit-overflow-scrolling:touch;
+    display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:8px}
+  .lang__op{padding:12px 10px;font-size:.88rem;gap:8px}
+  .lang__op span{font-size:1rem}
   /* Tarjetas: área de toque más generosa */
   .fmt{min-width:60px;padding:8px 10px}
   .card__mol{padding:11px 12px;font-size:16px}
@@ -1098,6 +1102,7 @@ body.is-rtl .wa{right:auto;left:22px}
   /* En pantallas muy estrechas el logotipo habla por sí solo */
   .nav__brand span{display:none}
   .nav__in{padding:0 12px}
+  .lang__menu{left:10px;right:10px;inset-inline:10px}
   .origen__stats{grid-template-columns:1fr 1fr}
   .origen__reg{grid-template-columns:1fr}
   .vb{grid-template-columns:26px 36px 1fr;gap:8px}
