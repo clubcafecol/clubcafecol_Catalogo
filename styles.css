@@ -67,18 +67,46 @@ section h2{font-size:clamp(2rem,4.6vw,3.3rem)}
 .btn--block{width:100%}
 .btn:active{transform:scale(.97)}
 
-/* CTA caliente: degradado vivo con brillo que recorre el botón */
-.btn--hot{position:relative;overflow:hidden;background:var(--grad-hot);color:#fff;
-  box-shadow:0 6px 22px rgba(221,42,123,.42);border:0;font-weight:700}
+/* ── CTA con llamada de atención ──────────────────────────────────────
+   El movimiento continuo se vuelve invisible en pocos segundos: el ojo
+   se habitúa. Estas animaciones duran ciclos largos y pasan la mayor
+   parte del tiempo en reposo, así el gesto vuelve a sorprender cada vez.
+   Todo se anima con transform y opacity, que no fuerzan recálculo de
+   diseño y corren a 60 fps. */
+
+.btn--hot{position:relative;overflow:hidden;color:#fff;border:0;font-weight:700;
+  background:var(--grad-hot);background-size:220% 220%;
+  box-shadow:0 6px 22px rgba(221,42,123,.42);
+  animation:gradfluye 7s ease infinite, meneo 6s ease-in-out infinite}
 .btn--hot:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(221,42,123,.55)}
 .btn--hot::after{content:'';position:absolute;top:0;bottom:0;width:38%;
-  background:linear-gradient(100deg,transparent,rgba(255,255,255,.42),transparent);
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);
   transform:skewX(-18deg);animation:brillo 3.4s ease-in-out infinite}
 @keyframes brillo{0%{left:-45%}55%{left:125%}100%{left:125%}}
-/* Latido suave para el CTA principal del catálogo */
-.btn--late{animation:late 2.6s ease-in-out infinite}
-@keyframes late{0%,100%{transform:none}50%{transform:scale(1.035)}}
-.btn--late:hover{animation-play-state:paused}
+@keyframes gradfluye{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+/* Meneo corto cada 6 s: llama la atención sin marear */
+@keyframes meneo{0%,84%,100%{transform:rotate(0)}
+  87%{transform:rotate(-1.5deg)}90%{transform:rotate(1.5deg)}
+  93%{transform:rotate(-1deg)}96%{transform:rotate(.6deg)}}
+
+/* Botón dorado: aro que se expande como un radar + respiración */
+.btn--pulso{position:relative;isolation:isolate;
+  animation:respira 5s ease-in-out infinite}
+.btn--pulso::after{content:'';position:absolute;inset:0;border-radius:inherit;
+  border:2px solid var(--gold);z-index:-1;
+  animation:aro 3s cubic-bezier(.2,.6,.3,1) infinite}
+@keyframes aro{0%{transform:scale(1);opacity:.7}
+  60%{transform:scale(1.22);opacity:0}100%{transform:scale(1.22);opacity:0}}
+@keyframes respira{0%,70%,100%{transform:none}
+  78%{transform:scale(1.045)}86%{transform:scale(.995)}92%{transform:scale(1.018)}}
+
+/* Al interactuar, el botón se calla: ya cumplió su función */
+.btn--hot:hover,.btn--hot:focus-visible,
+.btn--pulso:hover,.btn--pulso:focus-visible{animation-play-state:paused}
+.btn--pulso:hover::after,.btn--pulso:focus-visible::after{animation-play-state:paused;opacity:0}
+body.cta-visto .btn--hot,body.cta-visto .btn--pulso,
+body.cta-visto .btn--pulso::after{animation:none}
+body.cta-visto .btn--hot{background-size:100% 100%}
 
 .kicker--hot{display:inline-block;background:var(--grad-hot);
   -webkit-background-clip:text;background-clip:text;color:transparent;

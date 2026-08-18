@@ -795,7 +795,7 @@ function gtag(){dataLayer.push(arguments);}
     <h1 data-i18n="hero.title">Tu Café de Especialidad Colombiano<em>Campeones Nacionales directos a tu Taza</em></h1>
     <p class="hero__sub" data-i18n="hero.sub">21 variedades de café de especialidad de las montañas de Colombia, con 82 a 89 puntos SCA. Tostados el día de tu pedido y molidos a la medida de tu cafetera.</p>
     <div class="hero__cta">
-      <a class="btn btn--gold btn--lg" href="#catalogo" data-i18n="hero.cta1">Ver las 21 variedades</a>
+      <a class="btn btn--gold btn--lg btn--pulso" href="#catalogo" data-i18n="hero.cta1">Ver las 21 variedades</a>
       <a class="btn btn--hot btn--lg" href="#quiz" data-i18n="hero.cta2">✨ Ayúdame a elegir</a>
     </div>
     <div class="hero__stats">
@@ -857,7 +857,7 @@ function gtag(){dataLayer.push(arguments);}
     <p class="cat__curada" id="curadaMsg" data-i18n="cat.curada">Empieza por la selección del fundador: las ocho variedades que mejor representan la casa.</p>
     <div class="cat__grid" id="grid">%(cards)s</div>
     <div class="cat__more" id="moreWrap">
-      <button type="button" class="btn btn--hot btn--lg btn--late" id="verTodos">
+      <button type="button" class="btn btn--hot btn--lg" id="verTodos">
         <span data-i18n="cat.verTodos">Ver las 21 variedades</span> ↓</button>
     </div>
     <div class="cat__help">

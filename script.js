@@ -1052,6 +1052,26 @@ function initOrigenVideo() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+   9c · LLAMADA DE ATENCIÓN DE LOS CTA
+   Los botones dejan de animarse en cuanto el visitante interactúa con
+   alguno: ya cumplieron su función y seguir moviéndose molesta.
+   ═══════════════════════════════════════════════════════════════════ */
+function initCtaAtencion() {
+  var LS = 'ccc_cta_v1';
+  try { if (sessionStorage.getItem(LS)) { document.body.classList.add('cta-visto'); return; } } catch (e) {}
+  var ctas = $$('.btn--pulso, .btn--hot');
+  if (!ctas.length) return;
+  function callar() {
+    document.body.classList.add('cta-visto');
+    try { sessionStorage.setItem(LS, '1'); } catch (e) {}
+    ctas.forEach(function (b) { b.removeEventListener('click', callar); });
+  }
+  ctas.forEach(function (b) { b.addEventListener('click', callar); });
+  /* Si tras 45 s no ha pasado nada, dejamos de insistir igualmente */
+  setTimeout(callar, 45000);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    10 · REVELADO AL HACER SCROLL
    ═══════════════════════════════════════════════════════════════════ */
 function initReveal() {
@@ -1078,6 +1098,7 @@ function boot() {
   initExit();
   initWA();
   initOrigenVideo();
+  initCtaAtencion();
   initReveal();
   requestAnimationFrame(initHeroVideo);
   track('page_view', {page_title: document.title});
