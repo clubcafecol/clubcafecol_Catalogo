@@ -275,25 +275,36 @@ body.cta-visto .btn--hot{background-size:100% 100%}
 .trofeo__notas{font-size:.87rem;color:rgba(245,239,227,.78);margin:0 0 14px;font-style:italic}
 .trofeo__cta{font-size:.83rem;font-weight:600;color:var(--gold)}
 
-.raros{border-top:1px solid rgba(201,169,97,.24);padding-top:44px;
-  display:grid;grid-template-columns:.85fr 1.15fr;gap:44px;align-items:start}
-.raros__head h3{font-size:1.5rem;margin-bottom:10px}
-.raros__head p{font-size:.9rem;color:rgba(245,239,227,.66);margin:0}
+/* Los seis más vendidos. Ahora son la sección entera, así que las fichas
+   crecen: imagen más grande y tres columnas en escritorio. */
+.raros{margin-top:44px}
 .raros__list{list-style:none;margin:0;padding:0;display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+  grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:16px}
 .raros__list li{list-style:none}
-.raro{display:flex;align-items:center;gap:12px;width:100%;text-align:start;
-  padding:10px 14px 10px 10px;border:1px solid rgba(245,239,227,.14);border-radius:12px;
+.raro{display:flex;align-items:center;gap:15px;width:100%;text-align:start;
+  padding:14px 16px 14px 14px;border:1px solid rgba(245,239,227,.14);border-radius:14px;
   background:rgba(245,239,227,.03);transition:.22s;color:inherit}
-.raro:hover{border-color:var(--gold);background:rgba(201,169,97,.12);transform:translateY(-2px)}
-.raro__img{flex:0 0 44px;width:44px;border-radius:7px;overflow:hidden;
-  box-shadow:0 4px 12px rgba(0,0,0,.45)}
+.raro:hover{border-color:var(--gold);background:rgba(201,169,97,.12);transform:translateY(-3px);
+  box-shadow:0 14px 34px rgba(0,0,0,.34)}
+.raro__img{flex:0 0 62px;width:62px;border-radius:9px;overflow:hidden;
+  box-shadow:0 6px 16px rgba(0,0,0,.45)}
 .raro__img img{width:100%;height:auto;display:block}
 .raro__txt{flex:1;min-width:0}
+.raro__premio{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--navy-900);background:var(--grad-gold);
+  padding:2px 8px;border-radius:100px;margin-bottom:6px}
 .raro__go{color:var(--gold);font-size:1.1rem;opacity:0;transform:translateX(-5px);transition:.22s}
 .raro:hover .raro__go{opacity:1;transform:none}
-.raros__list b{display:block;font-family:var(--serif);font-size:1.06rem;color:var(--gold-lt)}
-.raros__list span span,.raro__txt>span{font-size:.76rem;color:rgba(245,239,227,.6)}
+.raros__list b{display:block;font-family:var(--serif);font-size:1.16rem;color:var(--gold-lt)}
+.raros__list span span,.raro__txt>span{display:block;font-size:.78rem;color:rgba(245,239,227,.6)}
+
+/* ── LA ÑAPA (bloque propio) ─────────────────────────────────────────── */
+.napasec{padding:56px 0;background:var(--cream-2);border-bottom:1px solid var(--line)}
+.napasec .napa{margin:0;padding:28px 32px;background:var(--white);
+  box-shadow:0 10px 34px rgba(7,16,31,.07)}
+.napasec .napa__ico{font-size:2.6rem}
+.napasec .napa h3{font-size:1.42rem;font-family:var(--serif);margin-bottom:7px}
+.napasec .napa p{font-size:.98rem;max-width:70ch}
 
 /* ── COMPARACIÓN DE VALOR (visual, no tabla) ─────────────────────────── */
 .valorsec{background:var(--white)}

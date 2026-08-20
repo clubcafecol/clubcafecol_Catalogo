@@ -253,54 +253,49 @@ def jsonld():
 #  SECCIONES
 # ═══════════════════════════════════════════════════════════════════════
 def sec_trofeos():
-    campeon = next(s for s in SKUS if s.get("premio") == "Campeón Nacional")
-    sub = next(s for s in SKUS if s.get("premio") == "Subcampeón Nacional")
+    """Los seis más vendidos. El galardón de cada variedad, si lo tiene,
+    viaja con la tarjeta: la prueba sigue ahí sin ocupar media pantalla."""
     idx = {s["id"]: s for s in SKUS}
     raros = [idx[i] for i in VITRINA if i in idx]
 
-    def trofeo(s, icon, kicker):
-        return """
-        <a class="trofeo" href="#%(id)s" data-open-sku="%(id)s">
-          <div class="trofeo__img"><picture><source srcset="%(img)s.webp" type="image/webp">
-            <img src="%(img)s.jpg" alt="%(nombre)s — %(kick)s" loading="lazy" width="760" height="1429"></picture></div>
-          <div class="trofeo__txt">
-            <div class="trofeo__kicker">%(icon)s %(kick)s</div>
-            <h3>%(nombre)s</h3>
-            <p class="trofeo__var">%(varietal)s · %(proceso)s</p>
-            <div class="trofeo__sca"><b>%(sca)d</b> puntos SCA</div>
-            <p class="trofeo__notas">%(notas)s</p>
-            <span class="trofeo__cta">Ver ficha →</span>
-          </div></a>""" % dict(id=s["id"], img=s["img"], nombre=s["nombre"], icon=icon,
-                               kick=kicker, varietal=s["varietal"], proceso=s["proceso"],
-                               sca=s["sca"], notas=" · ".join(s["notas"]))
-
-    raros_html = "".join(
-        '<li><button type="button" class="raro" data-open-sku="%s">'
-        '<span class="raro__img"><picture><source srcset="%s.webp" type="image/webp">'
-        '<img src="%s.jpg" alt="%s" loading="lazy" width="760" height="1429"></picture></span>'
-        '<span class="raro__txt"><b>%s</b><span>%s%s</span></span>'
-        '<span class="raro__go" aria-hidden="true">→</span></button></li>'
-        % (s["id"], s["img"], s["img"], s["nombre"], s["nombre"], s["varietal"],
-           (" · SCA %d" % s["sca"]) if s.get("sca") else "")
-        for s in raros)
+    def tarjeta(s):
+        medalla = ('<span class="raro__premio">%s %s</span>'
+                   % (s["premio_icon"], s["premio"])) if s.get("premio") else ""
+        return ('<li><button type="button" class="raro" data-open-sku="%s">'
+                '<span class="raro__img"><picture><source srcset="%s.webp" type="image/webp">'
+                '<img src="%s.jpg" alt="%s" loading="lazy" width="760" height="1429"></picture></span>'
+                '<span class="raro__txt">%s<b>%s</b><span>%s%s</span></span>'
+                '<span class="raro__go" aria-hidden="true">→</span></button></li>'
+                % (s["id"], s["img"], s["img"], s["nombre"], medalla, s["nombre"],
+                   s["varietal"], (" · SCA %d" % s["sca"]) if s.get("sca") else ""))
 
     return """
 <section class="trofeos" id="trofeos">
   <div class="wrap">
-    <div class="kicker" data-i18n="tro.kicker">Lo que nos separa del resto</div>
-    <h2 data-i18n="tro.title">La Selección de los<br><em>Granos Premiados</em></h2>
-    <p class="sec-sub" data-i18n="tro.sub">Dos de nuestras variedades subieron al podio del campeonato nacional de cafés especiales. El resto del portafolio se cultiva con el mismo estándar.</p>
-    <div class="trofeos__grid">%(camp)s%(sub)s</div>
+    <div class="kicker" data-i18n="tro.kicker">Lo que más sale de la tostadora</div>
+    <h2 data-i18n="tro.title">Los más pedidos <em>de la casa</em></h2>
+    <p class="sec-sub" data-i18n="tro.sub">Las seis variedades que más salen de nuestra tostadora, entre clásicos de origen y perfiles de competencia. Toca cualquiera para ver su ficha completa.</p>
     <div class="raros">
-      <div class="raros__head">
-        <h3 data-i18n="tro.raros">Los más pedidos de la casa</h3>
-        <p data-i18n="tro.rarosSub">Las seis variedades que más salen de nuestra tostadora, entre clásicos de origen y perfiles de competencia. Toca cualquiera para ver su ficha completa.</p>
-      </div>
       <ul class="raros__list">%(raros)s</ul>
     </div>
   </div>
-</section>""" % dict(camp=trofeo(campeon, "🏆", "Campeón Nacional"),
-                     sub=trofeo(sub, "🥈", "Subcampeón Nacional"), raros=raros_html)
+</section>""" % dict(raros="".join(tarjeta(s) for s in raros))
+
+
+def sec_napa():
+    """La ñapa como bloque propio: es el gesto que más se recuerda."""
+    return """
+<section class="napasec">
+  <div class="wrap">
+    <div class="napa">
+      <div class="napa__ico">🎁</div>
+      <div class="napa__txt">
+        <h3 data-i18n="ly.napaT">Y la ñapa, que nunca falta</h3>
+        <p data-i18n="ly.napaP">Como en la tienda de la esquina: en todo pedido desde <b>%(napa)s</b> te metemos <b>%(napaR)s</b> sin que lo pidas. No es un descuento, es un gesto.</p>
+      </div>
+    </div>
+  </div>
+</section>""" % dict(napa=cop(NAPA["desde"]), napaR=NAPA["regalo"])
 
 
 def sec_origen():
@@ -540,20 +535,12 @@ def sec_lealtad():
       <h3 data-i18n="ly.canje">En qué se convierten tus puntos</h3>
       <div class="canje__grid">%(canje)s</div>
     </div>
-    <div class="napa">
-      <div class="napa__ico">🎁</div>
-      <div class="napa__txt">
-        <h3 data-i18n="ly.napaT">Y la ñapa, que nunca falta</h3>
-        <p data-i18n="ly.napaP">Como en la tienda de la esquina: en todo pedido desde <b>%(napa)s</b> te metemos <b>%(napaR)s</b> sin que lo pidas. No es un descuento, es un gesto.</p>
-      </div>
-    </div>
     <div class="lealtad__cta">
       <a class="btn btn--gold btn--lg" href="%(wa)s" target="_blank" rel="noopener" data-i18n="ly.cta">Activar mi cuenta de puntos</a>
       <p data-i18n="ly.nota">Se activa con tu número de WhatsApp: no hay que registrarse ni crear contraseña.</p>
     </div>
   </div>
 </section>""" % dict(niveles=niveles, canje=canje,
-                     napa=cop(NAPA["desde"]), napaR=NAPA["regalo"],
                      wa=wa("Hola CLUBCAFECOL, quiero activar mi cuenta del Club de la Semilla para acumular puntos. Mi nombre es ____."))
 
 
@@ -748,7 +735,7 @@ function gtag(){dataLayer.push(arguments);}
     <a class="nav__brand" href="#top"><img src="assets/img/logo.jpg" alt="CLUBCAFECOL" width="40" height="40"><span>CLUBCAFECOL</span></a>
     <nav class="nav__links" aria-label="Principal">
       <a href="#origen" data-i18n="nav.origen">Origen</a>
-      <a href="#trofeos" data-i18n="nav.trofeos">Premiados</a>
+      <a href="#trofeos" data-i18n="nav.trofeos">Más pedidos</a>
       <a href="#quiz" data-i18n="nav.quiz">Test</a>
       <a href="#catalogo" data-i18n="nav.catalogo">Catálogo</a>
       <a href="#kits" data-i18n="nav.kits">Kits</a>
@@ -773,7 +760,7 @@ function gtag(){dataLayer.push(arguments);}
     </div>
   </div>
   <div class="nav__mobile" id="navMobile">
-    <a href="#trofeos" data-i18n="nav.trofeos">Premiados</a>
+    <a href="#trofeos" data-i18n="nav.trofeos">Más pedidos</a>
     <a href="#quiz" data-i18n="nav.quiz">Test</a>
     <a href="#catalogo" data-i18n="nav.catalogo">Catálogo</a>
     <a href="#kits" data-i18n="nav.kits">Kits</a>
@@ -807,19 +794,10 @@ function gtag(){dataLayer.push(arguments);}
   </div>
 </section>
 
-<!-- ══ PILARES ══════════════════════════════════════════════════════════ -->
-<section class="pilares">
-  <div class="wrap pilares__grid">
-    <div class="pilar"><div class="pilar__i">🌄</div><h3 data-i18n="pil.t1">Del grano a tu taza.</h3><p data-i18n="pil.d1">Fincas propias en Huila, Santander, Valle del Cauca, Cauca y Nariño, entre 1.650 y 1.700 msnm. Somos caficultores, sin intermediarios.</p></div>
-    <div class="pilar"><div class="pilar__i">🔥</div><h3 data-i18n="pil.t2">Tueste bajo pedido</h3><p data-i18n="pil.d2">Tostamos en pequeñas cantidades el mismo día que compras. Nunca café de bodega.</p></div>
-    <div class="pilar"><div class="pilar__i">⚙️</div><h3 data-i18n="pil.t3">Molienda a tu medida</h3><p data-i18n="pil.d3">Eliges el método al agregar el café — espresso, V60, prensa, moka — y molemos sin costo.</p></div>
-    <div class="pilar"><div class="pilar__i">🚚</div><h3 data-i18n="pil.t4">Entrega rápida</h3><p data-i18n="pil.d4">Empacado al vacío tras el tueste. Bogotá 24-48 h, resto del país 2-5 días.</p></div>
-  </div>
-</section>
+%(napasec)s
 
 %(origen)s
 %(trofeos)s
-%(valorsec)s
 %(quiz)s
 
 <!-- ══ CATÁLOGO ═════════════════════════════════════════════════════════ -->
@@ -862,7 +840,7 @@ function gtag(){dataLayer.push(arguments);}
     </div>
     <div class="cat__help">
       <p data-i18n="cat.help">¿Sigues dudando? Te asesoramos gratis, sin compromiso.</p>
-      <a class="btn btn--wa btn--lg" href="%(wahelp)s" target="_blank" rel="noopener" data-i18n="cat.helpCta">☕ Pregúntale al catador →</a>
+      <a class="btn btn--hot btn--lg" href="%(wahelp)s" target="_blank" rel="noopener" data-i18n="cat.helpCta">☕ Pregúntale al catador →</a>
     </div>
   </div>
 </section>
@@ -1077,7 +1055,7 @@ window.CCC_MOLIENDAS = %(moljson)s; window.CCC_DTO_REF = %(dtoref)d; window.CCC_
 </html>
 """ % dict(site=SITE, hreflang=hreflang, v=v, jsonld=jsonld(), wa=WA_NUM, nit=NIT,
            envio=ENVIO_GRATIS, enviofmt=cop(ENVIO_GRATIS), ver=ASSET_VER,
-           langopts=langopts, cards=cards, trofeos=sec_trofeos(), valorsec=sec_valor(), quiz=sec_quiz(),
+           langopts=langopts, cards=cards, trofeos=sec_trofeos(), napasec=sec_napa(), quiz=sec_quiz(),
            bundles=sec_bundles(), club=sec_club(), testi=sec_testimonios(), faq=sec_faq(),
            lealtad=sec_lealtad(), referidos=sec_referidos(), dtoref=REFERIDOS["dto_amigo"],
            origen=sec_origen(),

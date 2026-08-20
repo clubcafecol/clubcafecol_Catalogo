@@ -79,7 +79,7 @@ SKUS = [
          msnm=1650, sca=82, cuerpo="Medio", origen="Pitalito, Huila",
          notas=["Chocolate", "Panela", "Nuez"],
          finca=None, caficultor=None, resenas=None, stock=None,
-         precios={"drip_10g": 4900, "250g": 30900, "340g": 38900, "500g": 53900, "2500g": 230000}),
+         precios={"drip_10g": 4900, "250g": 29500, "340g": 38900, "500g": 53900, "2500g": 230000}),
     dict(id="ORI-002", nombre="PANELA DORADA", col="origen",
          varietal="Caturra", proceso="Natural",
          msnm=1700, sca=85, cuerpo="Medio-alto", origen="Pitalito, Huila",
@@ -382,7 +382,7 @@ WA_NUM = "573154510390"
 NIT = "901731658"
 ENVIO_GRATIS = 85000
 SITE = "https://clubcafecol.github.io/clubcafecol_Catalogo"
-ASSET_VER = "2026.08.9"
+ASSET_VER = "2026.08.10"
 
 # ── MONEDA ──────────────────────────────────────────────────────────────
 # Todos los precios del catálogo están en pesos colombianos (COP) y es la

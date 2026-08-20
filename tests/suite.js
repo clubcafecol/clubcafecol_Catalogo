@@ -63,8 +63,16 @@ t('10 idiomas', $$('.lang__op').length === 10);
 t('3 kits activos', $$('.bdl').length === 3);
 t('3 planes de Club', $$('.club__card').length === 3);
 t('4 niveles de puntos', $$('.lv').length === 4);
-t('6 variedades en la vitrina', $$('.raro').length === 6);
-t('21 barras de comparación de valor', $$('.vb').length === 21);
+t('6 variedades en "los más pedidos"', $$('.raro').length === 6);
+t('sin tarjetas de campeón a pantalla completa', !$('.trofeo'));
+t('el campeón conserva su medalla', /Campeón Nacional/.test($('.raros').textContent));
+t('titular "Los más pedidos"', /Los más pedidos/.test($('#trofeos h2').textContent));
+t('el nav ya no dice "Premiados"', !/Premiados/.test($('.nav').textContent));
+t('el botón del catador usa el degradado', $('[data-i18n="cat.helpCta"]').classList.contains('btn--hot'));
+t('la ñapa tiene bloque propio', $$('.napasec .napa').length === 1);
+t('la ñapa no se repite en el programa de puntos', $$('.lealtad .napa').length === 0);
+t('sin sección de pilares', !$('.pilares'));
+t('sin tabla de relación calidad-precio', !$('.valorsec'));
 t('5 regiones de cultivo', $$('.origen__reg li').length === 5);
 
 /* ── 2 · terminología ────────────────────────────────────────────── */
@@ -105,6 +113,7 @@ t('solo se comparte por Instagram', !!$('#qzShare') && !$('#qzShareWa'));
 const h1es = $('h1').textContent;
 lang('de');
 t('alemán traduce el titular', $('h1').textContent !== h1es);
+t('alemán traduce "los más pedidos"', /meistgekauften/.test($('#trofeos h2').textContent));
 t('alemán traduce los accesos de WhatsApp', /Ich möchte bestellen/.test($('#waQuick').textContent));
 t('otros idiomas muestran equivalencia en USD', $$('.card__usd').length > 0);
 lang('ar');
