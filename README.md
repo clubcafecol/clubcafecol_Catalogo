@@ -169,3 +169,16 @@ Es la mejora pendiente de mayor impacto. Un subdominio `github.io` con ruta anid
 - **Documentos legales**: son una base sólida, no un dictamen. Conviene revisión de un abogado y, si aplica, registro de bases de datos ante el RNBD de la SIC.
 - **Notas de cata**: en algunos lotes el texto de la etiqueta impresa y el del sitio no coinciden exactamente (por ejemplo Wush Wush). Vale la pena unificar la fuente de verdad.
 - **Kits**: los precios de `BDL-001` a `BDL-004` son propuestas de margen. Valídalos con el CFO antes de publicar.
+
+---
+
+## 7. Programa de referidos (`?ref=`)
+
+Enlace de un referidor: `https://clubcafecol.github.io/clubcafecol_Catalogo/?ref=ERIKPUE-001#referidos`
+
+- **Código:** `PRIMERNOMBRE` + 3 letras del apellido + `-` + n.º de referidor de 3 dígitos, en mayúsculas y sin tildes (regex `^[A-Z]{3,15}-\d{3}$`). Cualquier otro formato se ignora.
+- La web guarda el código 60 días, muestra el aviso del 15 %, pide el WhatsApp del amigo en el carrito y añade al mensaje de WhatsApp: código, WhatsApp, ID de pedido `W-AAMMDD-XXXX` y el descuento. Tras enviar el pedido, el descuento se apaga en ese navegador (un enlace nuevo lo reactiva).
+- **Qué cafés llevan el 15 %:** `REFERIDOS["skus_elegibles"]` en `build/skus.py` — `"*"` (todos) o una lista de IDs, p. ej. `["TEM-001", "TEM-007"]`. `incluye_kits` controla si los kits entran. Después ejecuta el build.
+- **CRM:** pega la URL `/exec` del Apps Script en `REFERIDOS["endpoint"]` y haz el build. Vacío = no se envía nada al CRM (el código igual viaja en el mensaje).
+- El 15 % se calcula en la web de forma indicativa. La verificación de "primera compra" (el WhatsApp del amigo no ha comprado antes) la hace el CRM.
+- Pruebas: `cd tests && npm test` ejecuta `suite.js` (regresión general) y `referidos.js` (flujo de referidos).
