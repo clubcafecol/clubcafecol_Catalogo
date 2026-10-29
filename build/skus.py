@@ -296,11 +296,11 @@ LEALTAD = dict(
             "Preventa de variedades de temporada 48 h antes"]),
         dict(nombre="Barista", icon="⚗️", desde=800, benef=[
             "Todo lo anterior",
-            "10 % de descuento permanente",
+            "10 % de descuento permanente en referencias de origen",
             "Un drip sorpresa en cada pedido"]),
         dict(nombre="Catador", icon="🏅", desde=2000, benef=[
             "Todo lo anterior",
-            "15 % de descuento permanente",
+            "15 % de descuento permanente en referencias de origen",
             "Acceso a variedades de competencia antes que nadie",
             "Invitación a catas y visita a finca"]),
     ],
@@ -319,7 +319,13 @@ REFERIDOS = dict(
     dto_amigo=15,      # % de descuento para el referido, en su primera compra
     premio_referente="una bolsa de 125 g gratis",
     cuando="en tu próximo pedido",
-    puntos_referente=500,
+    # Cafés que llevan el descuento del referido: "*" = todos, o lista de IDs
+    # (p. ej. ["TEM-001", "TEM-007"]) para empujar solo ciertas referencias.
+    skus_elegibles="*",
+    incluye_kits=True,
+    # URL del Apps Script del CRM de referidos (termina en /exec). Vacío = la
+    # web no envía datos al CRM; el código igual viaja en el mensaje de WhatsApp.
+    endpoint="",
 )
 
 # ── ÑAPA ────────────────────────────────────────────────────────────────
@@ -382,7 +388,7 @@ WA_NUM = "573154510390"
 NIT = "901731658"
 ENVIO_GRATIS = 85000
 SITE = "https://clubcafecol.github.io/clubcafecol_Catalogo"
-ASSET_VER = "2026.08.10"
+ASSET_VER = "2026.10.29"
 
 # ── MONEDA ──────────────────────────────────────────────────────────────
 # Todos los precios del catálogo están en pesos colombianos (COP) y es la

@@ -487,7 +487,7 @@ function syncMdlWa(s) {
              : molLabel(mm && mm.value ? mm.value : 'grano');
   var txt = 'Hola CLUBCAFECOL, quiero pedir ' + s.nombre + ' en ' + fmtLabel(mdlFmt) +
             ' (' + cop(s.precios[mdlFmt]) + '), molienda: ' + molTxt +
-            '. Mi ciudad es ____. ¿Me confirman disponibilidad y total con envío?';
+            '. Mi ciudad es ____. ¿Me confirman disponibilidad y total con envío?' + refTag();
   $('#mdlWa').href = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(txt);
 }
 
@@ -509,6 +509,106 @@ function initModal() {
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && $('#mdl').classList.contains('is-open')) closeModal();
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   5b · REFERIDOS  (?ref=ERIKPUE-001)
+   El código llega por el enlace, se guarda 60 días y viaja en cada mensaje
+   de WhatsApp. El 15 % aplica solo a la primera compra del amigo: aquí se
+   muestra y se calcula; la verificación real (¿ya había comprado?) la hace
+   el CRM por número de WhatsApp.
+   ═══════════════════════════════════════════════════════════════════ */
+var LS_REF   = 'ccc_ref_v1';
+var REFC     = CFG.REF || {dto: 15, skus: '*', kits: true, endpoint: ''};
+var REF_RE   = /^[A-Z]{3,15}-\d{3}$/;
+var REF_DAYS = 60;
+var ref      = null;   // {c: código, ts: marca de tiempo, used: bool}
+
+function sendRef(payload) {
+  if (!REFC.endpoint) return;
+  try {
+    fetch(REFC.endpoint, {method: 'POST', mode: 'no-cors', keepalive: true,
+      headers: {'Content-Type': 'text/plain;charset=utf-8'}, body: JSON.stringify(payload)});
+  } catch (e) {}
+}
+
+function loadRef() {
+  var fromUrl = null, saved = null;
+  try {
+    var q = new URLSearchParams(location.search).get('ref');
+    if (q) { q = q.trim().toUpperCase(); if (REF_RE.test(q)) fromUrl = q; }
+  } catch (e) {}
+  try { saved = JSON.parse(localStorage.getItem(LS_REF)); } catch (e) {}
+  if (!saved || typeof saved.c !== 'string' || !REF_RE.test(saved.c) ||
+      !(Date.now() - saved.ts < REF_DAYS * 864e5)) saved = null;
+  if (fromUrl && (!saved || saved.c !== fromUrl)) {
+    saved = {c: fromUrl, ts: Date.now(), used: false};
+    try { localStorage.setItem(LS_REF, JSON.stringify(saved)); } catch (e) {}
+  }
+  ref = saved;
+  if (fromUrl) {
+    var seen = false;
+    try { seen = sessionStorage.getItem('ccc_ref_seen') === fromUrl; sessionStorage.setItem('ccc_ref_seen', fromUrl); } catch (e) {}
+    if (!seen) {
+      sendRef({t: 'visit', ref: fromUrl, p: location.pathname + location.hash});
+      track('referral_visit', {ref: fromUrl});
+    }
+  }
+}
+
+function refActive() { return !!(ref && !ref.used); }
+function refTag()    { return refActive() ? '\n\n🎁 Vengo referido(a): ' + ref.c : ''; }
+
+function refEligible(it) {
+  if (it.bundle) return REFC.kits === true;
+  return REFC.skus === '*' || (Array.isArray(REFC.skus) && REFC.skus.indexOf(it.sku) >= 0);
+}
+function refDiscount() {
+  if (!refActive()) return 0;
+  var base = cart.reduce(function (a, it) {
+    if (!refEligible(it)) return a;
+    if (it.bundle) return a + it.precio * it.qty;
+    var s = skuById(it.sku); return a + (s ? s.precios[it.fmt] * it.qty : 0);
+  }, 0);
+  return Math.round(base * REFC.dto / 100);
+}
+
+function normWa(v) {
+  var d = String(v || '').replace(/\D/g, '');
+  if (/^3\d{9}$/.test(d)) return '57' + d;
+  return /^\d{10,15}$/.test(d) ? d : '';
+}
+function newOrderId() {
+  var d = new Date(), p = function (n) { return ('0' + n).slice(-2); };
+  var a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789', r = '';
+  for (var i = 0; i < 4; i++) r += a.charAt(Math.floor(Math.random() * a.length));
+  return 'W-' + String(d.getFullYear()).slice(2) + p(d.getMonth() + 1) + p(d.getDate()) + '-' + r;
+}
+
+function renderRefUi() {
+  var bar = $('#refBar'), wrap = $('#cartWaWrap');
+  var on = refActive();
+  if (bar) {
+    bar.hidden = !on;
+    if (on) bar.textContent = t('ref.banner', '🎁 Código {c}: {d}% de descuento en tu primera compra')
+      .replace('{c}', ref.c).replace('{d}', REFC.dto);
+  }
+  if (wrap) wrap.hidden = !on;
+}
+
+/* Los enlaces wa.me que vienen fijos en el HTML reciben el código */
+function tagWaLinks() {
+  if (!refActive()) return;
+  $$('a[href^="https://wa.me/"]').forEach(function (a) {
+    if (a.dataset.refTagged || a.classList.contains('wa__q') || a.id === 'mdlWa' ||
+        a.closest('.refer, .lealtad__cta')) return;
+    try {
+      var tx = new URL(a.href).searchParams.get('text');
+      if (tx === null) return;
+      a.href = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(tx + refTag());
+      a.dataset.refTagged = '1';
+    } catch (e) {}
   });
 }
 
@@ -562,6 +662,7 @@ function cartCount() { return cart.reduce(function (a, it) { return a + it.qty; 
 
 function renderCart() {
   var wrap = $('#cartItems'), empty = $('#cartEmpty'), foot = $('#cartFoot');
+  renderRefUi();
   if (!wrap) return;
   var n = cartCount();
   var badge = $('#cartCount');
@@ -632,9 +733,16 @@ function renderCart() {
 
   $('#cartSub').textContent   = cop(sub);
   $('#cartShipTxt').textContent = falta > 0 ? t('cart.quote', 'Se cotiza') : t('cart.free', 'Gratis');
-  $('#cartTotal').textContent = cop(sub) + (curLang === 'es' ? '' : ' COP');
+  var disc = refDiscount(), total = sub - disc;
+  var rrow = $('#cartRefRow');
+  if (rrow) {
+    rrow.hidden = disc <= 0;
+    $('#cartRefLbl').textContent = t('ref.row', 'Descuento referido ({d}%)').replace('{d}', REFC.dto);
+    $('#cartRefVal').textContent = '−' + cop(disc);
+  }
+  $('#cartTotal').textContent = cop(total) + (curLang === 'es' ? '' : ' COP');
   var u = $('#cartTotalUsd');
-  if (u) u.textContent = curLang === 'es' ? '' : '≈ ' + usd(sub) + ' USD';
+  if (u) u.textContent = curLang === 'es' ? '' : '≈ ' + usd(total) + ' USD';
 }
 
 function openCart() {
@@ -651,6 +759,16 @@ function closeCart() {
 /* ── CHECKOUT: un solo mensaje de WhatsApp con todo el pedido ──────── */
 function checkout() {
   if (!cart.length) return;
+  var waNum = '', orderId = '';
+  if (refActive()) {
+    waNum = normWa($('#cartWa') ? $('#cartWa').value : '');
+    if (!waNum) {
+      toast(t('cart.waerr', 'Escribe tu WhatsApp para aplicar el descuento'));
+      if ($('#cartWa')) $('#cartWa').focus();
+      return;
+    }
+    orderId = newOrderId();
+  }
   var sub   = cartSubtotal();
   var dir   = ($('#cartAddr') ? $('#cartAddr').value : '').trim();
   var nota  = ($('#cartNote').value || '').trim();
@@ -677,6 +795,16 @@ function checkout() {
   L.push(falta > 0
     ? 'Envío: por cotizar (faltan ' + cop(falta) + ' para envío gratis)'
     : 'Envío: *GRATIS* ✅');
+  var disc = refDiscount();
+  if (refActive()) {
+    L.push('🎁 Código de referido: ' + ref.c);
+    if (disc > 0) {
+      L.push('Descuento referido ' + REFC.dto + '%: −' + cop(disc) + ' (1.ª compra, sujeto a verificación)');
+      L.push('*Total estimado: ' + cop(sub - disc) + ' COP*');
+    }
+    L.push('📱 Mi WhatsApp: ' + waNum);
+    L.push('🆔 Pedido: ' + orderId);
+  }
   L.push('');
   if (dir)  L.push('📍 Entrega: ' + dir);
   if (nota) L.push('📝 Nota: ' + nota);
@@ -686,7 +814,16 @@ function checkout() {
   var url = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(L.join('\n'));
   track('begin_checkout', {value: sub, currency: 'COP', num_items: cartCount(),
                            items: cart.map(function (it) { return it.bundle || (it.sku + '|' + it.fmt); }).join(',')});
+  if (refActive()) {
+    sendRef({t: 'order', id: orderId, ref: ref.c, wa: waNum, sub: sub, dto: REFC.dto, disc: disc,
+             total: sub - disc, lang: curLang, ts: new Date().toISOString(),
+             items: cart.map(function (it) { return {i: it.bundle || it.sku, f: it.fmt || 'kit', q: it.qty}; })});
+    track('referral_order', {ref: ref.c, value: sub - disc, currency: 'COP', order_id: orderId});
+    ref.used = true;
+    try { localStorage.setItem(LS_REF, JSON.stringify(ref)); } catch (e) {}
+  }
   window.open(url, '_blank', 'noopener');
+  if (orderId) renderCart();
 }
 
 function initCart() {
@@ -868,7 +1005,7 @@ function initEmail() {
     /* Sin backend: el lead se entrega por WhatsApp y el PDF se descarga al instante.
        Cuando conectes un ESP (Klaviyo/Mailchimp), sustituye este bloque por el POST a su API. */
     var txt = 'Hola CLUBCAFECOL, quiero recibir el catálogo 2026 en PDF y el cupón de bienvenida. ' +
-              'Mi correo es: ' + email;
+              'Mi correo es: ' + email + refTag();
     setTimeout(function () {
       window.open('https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
       var a = document.createElement('a');
@@ -938,7 +1075,7 @@ function initExit() {
     msg.textContent = '✓ Listo. Abrimos WhatsApp para enviarte el catálogo y tu cupón.';
     msg.className = 'exit__msg is-ok';
     var txt = 'Hola CLUBCAFECOL, quiero el catálogo 2026 en PDF y mi cupón del 10 % de bienvenida. ' +
-              'Mi correo es: ' + email;
+              'Mi correo es: ' + email + refTag();
     setTimeout(function () {
       window.open('https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
       var a = document.createElement('a');
@@ -975,7 +1112,7 @@ function renderWaQuick() {
   var d = I18N[curLang] || {};
   var msgs = (d._wa && d._wa.length === WA_ES.length) ? d._wa : WA_ES;
   quick.innerHTML = msgs.map(function (m, i) {
-    return '<a class="wa__q" href="https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(m.t) +
+    return '<a class="wa__q" href="https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(m.t + refTag()) +
            '" target="_blank" rel="noopener" data-q="' + WA_ES[i].l + '">' +
            '<span class="wa__q-i">' + WA_ICONS[i] + '</span><span>' + m.l +
            '</span><span class="wa__q-a">›</span></a>';
@@ -1088,6 +1225,7 @@ function initReveal() {
    ARRANQUE
    ═══════════════════════════════════════════════════════════════════ */
 function boot() {
+  loadRef();
   initLang();
   initNav();
   initCatalogo();
@@ -1100,6 +1238,7 @@ function boot() {
   initOrigenVideo();
   initCtaAtencion();
   initReveal();
+  tagWaLinks();
   requestAnimationFrame(initHeroVideo);
   track('page_view', {page_title: document.title});
 }

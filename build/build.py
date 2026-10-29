@@ -551,7 +551,7 @@ def sec_referidos():
     <div class="refer__txt">
       <div class="kicker kicker--hot" data-i18n="rf.kicker">🔥 Programa de referidos</div>
       <h2 data-i18n="rf.title">Trae a un amigo<br><em>y el café va por la casa</em></h2>
-      <p data-i18n="rf.sub">Pide tu enlace por WhatsApp y compártelo con quien quieras. Tu amigo estrena con %(dto)s%% de descuento en su primera compra y, cuando esa compra se confirme, tú recibes %(premio)s %(cuando)s, o %(pts)s puntos si prefieres. Sin tope: si traes cinco, ganas cinco veces.</p>
+      <p data-i18n="rf.sub">Pide tu enlace por WhatsApp y compártelo con quien quieras. Tu amigo estrena con %(dto)s%% de descuento en su primera compra y, cuando esa compra se confirme, tú recibes %(premio)s %(cuando)s. Sin tope: si traes cinco, ganas cinco veces.</p>
       <div class="refer__steps">
         <div><b>1</b><span data-i18n="rf.s1">Pides tu enlace único</span></div>
         <div><b>2</b><span data-i18n="rf.s2">Tu amigo compra con %(dto)s%% off</span></div>
@@ -565,11 +565,11 @@ def sec_referidos():
       <p data-i18n="rf.card1">de descuento para quien invites</p>
       <div class="refer__sep"></div>
       <div class="refer__big refer__big--alt">%(premio)s</div>
-      <p data-i18n="rf.card2">para ti, por cada amigo que compre</p>
+      <p data-i18n="rf.card2">para ti, por cada amigo que compre (en su primera compra)</p>
     </div>
   </div>
 </section>""" % dict(dto=REFERIDOS["dto_amigo"], premio=REFERIDOS["premio_referente"],
-                     pts=f"{REFERIDOS['puntos_referente']:,}".replace(",", "."), cuando=REFERIDOS["cuando"],
+                     cuando=REFERIDOS["cuando"],
                      wa=wa("Hola CLUBCAFECOL, quiero mi enlace de referido para invitar amigos al club. Mi nombre es ____."))
 
 
@@ -698,7 +698,8 @@ window.CCC_CONFIG = {
   META_ID: '',            /* p.ej. '1234567890'   */
   WA_NUM:  '%(wa)s',
   ENVIO_GRATIS: %(envio)d,
-  ASSET_VER: '%(ver)s'
+  ASSET_VER: '%(ver)s',
+  REF: {dto: %(refdto)d, skus: %(refskus)s, kits: %(refkits)s, endpoint: '%(refep)s'}
 };
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
@@ -725,6 +726,7 @@ function gtag(){dataLayer.push(arguments);}
 <a class="skip" href="#catalogo">Saltar al catálogo</a>
 
 <!-- ══ BARRA DE ANUNCIO ═════════════════════════════════════════════════ -->
+<div class="refbar" id="refBar" hidden></div>
 <div class="topbar" id="topbar">
   <span data-i18n="top.msg">☕ Tostamos bajo pedido · Envío gratis desde %(enviofmt)s · Molienda sin costo</span>
 </div>
@@ -943,6 +945,10 @@ function gtag(){dataLayer.push(arguments);}
             <span data-i18n="cart.addr">Ciudad y dirección de entrega</span>
             <input type="text" id="cartAddr" placeholder="Bogotá · Cra 13 #45-32, apto 501" autocomplete="street-address">
           </label>
+          <label class="cart__field" id="cartWaWrap" hidden>
+            <span data-i18n="cart.wa">Tu WhatsApp (para validar tu código de referido)</span>
+            <input type="tel" id="cartWa" inputmode="tel" placeholder="3001234567" autocomplete="tel">
+          </label>
           <label class="cart__field">
             <span data-i18n="cart.note">Nota para el tostador (opcional)</span>
             <input type="text" id="cartNote" placeholder="Ej: es un regalo, incluir tarjeta">
@@ -950,6 +956,7 @@ function gtag(){dataLayer.push(arguments);}
         </div>
         <div class="cart__tot">
           <div><span data-i18n="cart.sub">Subtotal</span><b id="cartSub">$0</b></div>
+          <div class="cart__ref-row" id="cartRefRow" hidden><span id="cartRefLbl"></span><b id="cartRefVal"></b></div>
           <div class="cart__ship-row"><span data-i18n="cart.shipping">Envío</span><b id="cartShipTxt">—</b></div>
           <div class="cart__tot-row"><span data-i18n="cart.total">Total</span>
             <span class="cart__tot-val"><b id="cartTotal">$0</b><i id="cartTotalUsd"></i></span></div>
@@ -1055,6 +1062,8 @@ window.CCC_MOLIENDAS = %(moljson)s; window.CCC_DTO_REF = %(dtoref)d; window.CCC_
 </html>
 """ % dict(site=SITE, hreflang=hreflang, v=v, jsonld=jsonld(), wa=WA_NUM, nit=NIT,
            envio=ENVIO_GRATIS, enviofmt=cop(ENVIO_GRATIS), ver=ASSET_VER,
+           refdto=REFERIDOS["dto_amigo"], refskus=json.dumps(REFERIDOS["skus_elegibles"]),
+           refkits=json.dumps(REFERIDOS["incluye_kits"]), refep=REFERIDOS["endpoint"],
            langopts=langopts, cards=cards, trofeos=sec_trofeos(), napasec=sec_napa(), quiz=sec_quiz(),
            bundles=sec_bundles(), club=sec_club(), testi=sec_testimonios(), faq=sec_faq(),
            lealtad=sec_lealtad(), referidos=sec_referidos(), dtoref=REFERIDOS["dto_amigo"],

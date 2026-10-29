@@ -2,6 +2,6 @@
   "name": "clubcafecol-tests",
   "private": true,
   "description": "Suite de regresion del catalogo CLUBCAFECOL (jsdom)",
-  "scripts": { "test": "node suite.js" },
+  "scripts": { "test": "node suite.js && node referidos.js" },
   "devDependencies": { "jsdom": "^24.0.0" }
 }

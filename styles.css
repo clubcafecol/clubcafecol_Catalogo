@@ -113,6 +113,9 @@ body.cta-visto .btn--hot{background-size:100% 100%}
   font-weight:700;letter-spacing:.16em}
 
 /* ── TOPBAR + NAV ────────────────────────────────────────────────────── */
+.refbar{background:var(--gold);color:var(--navy-900);text-align:center;
+  font-size:.82rem;font-weight:600;padding:8px 16px}
+.refbar[hidden]{display:none}
 .topbar{background:var(--navy-900);color:var(--gold-lt);text-align:center;
   font-size:.78rem;letter-spacing:.04em;padding:8px 16px;font-weight:500}
 .nav{position:sticky;top:0;z-index:120;background:rgba(251,248,242,.86);
@@ -756,6 +759,8 @@ body.is-rtl .cart__panel{transform:translateX(-100%)}
 .cart__tot-row{border-top:1px solid var(--line);margin-top:5px;padding-top:10px!important;
   font-size:1.04rem;font-family:var(--serif);font-weight:700}
 .cart__tot-val{text-align:end}
+.cart__ref-row{color:var(--gold-dk);font-weight:600}
+.cart__ref-row[hidden]{display:none}
 .cart__tot-val i{display:block;font-style:normal;font-family:var(--sans);
   font-size:.72rem;font-weight:400;color:var(--muted)}
 .cart__legal{margin:10px 0 0;font-size:.69rem;color:var(--muted);line-height:1.5;text-align:center}
