@@ -1049,7 +1049,7 @@ function initEmail() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   8b · POP-UP DE INTENCIÓN DE SALIDA (catálogo + cupón 10 %)
+   8b · POP-UP DE INTENCIÓN DE SALIDA (promo Instagram: test + historia = drip de regalo)
    ═══════════════════════════════════════════════════════════════════ */
 function initExit() {
   var box = $('#exit'); if (!box) return;
@@ -1094,27 +1094,12 @@ function initExit() {
   $('#exitScrim').addEventListener('click', cerrar);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && abierto) cerrar(); });
 
-  $('#exitForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var email = $('#exitEmail').value.trim(), msg = $('#exitMsg');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-      msg.textContent = 'Revisa el correo: no parece válido.'; msg.className = 'exit__msg is-err'; return;
-    }
-    if (!$('#exitOk').checked) {
-      msg.textContent = 'Necesitamos tu autorización para escribirte.'; msg.className = 'exit__msg is-err'; return;
-    }
-    track('generate_lead', {method: 'exit_intent', email_domain: email.split('@')[1]});
-    msg.textContent = '✓ Listo. Abrimos WhatsApp para enviarte el catálogo y tu cupón.';
-    msg.className = 'exit__msg is-ok';
-    var txt = 'Hola CLUBCAFECOL, quiero el catálogo 2026 en PDF y mi cupón del 10 % de bienvenida. ' +
-              'Mi correo es: ' + email + refTag();
-    setTimeout(function () {
-      window.open('https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
-      var a = document.createElement('a');
-      a.href = 'assets/pdf/Catalogo_CLUBCAFECOL_2026_B2C.pdf';
-      a.download = ''; document.body.appendChild(a); a.click(); a.remove();
-      cerrar();
-    }, 700);
+  $('#exitTest').addEventListener('click', function () {
+    track('exit_intent_cta', {action: 'test'});
+    cerrar();
+  });
+  $('#exitIg').addEventListener('click', function () {
+    track('exit_intent_cta', {action: 'instagram'});
   });
 }
 

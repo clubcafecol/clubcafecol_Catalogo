@@ -152,6 +152,14 @@ t('con enlace, el campo muestra el código', m.$('#cartRefCode').value === 'ERIK
 m.$('#cartRefCode').value = ''; m.click(m.$('#cartRefApply'));
 t('vaciar el campo quita el descuento', m.$('#refBar').hidden && m.$('#cartRefRow').hidden);
 
+/* ── G · pop-up de salida: promo de Instagram, sin cupón ni correo ── */
+const exitHtml = SRC.html.match(/<div class="exit" id="exit"[\s\S]*?<!--|<div class="exit" id="exit"[\s\S]*?<\/body>/)[0];
+t('el pop-up de salida muestra la promo de Instagram', /Presume tu café y llévate un drip gratis/.test(exitHtml) && !/otro gratis/.test(SRC.html) && /drip de temporada de regalo/.test(exitHtml));
+t('el pop-up de salida lleva al test y a @clubcafecol', /id="exitTest" href="#quiz"/.test(exitHtml) && /id="exitIg" href="https:\/\/instagram\.com\/clubcafecol"/.test(exitHtml));
+t('el pop-up de salida ya no pide correo ni ofrece cupón', !/exitEmail|type="email"|cupón|10 %/i.test(exitHtml));
+t('ex.pa1 y ex.test existen en los 9 idiomas', (SRC.i18n.match(/'ex\.pa1':/g) || []).length === 9 && (SRC.i18n.match(/'ex\.test':/g) || []).length === 9);
+t('el pop-up no deja textos del cupón en i18n', !/'ex\.(title|sub|btn|legal)':/.test(SRC.i18n));
+
 console.log('\n\x1b[32m✓ APROBADAS: ' + ok.length + '\x1b[0m');
 ok.forEach(x => console.log('   ✓ ' + x));
 if (fail.length) { console.log('\n\x1b[31m✗ FALLIDAS: ' + fail.length + '\x1b[0m'); fail.forEach(x => console.log('   ✗ ' + x)); }
