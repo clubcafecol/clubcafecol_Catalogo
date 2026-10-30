@@ -495,6 +495,18 @@ def sec_quiz():
 </section>""" % dict(pasos=pasos)
 
 
+def accion(b):
+    """Dotación B2B: propuesta a medida por WhatsApp. El resto: agregar al carrito."""
+    if b.get("b2b"):
+        return ('<a class="btn btn--add" href="%s" target="_blank" rel="noopener">'
+                '<span data-i18n="cta.propuesta">Solicitar propuesta</span></a>'
+                % wa("Hola CLUBCAFECOL, quiero una propuesta de café de especialidad para la "
+                     "dotación de mi oficina. Somos ____ personas y consumimos aproximadamente ____ kg al mes."))
+    return ('<button type="button" class="btn btn--add" data-add-bundle="%(id)s" data-nombre="%(nombre)s" '
+            'data-precio="%(pnum)d"><span data-i18n="cta.add">Agregar</span></button>'
+            % dict(id=b["id"], nombre=b["nombre"], pnum=b["precio"]))
+
+
 def sec_bundles():
     items = ""
     for b in [x for x in BUNDLES if x.get("activo", True)]:
@@ -502,7 +514,7 @@ def sec_bundles():
         gam = ""
         if b.get("gamificacion"):
             gam = ('<div class="bdl__gam">'
-                   '<span>Completa los 21 orígenes del Club del Café, sube la foto con todos '
+                   '<span>Colecciona los 21 orígenes del Club del Café. Sube una foto con los 21 '
                    'los empaques etiquetando a @clubcafecol y te regalamos una bolsa de 250 g '
                    'de café de origen: Raíz Pitalito.</span></div>')
         tach = '<s>%s</s>' % cop(b["tachado"]) if b.get("tachado") else ""
@@ -516,11 +528,10 @@ def sec_bundles():
         <ul class="bdl__inc">%(inc)s</ul>
         %(gam)s
         <div class="bdl__price">%(tach)s<b>%(precio)s</b>%(ahorro)s</div>
-        <button type="button" class="btn btn--add" data-add-bundle="%(id)s" data-nombre="%(nombre)s" data-precio="%(pnum)d">
-          <span data-i18n="cta.add">Agregar</span></button>
+        %(accion)s
       </article>""" % dict(id=b["id"], emoji=b["emoji"], tag=b["tag"], nombre=b["nombre"],
                            desc=b["desc"], inc=inc, tach=tach, precio=cop(b["precio"]),
-                           ahorro=ahorro, pnum=b["precio"], gam=gam)
+                           ahorro=ahorro, gam=gam, accion=accion(b))
     return """
 <section class="bundles" id="kits">
   <div class="wrap">
@@ -705,7 +716,7 @@ def sec_descubre(excluir, desde):
         '<a href="#/%s" data-discover="%s"><b data-i18n="%s">%s</b><small data-i18n="%s">%s</small></a>'
         % (r, r, kt, tt, ks, st) for r, kt, tt, ks, st in DESC if r not in excluir)
     return ('<nav class="descubre" aria-label="Descubre más" data-from="%s">'
-            '<h3 data-i18n="desc.t">Descubre más</h3>'
+            '<h2 data-i18n="desc.t">Descubre más</h2>'
             '<div class="descubre__wrap"><button type="button" class="descubre__arr descubre__arr--prev" aria-hidden="true" tabindex="-1">‹</button>'
             '<div class="descubre__row">%s</div>'
             '<button type="button" class="descubre__arr descubre__arr--next" aria-hidden="true" tabindex="-1">›</button></div></nav>'
@@ -859,7 +870,6 @@ function gtag(){dataLayer.push(arguments);}
 </script>
 </head>
 <body>
-<a class="skip" href="#/catalogo">Saltar al catálogo</a>
 
 <!-- ══ BARRA DE ANUNCIO ═════════════════════════════════════════════════ -->
 <div class="refbar" id="refBar" hidden></div>
@@ -869,8 +879,9 @@ function gtag(){dataLayer.push(arguments);}
 
 <!-- ══ NAVEGACIÓN ═══════════════════════════════════════════════════════ -->
 <header class="nav" id="nav">
+<a class="skip" href="#/catalogo">Saltar al catálogo</a>
   <div class="nav__in">
-    <a class="nav__brand" href="#/" aria-label="Inicio"><img src="assets/img/logo.jpg" alt="CLUBCAFECOL" width="40" height="40"><span>CLUBCAFECOL</span></a>
+    <a class="nav__brand" href="#/" aria-label="Inicio"><img src="assets/img/logo.jpg" alt="" width="40" height="40"><span>CLUBCAFECOL</span></a>
     <nav class="nav__links" aria-label="Principal">
       <a href="#/catalogo" data-i18n="nav.catalogo">Catálogo</a>
       <a href="#/test" data-i18n="nav.quiz">Test</a>
@@ -911,6 +922,7 @@ function gtag(){dataLayer.push(arguments);}
   </nav>
 </header>
 
+<main id="main">
 <!-- ══ HERO ═════════════════════════════════════════════════════════════ -->
 <section class="hero" id="top">
   <div class="hero__bg" id="heroVideo" aria-hidden="true">
@@ -1018,6 +1030,35 @@ function gtag(){dataLayer.push(arguments);}
 %(faq)s
 
 <!-- ══ FOOTER ═══════════════════════════════════════════════════════════ -->
+<a class="homechip" id="homeChip" href="#/" data-home="chip"><span aria-hidden="true">⌂</span> <span data-i18n="nav.inicio">Inicio</span></a>
+<!-- ══ WHATSAPP FLOTANTE ════════════════════════════════════════════════ -->
+<div class="wa" id="wa">
+  <div class="wa__panel" id="waPanel" aria-hidden="true">
+    <div class="wa__head">
+      <img src="assets/img/logo.jpg" alt="" width="38" height="38">
+      <div><b>CLUBCAFECOL</b><span data-i18n="wa.status">Normalmente respondemos en minutos</span></div>
+      <button type="button" class="wa__x" id="waClose" aria-label="Cerrar">×</button>
+    </div>
+    <div class="wa__body">
+      <p data-i18n="wa.greet">¡Hola! ☕ Cuéntanos qué buscas y te asesoramos en minutos:</p>
+      <div class="wa__quick" id="waQuick"></div>
+    </div>
+  </div>
+  <a class="wa__ig" id="igBtn" href="https://instagram.com/clubcafecol" target="_blank" rel="noopener"
+     aria-label="Ver el origen del café en Instagram @clubcafecol">
+    <span class="wa__ig-txt" data-i18n="ig.cta">Mira el origen ☕</span>
+    <span class="wa__ig-ico">
+      <svg viewBox="0 0 24 24" width="25" height="25" aria-hidden="true"><path fill="currentColor" d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9a3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.9 5.9 0 0 0-2.13 1.38A5.9 5.9 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13a5.9 5.9 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.9 5.9 0 0 0 2.13-1.38 5.9 5.9 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 0 0-1.38-2.13A5.9 5.9 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0m0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32M12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8m7.85-10.4a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0"/></svg>
+    </span>
+    <span class="wa__ig-dot" aria-hidden="true"></span>
+  </a>
+  <button type="button" class="wa__launcher" id="waLauncher" aria-label="Abrir chat de WhatsApp" aria-expanded="false">
+    <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m5.4 13.9c-.21.59-1.23 1.15-1.69 1.19-.46.04-.88.2-2.97-.62-2.51-1-4.1-3.57-4.22-3.74-.12-.16-1.01-1.34-1.01-2.56 0-1.22.64-1.82.86-2.07.23-.25.5-.31.66-.31h.48c.15 0 .35-.06.55.42.21.49.7 1.7.76 1.83.06.12.1.26.02.43-.08.16-.12.26-.25.41-.12.14-.26.32-.37.43-.13.12-.26.25-.11.5.14.24.64 1.06 1.38 1.72.95.84 1.75 1.11 2 1.23.25.13.4.11.54-.06.14-.16.62-.72.78-.97.17-.24.33-.2.56-.12.23.09 1.45.69 1.7.82.25.12.41.18.48.28.06.11.06.61-.15 1.19"/></svg>
+    <span class="wa__pulse"></span>
+  </button>
+  <div class="wa__bubble" data-i18n="wa.bubble">¿Te asesoramos? ☕</div>
+</div>
+</main>
 <footer class="ft">
   <div class="wrap ft__in">
     <div class="ft__brand">
@@ -1025,7 +1066,7 @@ function gtag(){dataLayer.push(arguments);}
       <p><b>CLUBCAFECOL</b><br><span data-i18n="ft.tag">Tu comunidad cafetera<br>Bogotá · Colombia</span></p>
     </div>
     <div class="ft__col">
-      <h4 data-i18n="ft.cat">Catálogo</h4>
+      <h3 data-i18n="ft.cat">Catálogo</h3>
       <a href="#/catalogo" data-i18n="tab.origen">Origen</a>
       <a href="#/catalogo" data-i18n="tab.temporada">Temporada</a>
       <a href="#/catalogo" data-i18n="tab.premio">Premio Nacional</a>
@@ -1033,7 +1074,7 @@ function gtag(){dataLayer.push(arguments);}
       <a href="#/kits" data-i18n="nav.kits">Kits y experiencias</a>
     </div>
     <div class="ft__col">
-      <h4 data-i18n="ft.emp">Empresa</h4>
+      <h3 data-i18n="ft.emp">Empresa</h3>
       <a href="#/club" data-i18n="nav.club">Club de Temporada</a>
       <a href="#/puntos" data-i18n="ft.puntos">Club de la Semilla · puntos</a>
       <a href="#/referidos" data-i18n="ft.ref">Programa de referidos</a>
@@ -1042,13 +1083,13 @@ function gtag(){dataLayer.push(arguments);}
       <a href="%(wab2b)s" target="_blank" rel="noopener" data-i18n="ft.b2b">Venta a empresas (B2B)</a>
     </div>
     <div class="ft__col">
-      <h4 data-i18n="ft.leg">Legal</h4>
+      <h3 data-i18n="ft.leg">Legal</h3>
       <a href="legal/politica-datos.html" data-i18n="ft.l1">Tratamiento de datos</a>
       <a href="legal/envios-devoluciones.html" data-i18n="ft.l2">Envíos y devoluciones</a>
       <a href="legal/terminos.html" data-i18n="ft.l3">Términos y condiciones</a>
     </div>
     <div class="ft__col">
-      <h4 data-i18n="ft.con">Contacto</h4>
+      <h3 data-i18n="ft.con">Contacto</h3>
       <a href="https://wa.me/%(wa)s" target="_blank" rel="noopener">WhatsApp +57 315 451 0390</a>
       <a href="https://instagram.com/clubcafecol" target="_blank" rel="noopener">@clubcafecol</a>
       <a href="mailto:corporacionclubdelcafe@gmail.com">corporacionclubdelcafe@gmail.com</a>
@@ -1151,34 +1192,6 @@ function gtag(){dataLayer.push(arguments);}
   </div>
 </div>
 
-<!-- ══ WHATSAPP FLOTANTE ════════════════════════════════════════════════ -->
-<a class="homechip" id="homeChip" href="#/" data-home="chip"><span aria-hidden="true">⌂</span> <span data-i18n="nav.inicio">Inicio</span></a>
-<div class="wa" id="wa">
-  <div class="wa__panel" id="waPanel" aria-hidden="true">
-    <div class="wa__head">
-      <img src="assets/img/logo.jpg" alt="" width="38" height="38">
-      <div><b>CLUBCAFECOL</b><span data-i18n="wa.status">Normalmente respondemos en minutos</span></div>
-      <button type="button" class="wa__x" id="waClose" aria-label="Cerrar">×</button>
-    </div>
-    <div class="wa__body">
-      <p data-i18n="wa.greet">¡Hola! ☕ Cuéntanos qué buscas y te asesoramos en minutos:</p>
-      <div class="wa__quick" id="waQuick"></div>
-    </div>
-  </div>
-  <a class="wa__ig" id="igBtn" href="https://instagram.com/clubcafecol" target="_blank" rel="noopener"
-     aria-label="Ver el origen del café en Instagram @clubcafecol">
-    <span class="wa__ig-txt" data-i18n="ig.cta">Mira el origen ☕</span>
-    <span class="wa__ig-ico">
-      <svg viewBox="0 0 24 24" width="25" height="25" aria-hidden="true"><path fill="currentColor" d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9a3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.9 5.9 0 0 0-2.13 1.38A5.9 5.9 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13a5.9 5.9 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.9 5.9 0 0 0 2.13-1.38 5.9 5.9 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 0 0-1.38-2.13A5.9 5.9 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0m0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32M12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8m7.85-10.4a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0"/></svg>
-    </span>
-    <span class="wa__ig-dot" aria-hidden="true"></span>
-  </a>
-  <button type="button" class="wa__launcher" id="waLauncher" aria-label="Abrir chat de WhatsApp" aria-expanded="false">
-    <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m5.4 13.9c-.21.59-1.23 1.15-1.69 1.19-.46.04-.88.2-2.97-.62-2.51-1-4.1-3.57-4.22-3.74-.12-.16-1.01-1.34-1.01-2.56 0-1.22.64-1.82.86-2.07.23-.25.5-.31.66-.31h.48c.15 0 .35-.06.55.42.21.49.7 1.7.76 1.83.06.12.1.26.02.43-.08.16-.12.26-.25.41-.12.14-.26.32-.37.43-.13.12-.26.25-.11.5.14.24.64 1.06 1.38 1.72.95.84 1.75 1.11 2 1.23.25.13.4.11.54-.06.14-.16.62-.72.78-.97.17-.24.33-.2.56-.12.23.09 1.45.69 1.7.82.25.12.41.18.48.28.06.11.06.61-.15 1.19"/></svg>
-    <span class="wa__pulse"></span>
-  </button>
-  <div class="wa__bubble" data-i18n="wa.bubble">¿Te asesoramos? ☕</div>
-</div>
 
 <!-- ══ POP-UP DE INTENCIÓN DE SALIDA ════════════════════════════════════ -->
 <div class="exit" id="exit" aria-hidden="true">

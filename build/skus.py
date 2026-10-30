@@ -262,7 +262,7 @@ BUNDLES = [
     dict(id="BDL-004", nombre="Dotación Oficina", emoji="🏢", activo=True,
          desc="Café de especialidad para tu equipo. 2,5 kg de grano de la colección Origen, molido a tu medida.",
          incluye=["2,5 kg Raíz Pitalito", "Molienda personalizada", "Reposición programada"],
-         precio=230000, tachado=None, tag="B2B · empresas"),
+         precio=230000, tachado=None, tag="B2B · empresas", b2b=True),
 ]
 
 # ── PRUEBA SOCIAL ───────────────────────────────────────────────────────
@@ -372,6 +372,12 @@ FAQ = [
      "En grano y con la bolsa bien cerrada, la ventana óptima va de los 7 a los 45 días después del tueste. Los primeros días el café todavía libera CO₂ de la tostión y la extracción sale irregular; por eso la válvula de la bolsa deja salir el gas sin dejar entrar oxígeno. Pasados los 45 días no se daña, pero pierde aroma y los matices frutales se apagan.\n\nMolido dura mucho menos: entre 7 y 15 días, porque al partir el grano se multiplica la superficie expuesta al aire. Si puedes, compra en grano y muele justo antes de preparar.\n\nGuárdalo en su bolsa original, en un lugar fresco, seco y sin luz directa. No lo pases a frascos de vidrio transparente ni lo refrigeres: la nevera genera condensación y el café absorbe olores con facilidad. Congelar solo sirve si vas a dejarlo meses sin abrir y en porciones selladas.\n\nTostamos bajo pedido, así que siempre recibes el café dentro de su mejor ventana y con la fecha de tueste impresa en el empaque."),
     ("¿Puedo cancelar la suscripción del Club?",
      "Sí, cuando quieras y sin penalidad. Basta un mensaje por WhatsApp antes de la fecha de despacho del mes siguiente."),
+    ("¿Qué hago si mi café llega dañado o no es el que pedí?",
+     "Lo reponemos sin costo o te devolvemos el dinero. Escríbenos por WhatsApp dentro de los 5 días siguientes a la entrega, con foto del producto y del empaque. Resolvemos en máximo 3 días hábiles.\n\nSe aplica si el empaque llegó roto o con el sello vulnerado, si el producto no corresponde a lo pedido (variedad, gramaje o molienda) o si tiene defectos evidentes de calidad."),
+    ("¿Puedo devolver mi pedido?",
+     "Tienes 5 días hábiles desde la entrega para ejercer el derecho de retracto (Ley 1480 de 2011), siempre que el empaque esté sin abrir y con su sello original. Como es un alimento, no se aceptan devoluciones de empaques abiertos. El detalle está en Envíos y devoluciones."),
+    ("¿Puedo cambiar la molienda después de pedir?",
+     "No. La molienda es un proceso irreversible una vez despachado el café. Si tienes dudas sobre cuál elegir, escríbenos antes de confirmar: la asesoría es gratuita."),
 ]
 
 # ── QUIZ: motor de recomendación ────────────────────────────────────────
