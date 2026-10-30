@@ -551,12 +551,13 @@ def sec_referidos():
     <div class="refer__txt">
       <div class="kicker kicker--hot" data-i18n="rf.kicker">🔥 Programa de referidos</div>
       <h2 data-i18n="rf.title">Trae a un amigo<br><em>y el café va por la casa</em></h2>
-      <p data-i18n="rf.sub">Pide tu enlace por WhatsApp y compártelo con quien quieras. Tu amigo estrena con %(dto)s%% de descuento en su primera compra y, cuando esa compra se confirme, tú recibes %(premio)s %(cuando)s. Sin tope: si traes cinco, ganas cinco veces.</p>
+      <p data-i18n="rf.sub">Pide tu enlace por WhatsApp y compártelo con quien quieras. Tu amigo estrena con %(dto)s%% de descuento en su primera compra y, cuando esa compra se confirme, tú recibes %(premio)s de una referencia de Origen %(cuando)s. Sin tope: si traes cinco, ganas cinco veces.</p>
       <div class="refer__steps">
         <div><b>1</b><span data-i18n="rf.s1">Pides tu enlace único</span></div>
         <div><b>2</b><span data-i18n="rf.s2">Tu amigo compra con %(dto)s%% off</span></div>
         <div><b>3</b><span data-i18n="rf.s3">Tú recibes tu recompensa</span></div>
       </div>
+      <p class="refer__note" data-i18n="rf.excl">Condición: los 🎁 Kits y experiencias y las suscripciones mensuales no entran en el programa de referidos.</p>
       <a class="btn btn--gold btn--lg" href="%(wa)s" target="_blank" rel="noopener" data-i18n="rf.cta">Quiero mi enlace de referido</a>
     </div>
     <div class="refer__card">
@@ -565,7 +566,7 @@ def sec_referidos():
       <p data-i18n="rf.card1">de descuento para quien invites</p>
       <div class="refer__sep"></div>
       <div class="refer__big refer__big--alt">%(premio)s</div>
-      <p data-i18n="rf.card2">para ti, por cada amigo que compre (en su primera compra)</p>
+      <p data-i18n="rf.card2">de una referencia de Origen, para ti, por cada amigo que compre (en su primera compra)</p>
     </div>
   </div>
 </section>""" % dict(dto=REFERIDOS["dto_amigo"], premio=REFERIDOS["premio_referente"],

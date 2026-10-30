@@ -113,6 +113,19 @@ t('el aviso se traduce al inglés', /off your first order/.test(m.$('#refBar').t
 t('rf.sub ya no promete 800 puntos en ningún idioma', !/800/.test(SRC.i18n.match(/'rf\.sub':'[^']*'/g).join(' ')));
 t('programa de puntos: descuentos solo en origen', (SRC.html.match(/descuento permanente en referencias de origen/g) || []).length === 2);
 
+/* ── E · Origen y exclusiones ───────────────────────────────────── */
+m = mount('?ref=ERIKPUE-001');
+m.add('ORI-002', '250g', 1);
+const base = m.$('#cartRefVal').textContent;
+const bdl = m.$$('[data-add-bundle="BDL-001"]')[0];
+t('el botón del kit existe', !!bdl);
+if (bdl) { m.click(bdl); }
+t('un kit en el carrito no suma al descuento', !bdl || m.$('#cartRefVal').textContent === base);
+t('la web aclara que la bolsa es de Origen', /de una referencia de Origen/.test(SRC.html) && /from the Origen collection/.test(m.$('.refer').textContent));
+t('la web aclara que kits, experiencias y suscripciones no entran', /Kits y experiencias y las suscripciones mensuales no entran en el programa de referidos/.test(SRC.html) && /monthly subscriptions are not part of the referral programme/.test(m.$('.refer').textContent));
+t('rf.excl existe en los 9 idiomas', (SRC.i18n.match(/'rf\.excl':/g) || []).length === 9 && /rf\.excl/.test(SRC.html));
+t('rf.sub menciona Origen en los 9 idiomas', (SRC.i18n.match(/'rf\.sub':'(?:[^'\\]|\\.)*Origen(?:[^'\\]|\\.)*'/g) || []).length === 9);
+
 console.log('\n\x1b[32m✓ APROBADAS: ' + ok.length + '\x1b[0m');
 ok.forEach(x => console.log('   ✓ ' + x));
 if (fail.length) { console.log('\n\x1b[31m✗ FALLIDAS: ' + fail.length + '\x1b[0m'); fail.forEach(x => console.log('   ✗ ' + x)); }

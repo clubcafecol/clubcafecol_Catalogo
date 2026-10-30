@@ -322,7 +322,7 @@ REFERIDOS = dict(
     # Cafés que llevan el descuento del referido: "*" = todos, o lista de IDs
     # (p. ej. ["TEM-001", "TEM-007"]) para empujar solo ciertas referencias.
     skus_elegibles="*",
-    incluye_kits=True,
+    incluye_kits=False,   # kits/experiencias y suscripciones quedan fuera del programa
     # URL del Apps Script del CRM de referidos (termina en /exec). Vacío = la
     # web no envía datos al CRM; el código igual viaja en el mensaje de WhatsApp.
     endpoint="",
@@ -388,7 +388,7 @@ WA_NUM = "573154510390"
 NIT = "901731658"
 ENVIO_GRATIS = 85000
 SITE = "https://clubcafecol.github.io/clubcafecol_Catalogo"
-ASSET_VER = "2026.10.29"
+ASSET_VER = "2026.10.29.2"
 
 # ── MONEDA ──────────────────────────────────────────────────────────────
 # Todos los precios del catálogo están en pesos colombianos (COP) y es la
