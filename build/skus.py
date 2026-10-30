@@ -72,6 +72,20 @@ REGIONES = [
 # Para cambiarlo basta con reemplazar la URL.
 VIDEO_ORIGEN = "https://www.instagram.com/p/DDX6zR8v0H1/"
 
+# ── QUIÉNES ESTÁN DETRÁS ────────────────────────────────────────────────
+# Se muestra en la vista "Nosotros". Campo vacío = no se muestra.
+# Sin fincas, el bloque no aparece. Foto: ruta relativa (ej. assets/fincas/x.webp).
+# Copia el diccionario de ejemplo por cada finca.
+ORIGEN = dict(
+    intro="",
+    fincas=[
+        dict(finca="Aires de Bordones", familia="Familia Hernández Parra", municipio="Pitalito",
+             depto="Huila", altitud="1.650–1.700", variedades="", historia="", foto=""),
+        dict(finca="", familia="", municipio="Acevedo", depto="Huila", altitud="1.650",
+             variedades="", historia="", foto=""),
+    ],
+)
+
 SKUS = [
     # ── COLECCIÓN ORIGEN ────────────────────────────────────────────────
     dict(id="ORI-001", nombre="RAÍZ PITALITO", col="origen",
@@ -332,7 +346,7 @@ REFERIDOS = dict(
 # Costumbre colombiana del regalito que se añade a la compra. Funciona muy
 # bien con público adulto: no es un descuento, es un gesto.
 NAPA = dict(
-    desde=120000,      # a partir de este subtotal
+    desde=119500,      # a partir de este subtotal
     regalo="un drip de la variedad del mes",
 )
 
@@ -349,7 +363,7 @@ FAQ = [
     ("¿Hacen envíos internacionales?",
      "Sí. Despachamos a Estados Unidos, Europa, Brasil y Asia mediante courier con guía rastreable. El tiempo típico es de 7 a 15 días hábiles según destino y aduana. Escríbenos por WhatsApp con tu ciudad y te cotizamos antes de cualquier pago."),
     ("¿Cuánto tarda el envío en Colombia y cuánto cuesta?",
-     "Bogotá: 24 a 48 horas. Resto del país: 2 a 5 días hábiles. El envío es gratis en pedidos desde $85.000; por debajo de ese monto se cotiza según destino y te lo confirmamos por WhatsApp antes de despachar."),
+     "Bogotá: 24 a 48 horas. Resto del país: 2 a 5 días hábiles. El envío es gratis en pedidos desde $84.950; por debajo de ese monto se cotiza según destino y te lo confirmamos por WhatsApp antes de despachar."),
     ("¿Cómo pago?",
      "Coordinamos el pago por WhatsApp una vez confirmado el pedido: transferencia bancaria, Nequi, Daviplata o contra entrega en Bogotá. Para pedidos internacionales usamos transferencia o pasarela con enlace seguro. Te confirmamos el total, incluido el envío, antes de cualquier pago."),
     ("¿Cómo funcionan los puntos del Club de la Semilla?",
@@ -386,9 +400,9 @@ QUIZ = {
 
 WA_NUM = "573154510390"
 NIT = "901731658"
-ENVIO_GRATIS = 85000
+ENVIO_GRATIS = 84950
 SITE = "https://clubcafecol.github.io/clubcafecol_Catalogo"
-ASSET_VER = "2026.10.30.1"
+ASSET_VER = "2026.10.30.4"
 
 # ── MONEDA ──────────────────────────────────────────────────────────────
 # Todos los precios del catálogo están en pesos colombianos (COP) y es la

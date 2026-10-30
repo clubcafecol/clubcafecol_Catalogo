@@ -10,7 +10,7 @@ var CFG      = window.CCC_CONFIG || {};
 var SKUS     = window.CCC_SKUS || [];
 var BUNDLES  = window.CCC_BUNDLES || [];
 var WA_NUM   = CFG.WA_NUM || '573154510390';
-var FREE     = CFG.ENVIO_GRATIS || 85000;
+var FREE     = CFG.ENVIO_GRATIS || 84950;
 var LS_CART  = 'ccc_cart_v1';
 var LS_LANG  = 'ccc_lang_v1';
 
@@ -75,11 +75,11 @@ window.open = function (url) {
 };
 
 var FORMATOS = [
-  {k:'drip_10g', l:'Drip 10g',  tazas:1},
-  {k:'250g',     l:'250 g',     tazas:16},
-  {k:'340g',     l:'340 g',     tazas:22},
-  {k:'500g',     l:'500 g',     tazas:33},
-  {k:'2500g',    l:'2,5 kg',    tazas:166}
+  {k:'drip_10g', l:'Drip 10g'},
+  {k:'250g',     l:'250 g'},
+  {k:'340g',     l:'340 g'},
+  {k:'500g',     l:'500 g'},
+  {k:'2500g',    l:'2,5 kg'}
 ];
 
 var MOLIENDAS = window.CCC_MOLIENDAS || [
@@ -108,7 +108,6 @@ function usd(n) {
 function precio(n) { return curLang === 'es' ? cop(n) : cop(n) + ' COP'; }
 function precioUsd(n) { return curLang === 'es' ? '' : '≈ ' + usd(n); }
 function fmtLabel(k) { for (var i=0;i<FORMATOS.length;i++) if (FORMATOS[i].k===k) return FORMATOS[i].l; return k; }
-function fmtTazas(k) { for (var i=0;i<FORMATOS.length;i++) if (FORMATOS[i].k===k) return FORMATOS[i].tazas; return 1; }
 function molLabel(v) { for (var i=0;i<MOLIENDAS.length;i++) if (MOLIENDAS[i].v===v) return MOLIENDAS[i].l; return v; }
 function skuById(id) { for (var i=0;i<SKUS.length;i++) if (SKUS[i].id===id) return SKUS[i]; return null; }
 
@@ -248,31 +247,109 @@ function initNav() {
     last = y;
   }, {passive: true});
 
+  function cerrarMenu() {
+    if (!mob) return;
+    mob.classList.remove('is-open'); burger.classList.remove('is-open');
+    burger.setAttribute('aria-expanded', 'false');
+  }
   if (burger) {
     burger.addEventListener('click', function () {
       var open = mob.classList.toggle('is-open');
       burger.classList.toggle('is-open', open);
       burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) track('menu_open', {view: vistaActual});
     });
     $$('a', mob).forEach(function (a) {
       a.addEventListener('click', function () {
-        mob.classList.remove('is-open'); burger.classList.remove('is-open');
-        burger.setAttribute('aria-expanded', 'false');
+        cerrarMenu();
+        track('menu_click', {destino: a.getAttribute('href')});
       });
     });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cerrarMenu(); });
   }
 
-  $$('a[href^="#"]').forEach(function (a) {
-    a.addEventListener('click', function (e) {
-      var id = a.getAttribute('href');
-      if (id === '#' || id.length < 2) return;
-      var el = document.querySelector(id);
-      if (!el) return;
-      e.preventDefault();
-      window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 74, behavior: 'smooth'});
-      if (history.replaceState) history.replaceState(null, '', id);
+  $$('[data-home]').forEach(function (a) {
+    a.addEventListener('click', function () { track('home_choice', {opcion: a.dataset.home}); });
+  });
+  $$('[data-discover]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var nav = a.closest('.descubre');
+      track('discover_click', {destino: a.dataset.discover, desde: nav ? nav.dataset.from : ''});
     });
   });
+  $$('.descubre').forEach(function (nav) {
+    var row = $('.descubre__row', nav);
+    $$('.descubre__arr', nav).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var dir = btn.classList.contains('descubre__arr--next') ? 1 : -1;
+        if (document.dir === 'rtl') dir = -dir;
+        row.scrollBy({left: dir * row.clientWidth * 0.8, behavior: 'smooth'});
+      });
+    });
+  });
+
+  initVistas();
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   2b · VISTAS: el inicio ocupa una pantalla; cada sección se abre sola
+   ═══════════════════════════════════════════════════════════════════ */
+var vistaActual = '';
+function initVistas() {
+  var secciones = $$('[data-view]');
+  if (!secciones.length) return;
+  var porRuta = {}, porId = {};
+  secciones.forEach(function (s) { (porRuta[s.dataset.view] = porRuta[s.dataset.view] || []).push(s); porId[s.id] = s; });
+  var primera = true;
+  var chip = $('#homeChip');
+  function chipEstado() {
+    if (chip) chip.classList.toggle('is-on', vistaActual !== '' && window.scrollY > 400);
+  }
+  window.addEventListener('scroll', chipEstado, {passive: true});
+  var flecha = $('#heroScroll');
+  if (flecha) flecha.addEventListener('click', function () {
+    var d = $('#descubre-home');
+    if (d) d.scrollIntoView({behavior: 'smooth', block: 'start'});
+    track('home_choice', {opcion: 'scroll'});
+  });
+
+  function mostrar() {
+    var h = location.hash || '';
+    var ruta = h.replace(/^#\/?/, '');
+    var sku = null;
+    if (h && h.indexOf('#/') !== 0) {
+      if (porId[ruta]) {
+        ruta = porId[ruta].dataset.view;
+        if (history.replaceState) history.replaceState(null, '', ruta ? '#/' + ruta : location.pathname + location.search);
+      } else if (skuById(ruta)) {
+        sku = ruta; ruta = 'catalogo';
+      } else {
+        ruta = '';
+      }
+    }
+    if (!porRuta[ruta]) ruta = '';
+    if (!sku && !primera) {
+      if ($('#mdl') && $('#mdl').classList.contains('is-open')) closeModal();
+      if ($('#cart') && $('#cart').classList.contains('is-open')) closeCart();
+    }
+    secciones.forEach(function (s) { s.classList.toggle('is-active', s.dataset.view === ruta); });
+    document.body.classList.toggle('is-home', ruta === '');
+    $$('#nav a[href^="#/"]').forEach(function (a) {
+      if (a.getAttribute('href') === '#/' + ruta && ruta) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    });
+    if (!sku) window.scrollTo(0, 0);
+    if (!primera && !sku) {
+      var t = $('h1, h2', porRuta[ruta][0]);
+      if (t) { t.setAttribute('tabindex', '-1'); t.focus({preventScroll: true}); }
+    }
+    if (!primera || ruta) track('view_section', {section: ruta || 'inicio', page_location: location.href});
+    vistaActual = ruta;
+    primera = false;
+    chipEstado();
+  }
+  window.addEventListener('hashchange', mostrar);
+  mostrar();
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -365,10 +442,8 @@ function initCatalogo() {
       $$('.fmt', card).forEach(function (b) { b.classList.remove('is-active'); });
       btn.classList.add('is-active');
       var precio = +btn.dataset.precio;
-      var tazas  = fmtTazas(btn.dataset.fmt);
       $('[data-price-out]', card).textContent = cop(precio);
       $('[data-unit-out]',  card).textContent = btn.dataset.label;
-      $('[data-taza-out]',  card).textContent = '≈ ' + cop(precio / tazas) + ' / taza';
       applyCurrency();
     });
   });
@@ -519,8 +594,7 @@ function openModal(i) {
     var p = s.precios[f.k];
     return '<button type="button" class="mprice' + (f.k === '250g' ? ' is-active' : '') + '" data-fmt="' + f.k + '">' +
            '<span class="mprice__g">' + f.l + '</span>' +
-           '<span class="mprice__p">' + cop(p) + '</span>' +
-           '<span class="mprice__t">' + cop(p / f.tazas) + ' / taza</span></button>';
+           '<span class="mprice__p">' + cop(p) + '</span></button>';
   }).join('');
 
   $$('.mprice', $('#mdlPrices')).forEach(function (btn) {
@@ -925,8 +999,8 @@ function initCart() {
   $('#cartScrim').addEventListener('click', closeCart);
   function irAlCatalogo() {
     closeCart();
-    var el = $('#catalogo');
-    if (el) window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 74, behavior: 'smooth'});
+    if (location.hash === '#/catalogo') window.scrollTo(0, 0);
+    else location.hash = '#/catalogo';
   }
   $('#cartGo').addEventListener('click', irAlCatalogo);
   var more = $('#cartMore');
@@ -1027,7 +1101,7 @@ function initQuiz() {
           '<h4>' + s.nombre + '</h4>' +
           '<p class="qzc__var">' + s.varietal + ' · ' + s.proceso + (s.sca ? ' · SCA ' + s.sca : '') + '</p>' +
           '<p class="qzc__notas">' + s.notas.join(' · ') + '</p>' +
-          '<p class="qzc__price">' + cop(s.precios['250g']) + ' <span>/ 250 g · ' + cop(s.taza) + ' por taza</span></p>' +
+          '<p class="qzc__price">' + cop(s.precios['250g']) + ' <span>/ 250 g</span></p>' +
           '<button type="button" class="btn btn--gold btn--block" data-qz-add="' + s.id + '">Agregar al carrito</button>' +
           '</div>';
       }).join('') + '</div>';
@@ -1045,7 +1119,7 @@ function initQuiz() {
   var qzTop = null;
 
   function textoShare() {
-    var url = location.origin + location.pathname + '#quiz';
+    var url = location.origin + location.pathname + '#/test';
     return 'Hice el test de CLUBCAFECOL y mi café es ' + qzTop.nombre +
            ' (' + qzTop.varietal + (qzTop.sca ? ', SCA ' + qzTop.sca : '') + '). ' +
            '¿Cuál es el tuyo? ☕ ' + url;
@@ -1109,10 +1183,47 @@ function initEmail() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+   8a · OPINIÓN: formulario con datos del cliente; se publica tras validarla
+   ═══════════════════════════════════════════════════════════════════ */
+function initOpinion() {
+  var form = $('#opFormEl'); if (!form) return;
+  var msg = $('#opMsg');
+  function err(t) { msg.textContent = t; msg.className = 'dl__msg is-err'; }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var d = new FormData(form);
+    if (d.get('web')) return;
+    var nombre = String(d.get('nombre') || '').trim(), ciudad = String(d.get('ciudad') || '').trim();
+    var contacto = String(d.get('contacto') || '').trim(), texto = String(d.get('texto') || '').trim();
+    var rating = parseInt(d.get('rating'), 10);
+    var okMail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contacto);
+    var okTel = /^\+?[\d\s-]{7,16}$/.test(contacto);
+    if (nombre.length < 2 || ciudad.length < 2) return err('Escribe tu nombre y tu ciudad.');
+    if (!okMail && !okTel) return err('Escribe un correo o un WhatsApp válido.');
+    if (!(rating >= 1 && rating <= 5)) return err('Elige tu calificación de 1 a 5 estrellas.');
+    if (texto.length < 20) return err('Cuéntanos un poco más: mínimo 20 caracteres.');
+    if (!d.get('ok')) return err('Necesitamos tu autorización para publicar tu opinión.');
+    track('generate_lead', {method: 'opinion', rating: rating});
+    var tx = 'Hola CLUBCAFECOL, quiero dejar mi opinión (para validación antes de publicar).\n' +
+             'Nombre: ' + nombre + '\nCiudad: ' + ciudad + '\nCalificación: ' + rating + '/5\n' +
+             'Opinión: ' + texto + '\nContacto: ' + contacto + '\n' +
+             'Autorizo el tratamiento de mis datos y publicar mi opinión con mi nombre, inicial y ciudad.';
+    msg.textContent = '✓ Gracias. Abrimos WhatsApp para enviarnos tu opinión; la publicamos cuando la validemos.';
+    msg.className = 'dl__msg is-ok';
+    setTimeout(function () {
+      window.open('https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(tx), '_blank', 'noopener');
+    }, 600);
+    form.reset();
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    8b · POP-UP DE INTENCIÓN DE SALIDA (promo Instagram: test + historia = drip de regalo)
    ═══════════════════════════════════════════════════════════════════ */
 function initExit() {
   var box = $('#exit'); if (!box) return;
+  /* En celular no hay "intención de salida" real: el pop-up solo vive en escritorio */
+  if (window.matchMedia && window.matchMedia('(max-width: 767px)').matches) return;
   var LS = 'ccc_exit_v1';
   var yaVisto = false;
   try { yaVisto = !!localStorage.getItem(LS); } catch (e) {}
@@ -1140,7 +1251,6 @@ function initExit() {
   document.addEventListener('mouseout', function (e) {
     if (!e.relatedTarget && e.clientY <= 4) abrir('mouseout');
   });
-  /* Móvil: scroll rápido hacia arriba tras haber recorrido la página */
   var lastY = window.scrollY, maxY = 0;
   window.addEventListener('scroll', function () {
     var y = window.scrollY;
@@ -1310,6 +1420,7 @@ function boot() {
   initCart();
   initQuiz();
   initEmail();
+  initOpinion();
   initExit();
   initWA();
   initOrigenVideo();

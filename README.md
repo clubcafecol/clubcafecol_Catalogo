@@ -141,7 +141,7 @@ No hay pasarela de pago: el carrito **arma el pedido** y lo entrega consolidado 
 
 - Persiste en `localStorage`, así que sobrevive a recargas y cierres de pestaña.
 - Selector de molienda por línea (7 opciones). Los drips no lo muestran: ya vienen listos.
-- Barra de progreso hacia el envío gratis desde $85.000.
+- Barra de progreso hacia el envío gratis desde $84.950.
 - Campos de ciudad y nota para el tostador.
 - El mensaje sale formateado con variedad, proceso, puntaje SCA, molienda, cantidades y subtotal.
 

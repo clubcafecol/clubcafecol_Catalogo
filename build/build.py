@@ -3,12 +3,12 @@
 CLUBCAFECOL — Generador estático del catálogo.
 Uso:  python3 build.py        (escribe ../index.html, ../sitemap.xml, ../robots.txt)
 """
-import json, os, sys, io, datetime
+import json, os, re, sys, io, datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from skus import (SKUS, CLUB, BUNDLES, TESTIMONIOS, FAQ, QUIZ, FORMATOS, TAZAS,
                   EXOTICOS, WA_NUM, NIT, ENVIO_GRATIS, SITE, ASSET_VER,
                   MOLIENDAS, DESTACADOS, LEALTAD, REFERIDOS, USD_COP,
-                  VITRINA, VIDEO_ORIGEN, REGIONES, NAPA)
+                  VITRINA, VIDEO_ORIGEN, REGIONES, NAPA, ORIGEN)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANGS = [("es","Español","🇪🇸"),("en","English","🇬🇧"),("pt","Português","🇧🇷"),
@@ -137,7 +137,6 @@ def card(s, i):
           <div class="card__price">
             <div><span class="card__price-now" data-price-out>%(p250fmt)s</span>
                  <span class="card__price-unit" data-unit-out>250 g</span></div>
-            <div class="card__taza" data-taza-out title="Costo aproximado por taza con dosis de 15 g">≈ %(taza)s / taza</div>
           </div>
           <div class="card__actions">
             <button type="button" class="btn btn--add" data-add="%(i)d">
@@ -157,7 +156,7 @@ def card(s, i):
         resenas=resenas, stock=stock, proc=proc, mol_ops=mol_ops,
         img=s["img"], nombre=s["nombre"], varietal=s["varietal"], proceso=s["proceso"],
         msnm=s["msnm"], sca=sca, badges="".join(badges), notas=notas, chips=chips,
-        p250fmt=cop(s["precios"]["250g"]), taza=cop(s["taza"]),
+        p250fmt=cop(s["precios"]["250g"]),
         waurl=wa("Hola CLUBCAFECOL, me antojé del %s (%s) en presentación de 250 g. Mi ciudad es ____ y lo quiero molido para ____. ¿Me confirman total con envío?" % (s["nombre"], ", ".join(s["notas"][:3]).lower())))
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -298,6 +297,55 @@ def sec_napa():
 </section>""" % dict(napa=cop(NAPA["desde"]), napaR=NAPA["regalo"])
 
 
+def sec_sca():
+    return """
+<section class="scasec" id="sca">
+  <div class="wrap">
+    <div class="kicker" data-i18n="nav.sca">Puntaje SCA</div>
+    <h2 data-i18n="sca.title">¿Qué es el puntaje <em>SCA?</em></h2>
+    <div class="scaexp">
+      <div class="scaexp__badge"><b>SCA</b><span>82–89</span></div>
+      <div class="scaexp__txt">
+        <p data-i18n="cat.scaP">Es el puntaje que un catador certificado le da a la taza sobre 100, siguiendo el protocolo de la <b>Specialty Coffee Association</b>. Evalúa aroma, sabor, acidez, cuerpo y dulzor. De 80 para arriba ya se considera café de especialidad: en Colombia solo una fracción muy pequeña de la cosecha llega ahí. Nuestras variedades van de <b>82 a 89</b>.</p>
+      </div>
+    </div>
+  </div>
+</section>"""
+
+
+def sec_fincas():
+    fincas = [f for f in ORIGEN.get("fincas", []) if any(str(v).strip() for v in f.values())]
+    if not fincas and not ORIGEN.get("intro"):
+        return ""
+
+    def chips(f):
+        muni = (f.get("municipio") or "").strip()
+        if not muni:
+            return ""
+        cafes = [s for s in SKUS if s["origen"].lower().startswith(muni.lower())]
+        if not cafes:
+            return ""
+        return ('<p class="finca__cafes" data-i18n="or.cafes">Cafés de esta zona</p><div class="finca__chips">%s</div>'
+                % "".join('<a class="finca__chip" href="#%s">%s</a>' % (s["id"], s["nombre"].title()) for s in cafes))
+
+    def tarjeta(f):
+        foto = ('<img class="finca__foto" src="%s" alt="%s" loading="lazy" width="800" height="600">'
+                % (f["foto"], f.get("finca") or f.get("familia") or "")) if f.get("foto") else ""
+        titulo = f.get("finca") or f.get("municipio") or ""
+        lugar = ", ".join(x for x in (f.get("municipio"), f.get("depto")) if x) if f.get("finca") else f.get("depto", "")
+        fam = ('<p class="finca__fam"><span data-i18n="or.prod">Productores:</span> %s</p>' % f["familia"]) if f.get("familia") else ""
+        alt = ('<span class="finca__alt">%s msnm</span>' % f["altitud"]) if f.get("altitud") else ""
+        var = ('<span class="finca__var">%s</span>' % f["variedades"]) if f.get("variedades") else ""
+        return ('<article class="finca">%s<div class="finca__txt">%s%s%s<div class="finca__meta">%s%s</div>%s%s</div></article>'
+                % (foto, ('<h3>%s</h3>' % titulo) if titulo else "",
+                   ('<p class="finca__lugar">📍 %s</p>' % lugar) if lugar else "", fam, alt, var,
+                   ('<p class="finca__hist">%s</p>' % f["historia"]) if f.get("historia") else "", chips(f)))
+
+    intro = ('<p class="fincas__intro">%s</p>' % ORIGEN["intro"]) if ORIGEN.get("intro") else ""
+    return ('<div class="fincas"><h3 class="fincas__t" data-i18n="or.fincasT">Las familias y fincas detrás de cada lote</h3>%s'
+            '<div class="fincas__grid">%s</div></div>' % (intro, "".join(tarjeta(f) for f in fincas)))
+
+
 def sec_origen():
     """Bloque humano: quién está detrás del café + video de Instagram."""
     return """
@@ -305,14 +353,13 @@ def sec_origen():
   <div class="wrap origen__in">
     <div class="origen__txt">
       <div class="kicker" data-i18n="or.kicker">Quiénes están detrás</div>
-      <h2 data-i18n="or.title">No compramos el café.<br><em>Lo cultivamos.</em></h2>
+      <h2 data-i18n="or.title">Somos una comunidad cafetera<br><em>de más de 5 departamentos.</em></h2>
       <p data-i18n="or.p1">CLUBCAFECOL nace en el Huila, entre Pitalito y Acevedo, y hoy cultivamos también en Barbosa (Santander), Sevilla (Valle del Cauca), el Macizo del Cauca y el altiplano de Nariño. Somos caficultores: la misma gente que poda, recolecta y controla la fermentación es la que decide la curva de tueste y sella la bolsa que llega a tu casa.</p>
       <p data-i18n="or.p2">Entre el grano y tu taza no hay intermediarios, ni comisionistas, ni una bodega donde el café espere meses. Eso cambia dos cosas: el margen se queda en la finca, y podemos arriesgarnos con variedades especiales, exóticas y cofermentadas, aclamadas por su excelente sabor.</p>
       <ul class="origen__reg">%(regiones)s</ul>
       <div class="origen__stats">
         <div><b>1.650–1.700</b><span data-i18n="or.s1">msnm de cultivo</span></div>
         <div><b>5</b><span data-i18n="or.s2">departamentos cafeteros</span></div>
-        <div><b>0</b><span data-i18n="or.s3">intermediarios</span></div>
       </div>
       <a class="btn btn--ig" href="https://instagram.com/clubcafecol" target="_blank" rel="noopener" data-i18n="or.cta">Ver más en @clubcafecol</a>
     </div>
@@ -330,8 +377,9 @@ def sec_origen():
       </div>
       <figcaption data-i18n="or.cap">Del árbol al tueste: así trabajamos. Video publicado en @clubcafecol.</figcaption>
     </figure>
+%(fincas)s
   </div>
-</section>""" % dict(video=VIDEO_ORIGEN, regiones="".join(
+</section>""" % dict(video=VIDEO_ORIGEN, fincas=sec_fincas(), regiones="".join(
         '<li><b>%s</b><span>%s</span></li>' % (d, m) for d, m in REGIONES))
 
 
@@ -492,7 +540,6 @@ def sec_club():
         %(poptag)s
         <div class="club__lvl">%(icon)s %(nombre)s</div>
         <div class="club__price">%(precio)s<span>/mes</span></div>
-        <div class="club__taza">≈ %(taza)s por taza</div>
         <ul>%(ben)s</ul>
         <a class="btn btn--club" href="%(wa)s" target="_blank" rel="noopener" data-sub="%(nombre)s" data-valor="%(pnum)d">
           <span data-i18n="cta.sub">Suscribirme</span> →</a>
@@ -500,7 +547,7 @@ def sec_club():
             pop=" is-popular" if c.get("popular") else "",
             poptag='<div class="club__pop" data-i18n="club.pop">Más popular</div>' if c.get("popular") else "",
             icon=c["icon"], nombre=c["nombre"], precio=cop(c["precio"]),
-            taza=cop(round(c["precio"] / 16)), ben=ben, pnum=c["precio"],
+            ben=ben, pnum=c["precio"],
             wa=wa("Hola CLUBCAFECOL, quiero suscribirme al Club %s (%s/mes). Mi ciudad es ____ y preparo el café en ____. ¿Cómo activo la suscripción?" % (c["nombre"], cop(c["precio"]))))
     return """
 <section class="club" id="club">
@@ -587,6 +634,27 @@ def sec_testimonios():
     <h2 data-i18n="tst.title">Confianza que <em>se toma</em></h2>
     <p class="sec-sub" data-i18n="tst.sub">De Bogotá a Tokio: despachamos a Estados Unidos, Europa, Brasil y Asia con guía rastreable.</p>
     <div class="testi__grid">%(items)s</div>
+    <div class="opform" id="opForm">
+      <h3 data-i18n="op.formT">Deja tu opinión</h3>
+      <p class="opform__sub" data-i18n="op.formSub">Cuéntanos cómo te fue con tu café. Revisamos cada opinión antes de publicarla.</p>
+      <form id="opFormEl" novalidate>
+        <div class="opform__grid">
+          <label><span data-i18n="op.name">Tu nombre</span><input name="nombre" required maxlength="60" autocomplete="given-name"></label>
+          <label><span data-i18n="op.city">Ciudad</span><input name="ciudad" required maxlength="50" autocomplete="address-level2"></label>
+          <label class="opform__wide"><span data-i18n="op.contact">Correo o WhatsApp (no se publica)</span><input name="contacto" required maxlength="80" autocomplete="email"></label>
+        </div>
+        <fieldset class="opform__rate"><legend data-i18n="op.rate">Tu calificación</legend>
+          <div class="opform__stars">%(stars)s</div>
+        </fieldset>
+        <label class="opform__wide"><span data-i18n="op.text">Tu opinión (mínimo 20 caracteres)</span><textarea name="texto" required minlength="20" maxlength="600" rows="4"></textarea></label>
+        <input class="hp" name="web" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="dl__ok"><input type="checkbox" name="ok" required>
+          <span data-i18n="op.ok">Autorizo el tratamiento de mis datos y que mi opinión se publique con mi nombre, inicial y ciudad, según la <a href="legal/politica-datos.html" target="_blank" rel="noopener">política de privacidad</a>.</span></label>
+        <button type="submit" class="btn btn--gold btn--lg" data-i18n="op.send">Enviar mi opinión</button>
+        <p class="opform__note" data-i18n="op.note">Tu opinión se publica solo después de que la validemos.</p>
+        <p class="dl__msg" id="opMsg" role="status"></p>
+      </form>
+    </div>
     <div class="trustbar">
       <div class="trustbar__i"><b>🔒</b><span data-i18n="trust.t1">Pago confirmado antes de despachar</span></div>
       <div class="trustbar__i"><b>📦</b><span data-i18n="trust.t2">Empacado al vacío tras el tueste</span></div>
@@ -594,7 +662,9 @@ def sec_testimonios():
       <div class="trustbar__i"><b>🧾</b><span data-i18n="trust.t4">NIT %(nit)s · empresa registrada</span></div>
     </div>
   </div>
-</section>""" % dict(items=items, nit=NIT)
+</section>""" % dict(items=items, nit=NIT, stars="".join(
+        '<input type="radio" name="rating" id="op-r%d" value="%d" required><label for="op-r%d" aria-label="%d">★</label>' % (n, n, n, n)
+        for n in (5, 4, 3, 2, 1)))
 
 
 def sec_faq():
@@ -615,6 +685,63 @@ def sec_faq():
 # ═══════════════════════════════════════════════════════════════════════
 #  DOCUMENTO
 # ═══════════════════════════════════════════════════════════════════════
+DESC = [("catalogo", "nav.catalogo", "Catálogo", "desc.cat", "Las 21 variedades, con filtros"),
+        ("test", "nav.quiz", "Test", "desc.test", "Te recomendamos tu café en 30 segundos"),
+        ("mas-pedidos", "nav.trofeos", "Más pedidos", "desc.tro", "Lo que más sale de la tostadora"),
+        ("nosotros", "nav.nosotros", "Nosotros", "desc.nos", "Quiénes están detrás y de dónde viene"),
+        ("sca", "nav.sca", "Puntaje SCA", "desc.sca", "Qué significa el puntaje de la taza"),
+        ("kits", "nav.kits", "Kits", "desc.kits", "Para regalar o probar varios"),
+        ("club", "nav.club", "Club", "desc.club", "Un café distinto cada mes"),
+        ("puntos", "ft.puntos", "Club de la Semilla · puntos", "desc.pun", "Puntos y beneficios por tus compras"),
+        ("referidos", "ft.ref", "Programa de referidos", "desc.ref", "Invita a un amigo y ambos ganan"),
+        ("opiniones", "ft.op", "Opiniones", "desc.op", "Lo que dicen quienes ya lo probaron"),
+        ("catalogo-pdf", "nav.pdf", "Catálogo PDF", "desc.pdf", "Las 21 variedades en tu bolsillo"),
+        ("faq", "nav.faq", "Preguntas frecuentes", "desc.faq", "Envíos, molienda y pagos")]
+
+
+def sec_descubre(excluir, desde):
+    """Carrusel 'Descubre más': todas las vistas menos las excluidas."""
+    cards = "".join(
+        '<a href="#/%s" data-discover="%s"><b data-i18n="%s">%s</b><small data-i18n="%s">%s</small></a>'
+        % (r, r, kt, tt, ks, st) for r, kt, tt, ks, st in DESC if r not in excluir)
+    return ('<nav class="descubre" aria-label="Descubre más" data-from="%s">'
+            '<h3 data-i18n="desc.t">Descubre más</h3>'
+            '<div class="descubre__wrap"><button type="button" class="descubre__arr descubre__arr--prev" aria-hidden="true" tabindex="-1">‹</button>'
+            '<div class="descubre__row">%s</div>'
+            '<button type="button" class="descubre__arr descubre__arr--next" aria-hidden="true" tabindex="-1">›</button></div></nav>'
+            % (desde, cards))
+
+
+VISTAS = [("top", ""), ("catalogo", "catalogo"), ("quiz", "test"), ("trofeos", "mas-pedidos"),
+          ("origen", "nosotros"), ("sca", "sca"), ("kits", "kits"), ("club", "club"), ("lealtad", "puntos"),
+          ("referidos", "referidos"), ("opiniones", "opiniones"), ("descarga", "catalogo-pdf"),
+          ("faq", "faq")]
+VISTAS_SIGUIENTE = {"origen", "trofeos", "quiz", "sca"}
+
+
+def vistas(html):
+    """Cada sección es una vista (#/ruta): el inicio ocupa una pantalla y
+    el resto se abre desde sus botones, la barra o el menú."""
+    volver = ('\n  <div class="wrap vback"><a href="#/" class="vback__a">'
+              '<span aria-hidden="true">←</span> <span data-i18n="nav.inicio">Inicio</span></a></div>')
+    siguiente = ('\n  <div class="wrap vnext"><a class="btn btn--gold btn--lg" href="#/catalogo" '
+                 'data-i18n="hero.cta1">Ver el catálogo</a></div>')
+    for sid, ruta in VISTAS:
+        m = re.search(r'<section class="([^"]*)" id="%s">' % sid, html)
+        assert m, sid
+        cls = m.group(1) + " view" + (" is-active" if not ruta else "")
+        abre = '<section class="%s" id="%s" data-view="%s">' % (cls, sid, ruta)
+        if ruta:
+            abre += volver
+        html = html[:m.start()] + abre + html[m.end():]
+        if ruta:
+            extra = (siguiente if sid in VISTAS_SIGUIENTE else "")
+            extra += '\n  <div class="wrap vdesc">%s</div>\n' % sec_descubre({ruta}, ruta)
+            fin = html.index("</section>", m.start())
+            html = html[:fin] + extra + html[fin:]
+    return html
+
+
 def build():
     v = "?v=" + ASSET_VER
     cards = "".join(card(s, i) for i, s in enumerate(SKUS))
@@ -671,7 +798,7 @@ def build():
 <meta property="og:site_name" content="CLUBCAFECOL">
 <meta property="og:locale" content="es_CO">
 <meta property="og:title" content="Café de especialidad colombiano — 21 variedades, SCA 82-89">
-<meta property="og:description" content="Campeones Nacionales directos a tu taza. Tostado bajo pedido, molienda sin costo, envío gratis desde $85.000.">
+<meta property="og:description" content="Campeones Nacionales directos a tu taza. Tostado bajo pedido, molienda sin costo, envío gratis desde $84.950.">
 <meta property="og:image" content="%(site)s/assets/productos/pre-008.jpg">
 <meta property="og:image:alt" content="Etiqueta del café CORONA, Geisha Top Roast, Campeón Nacional">
 <meta property="og:url" content="%(site)s/">
@@ -724,7 +851,7 @@ function gtag(){dataLayer.push(arguments);}
 </script>
 </head>
 <body>
-<a class="skip" href="#catalogo">Saltar al catálogo</a>
+<a class="skip" href="#/catalogo">Saltar al catálogo</a>
 
 <!-- ══ BARRA DE ANUNCIO ═════════════════════════════════════════════════ -->
 <div class="refbar" id="refBar" hidden></div>
@@ -735,18 +862,14 @@ function gtag(){dataLayer.push(arguments);}
 <!-- ══ NAVEGACIÓN ═══════════════════════════════════════════════════════ -->
 <header class="nav" id="nav">
   <div class="nav__in">
-    <a class="nav__brand" href="#top"><img src="assets/img/logo.jpg" alt="CLUBCAFECOL" width="40" height="40"><span>CLUBCAFECOL</span></a>
+    <a class="nav__brand" href="#/" aria-label="Inicio"><img src="assets/img/logo.jpg" alt="CLUBCAFECOL" width="40" height="40"><span>CLUBCAFECOL</span></a>
     <nav class="nav__links" aria-label="Principal">
-      <a href="#origen" data-i18n="nav.origen">Origen</a>
-      <a href="#trofeos" data-i18n="nav.trofeos">Más pedidos</a>
-      <a href="#quiz" data-i18n="nav.quiz">Test</a>
-      <a href="#catalogo" data-i18n="nav.catalogo">Catálogo</a>
-      <a href="#kits" data-i18n="nav.kits">Kits</a>
-      <a href="#club" data-i18n="nav.club">Club</a>
-      <a href="#lealtad" data-i18n="nav.puntos">Puntos</a>
-      <a href="#faq" data-i18n="nav.faq">FAQ</a>
+      <a href="#/catalogo" data-i18n="nav.catalogo">Catálogo</a>
+      <a href="#/test" data-i18n="nav.quiz">Test</a>
+      <a href="#/nosotros" data-i18n="nav.nosotros">Nosotros</a>
     </nav>
     <div class="nav__tools">
+      <a class="nav__about" href="#/nosotros" data-i18n="nav.nosotros">Nosotros</a>
       <div class="lang" id="lang">
         <button type="button" class="lang__btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-label="Cambiar idioma">
           <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 0c-2.5 2.3-3.8 5.4-3.8 9s1.3 6.7 3.8 9m0-18c2.5 2.3 3.8 5.4 3.8 9s-1.3 6.7-3.8 9M3.5 9h17m-17 6h17"/></svg>
@@ -758,19 +881,26 @@ function gtag(){dataLayer.push(arguments);}
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M3 4h2.2l2 12.2a2 2 0 0 0 2 1.7h8.4a2 2 0 0 0 2-1.6L21 8H6.2M10 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm8 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/></svg>
         <span class="cartbtn__n" id="cartCount" hidden>0</span>
       </button>
-      <a class="btn btn--gold nav__cta" href="#catalogo" data-i18n="nav.cta">Pedir ahora</a>
+      <a class="btn btn--gold nav__cta" href="#/catalogo" data-i18n="nav.cta">Pedir ahora</a>
       <button type="button" class="burger" id="burger" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span><i data-i18n="nav.menu">Menú</i></button>
     </div>
   </div>
-  <div class="nav__mobile" id="navMobile">
-    <a href="#trofeos" data-i18n="nav.trofeos">Más pedidos</a>
-    <a href="#quiz" data-i18n="nav.quiz">Test</a>
-    <a href="#catalogo" data-i18n="nav.catalogo">Catálogo</a>
-    <a href="#kits" data-i18n="nav.kits">Kits</a>
-    <a href="#club" data-i18n="nav.club">Club</a>
-    <a href="#faq" data-i18n="nav.faq">FAQ</a>
-    <a class="btn btn--gold" href="#catalogo" data-i18n="nav.cta">Pedir ahora</a>
-  </div>
+  <nav class="nav__mobile" id="navMobile" aria-label="Menú">
+    <a href="#/catalogo" data-i18n="nav.catalogo">Catálogo</a>
+    <a href="#/test" data-i18n="nav.quiz">Test</a>
+    <a href="#/nosotros" data-i18n="nav.nosotros">Nosotros</a>
+    <a href="#/mas-pedidos" data-i18n="nav.trofeos">Más pedidos</a>
+    <a href="#/sca" data-i18n="nav.sca">Puntaje SCA</a>
+    <a href="#/kits" data-i18n="nav.kits">Kits</a>
+    <a href="#/club" data-i18n="nav.club">Club</a>
+    <a href="#/puntos" data-i18n="nav.puntos">Puntos</a>
+    <a href="#/referidos" data-i18n="ft.ref">Programa de referidos</a>
+    <a href="#/opiniones" data-i18n="ft.op">Opiniones</a>
+    <a href="#/catalogo-pdf" data-i18n="nav.pdf">Catálogo en PDF</a>
+    <a href="#/faq" data-i18n="nav.faq">FAQ</a>
+    <a href="https://instagram.com/clubcafecol" target="_blank" rel="noopener">Instagram @clubcafecol</a>
+    <a class="btn btn--gold" href="#/catalogo" data-i18n="nav.cta">Pedir ahora</a>
+  </nav>
 </header>
 
 <!-- ══ HERO ═════════════════════════════════════════════════════════════ -->
@@ -785,8 +915,8 @@ function gtag(){dataLayer.push(arguments);}
     <h1 data-i18n="hero.title">Tu Café de Especialidad Colombiano<em>Campeones Nacionales directos a tu Taza</em></h1>
     <p class="hero__sub" data-i18n="hero.sub">21 variedades de café de especialidad de las montañas de Colombia, con 82 a 89 puntos SCA. Tostados el día de tu pedido y molidos a la medida de tu cafetera.</p>
     <div class="hero__cta">
-      <a class="btn btn--gold btn--lg btn--pulso" href="#catalogo" data-i18n="hero.cta1">Ver las 21 variedades</a>
-      <a class="btn btn--hot btn--lg" href="#quiz" data-i18n="hero.cta2">✨ Ayúdame a elegir</a>
+      <a class="btn btn--gold btn--lg btn--pulso" href="#/catalogo" data-home="catalogo" data-i18n="hero.cta1">Ver el catálogo</a>
+      <a class="btn btn--hot btn--lg" href="#/test" data-home="test" data-i18n="hero.cta2">✨ Ayúdame a elegir</a>
     </div>
     <div class="hero__stats">
       <div><b>21</b><span data-i18n="hero.s1">variedades únicas</span></div>
@@ -794,12 +924,17 @@ function gtag(){dataLayer.push(arguments);}
       <div><b>1.650+</b><span data-i18n="hero.s3">msnm de altura</span></div>
       <div><b>24 h</b><span data-i18n="hero.s4">del tueste al despacho</span></div>
     </div>
+    <p class="hero__franja" data-i18n="hero.franja">🎁 Ñapa desde %(napafmt)s · Envío gratis desde %(enviofmt)s</p>
   </div>
+  <button type="button" class="hero__scroll" id="heroScroll" aria-label="Descubre más"><span aria-hidden="true">⌄</span></button>
 </section>
 
-%(napasec)s
+<section class="descubre-home" id="descubre-home">
+  <div class="wrap">%(descubre_home)s</div>
+</section>
 
 %(origen)s
+%(sca)s
 %(trofeos)s
 %(quiz)s
 
@@ -808,13 +943,6 @@ function gtag(){dataLayer.push(arguments);}
   <div class="wrap">
     <div class="kicker" data-i18n="cat.kicker">El catálogo completo</div>
     <h2 data-i18n="cat.title">Cuatro colecciones,<br><em>veintiuna variedades</em></h2>
-    <div class="scaexp">
-      <div class="scaexp__badge"><b>SCA</b><span>82–89</span></div>
-      <div class="scaexp__txt">
-        <h3 data-i18n="cat.scaT">¿Qué significa ese número?</h3>
-        <p data-i18n="cat.scaP">Es el puntaje que un catador certificado le da a la taza sobre 100, siguiendo el protocolo de la <b>Specialty Coffee Association</b>. Evalúa aroma, sabor, acidez, cuerpo y dulzor. De 80 para arriba ya se considera café de especialidad: en Colombia solo una fracción muy pequeña de la cosecha llega ahí. Nuestras variedades van de <b>82 a 89</b>.</p>
-      </div>
-    </div>
     <div class="cat__controls">
       <div class="cat__tabs" role="tablist">
         <button type="button" class="tab is-active" data-col="all" data-i18n="tab.all">Todos <i>21</i></button>
@@ -885,19 +1013,19 @@ function gtag(){dataLayer.push(arguments);}
     </div>
     <div class="ft__col">
       <h4 data-i18n="ft.cat">Catálogo</h4>
-      <a href="#catalogo" data-i18n="tab.origen">Origen</a>
-      <a href="#catalogo" data-i18n="tab.temporada">Temporada</a>
-      <a href="#catalogo" data-i18n="tab.premio">Premio Nacional</a>
-      <a href="#catalogo" data-i18n="tab.reserva">Reserva</a>
-      <a href="#kits" data-i18n="nav.kits">Kits y experiencias</a>
+      <a href="#/catalogo" data-i18n="tab.origen">Origen</a>
+      <a href="#/catalogo" data-i18n="tab.temporada">Temporada</a>
+      <a href="#/catalogo" data-i18n="tab.premio">Premio Nacional</a>
+      <a href="#/catalogo" data-i18n="tab.reserva">Reserva</a>
+      <a href="#/kits" data-i18n="nav.kits">Kits y experiencias</a>
     </div>
     <div class="ft__col">
       <h4 data-i18n="ft.emp">Empresa</h4>
-      <a href="#club" data-i18n="nav.club">Club de Temporada</a>
-      <a href="#lealtad" data-i18n="ft.puntos">Club de la Semilla · puntos</a>
-      <a href="#referidos" data-i18n="ft.ref">Programa de referidos</a>
-      <a href="#opiniones" data-i18n="ft.op">Opiniones</a>
-      <a href="#faq" data-i18n="nav.faq">Preguntas frecuentes</a>
+      <a href="#/club" data-i18n="nav.club">Club de Temporada</a>
+      <a href="#/puntos" data-i18n="ft.puntos">Club de la Semilla · puntos</a>
+      <a href="#/referidos" data-i18n="ft.ref">Programa de referidos</a>
+      <a href="#/opiniones" data-i18n="ft.op">Opiniones</a>
+      <a href="#/faq" data-i18n="nav.faq">Preguntas frecuentes</a>
       <a href="%(wab2b)s" target="_blank" rel="noopener" data-i18n="ft.b2b">Venta a empresas (B2B)</a>
     </div>
     <div class="ft__col">
@@ -1008,6 +1136,7 @@ function gtag(){dataLayer.push(arguments);}
 </div>
 
 <!-- ══ WHATSAPP FLOTANTE ════════════════════════════════════════════════ -->
+<a class="homechip" id="homeChip" href="#/" data-home="chip"><span aria-hidden="true">⌂</span> <span data-i18n="nav.inicio">Inicio</span></a>
 <div class="wa" id="wa">
   <div class="wa__panel" id="waPanel" aria-hidden="true">
     <div class="wa__head">
@@ -1075,15 +1204,16 @@ window.CCC_MOLIENDAS = %(moljson)s; window.CCC_DTO_REF = %(dtoref)d; window.CCC_
            envio=ENVIO_GRATIS, enviofmt=cop(ENVIO_GRATIS), ver=ASSET_VER,
            refdto=REFERIDOS["dto_amigo"], refskus=json.dumps(REFERIDOS["skus_elegibles"]),
            refkits=json.dumps(REFERIDOS["incluye_kits"]), refep=REFERIDOS["endpoint"],
-           langopts=langopts, cards=cards, trofeos=sec_trofeos(), napasec=sec_napa(), quiz=sec_quiz(),
+           langopts=langopts, cards=cards, trofeos=sec_trofeos(), napafmt=cop(NAPA["desde"]), descubre_home=sec_descubre({"catalogo", "test"}, "inicio"), quiz=sec_quiz(),
            bundles=sec_bundles(), club=sec_club(), testi=sec_testimonios(), faq=sec_faq(),
            lealtad=sec_lealtad(), referidos=sec_referidos(), dtoref=REFERIDOS["dto_amigo"],
-           origen=sec_origen(),
+           origen=sec_origen(), sca=sec_sca(),
            skusjson=skus_json, bundlesjson=bundles_json, moljson=mol_json,
            dlart=dlart, usdcop=USD_COP,
            wahelp=wa("Hola CLUBCAFECOL, necesito asesoría para elegir mi café. Preparo el café en ____ y me gustan los sabores ____. ¿Qué me recomiendan?"),
            wab2b=wa("Hola CLUBCAFECOL, represento una empresa/cafetería y quiero cotizar café de especialidad al por mayor. Consumimos aprox. ____ kg al mes."))
 
+    html = vistas(html)
     open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8").write(html)
 
     # ── robots.txt ──────────────────────────────────────────────────────
