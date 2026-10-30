@@ -325,7 +325,7 @@ REFERIDOS = dict(
     incluye_kits=False,   # kits/experiencias y suscripciones quedan fuera del programa
     # URL del Apps Script del CRM de referidos (termina en /exec). Vacío = la
     # web no envía datos al CRM; el código igual viaja en el mensaje de WhatsApp.
-    endpoint="",
+    endpoint="https://script.google.com/macros/s/AKfycbxuslBbxfYdT6JX-FHLLYhXbKVkZNg_IL2JntZbsK_9EnicbwsERWO6uvCwCiJkdLQQrw/exec",
 )
 
 # ── ÑAPA ────────────────────────────────────────────────────────────────
@@ -388,7 +388,7 @@ WA_NUM = "573154510390"
 NIT = "901731658"
 ENVIO_GRATIS = 85000
 SITE = "https://clubcafecol.github.io/clubcafecol_Catalogo"
-ASSET_VER = "2026.10.29.5"
+ASSET_VER = "2026.10.29.6"
 
 # ── MONEDA ──────────────────────────────────────────────────────────────
 # Todos los precios del catálogo están en pesos colombianos (COP) y es la
