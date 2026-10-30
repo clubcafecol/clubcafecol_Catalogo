@@ -504,7 +504,7 @@ def sec_bundles():
             gam = ('<div class="bdl__gam">'
                    '<span>Completa los 21 orígenes del Club del Café, sube la foto con todos '
                    'los empaques etiquetando a @clubcafecol y te regalamos una bolsa de 250 g '
-                   'de café de temporada.</span></div>')
+                   'de café de origen: Raíz Pitalito.</span></div>')
         tach = '<s>%s</s>' % cop(b["tachado"]) if b.get("tachado") else ""
         ahorro = ('<span class="bdl__save">Ahorras %s</span>' % cop(b["tachado"] - b["precio"])) if b.get("tachado") else ""
         items += """
@@ -719,13 +719,21 @@ VISTAS = [("top", ""), ("catalogo", "catalogo"), ("quiz", "test"), ("trofeos", "
 VISTAS_SIGUIENTE = {"origen", "trofeos", "quiz", "sca"}
 
 
+def siguiente(sid):
+    """Botón 'Ver el catálogo' al final de una vista, junto al test. En la
+    propia vista del test no se repite el botón del test."""
+    quiz = "" if sid == "quiz" else ('<a class="btn btn--hot btn--lg" href="#/test" data-home="test" '
+                                     'data-i18n="hero.cta2">✨ Ayúdame a elegir</a>')
+    return ('\n  <div class="wrap vnext"><div class="cta-pair">'
+            '<a class="btn btn--gold btn--lg" href="#/catalogo" data-i18n="hero.cta1">Ver el catálogo</a>'
+            '%s</div></div>' % quiz)
+
+
 def vistas(html):
     """Cada sección es una vista (#/ruta): el inicio ocupa una pantalla y
     el resto se abre desde sus botones, la barra o el menú."""
     volver = ('\n  <div class="wrap vback"><a href="#/" class="vback__a">'
               '<span aria-hidden="true">←</span> <span data-i18n="nav.inicio">Inicio</span></a></div>')
-    siguiente = ('\n  <div class="wrap vnext"><a class="btn btn--gold btn--lg" href="#/catalogo" '
-                 'data-i18n="hero.cta1">Ver el catálogo</a></div>')
     for sid, ruta in VISTAS:
         m = re.search(r'<section class="([^"]*)" id="%s">' % sid, html)
         assert m, sid
@@ -735,7 +743,7 @@ def vistas(html):
             abre += volver
         html = html[:m.start()] + abre + html[m.end():]
         if ruta:
-            extra = (siguiente if sid in VISTAS_SIGUIENTE else "")
+            extra = (siguiente(sid) if sid in VISTAS_SIGUIENTE else "")
             extra += '\n  <div class="wrap vdesc">%s</div>\n' % sec_descubre({ruta}, ruta)
             fin = html.index("</section>", m.start())
             html = html[:fin] + extra + html[fin:]
@@ -917,6 +925,8 @@ function gtag(){dataLayer.push(arguments);}
     <div class="hero__cta">
       <a class="btn btn--gold btn--lg btn--pulso" href="#/catalogo" data-home="catalogo" data-i18n="hero.cta1">Ver el catálogo</a>
       <a class="btn btn--hot btn--lg" href="#/test" data-home="test" data-i18n="hero.cta2">✨ Ayúdame a elegir</a>
+      <a class="btn btn--ghost btn--lg" href="#/club" data-home="club" data-i18n="hero.cta3">Ser parte del Club</a>
+      <a class="btn btn--ghost btn--lg" href="#/referidos" data-home="referidos" data-i18n="hero.cta4">Referidos</a>
     </div>
     <div class="hero__stats">
       <div><b>21</b><span data-i18n="hero.s1">variedades únicas</span></div>
@@ -926,7 +936,7 @@ function gtag(){dataLayer.push(arguments);}
     </div>
     <p class="hero__franja" data-i18n="hero.franja">🎁 Ñapa desde %(napafmt)s · Envío gratis desde %(enviofmt)s</p>
   </div>
-  <button type="button" class="hero__scroll" id="heroScroll" aria-label="Descubre más"><span aria-hidden="true">⌄</span></button>
+  <button type="button" class="hero__scroll" id="heroScroll"><span data-i18n="desc.t">Descubre más</span><span aria-hidden="true">⌄</span></button>
 </section>
 
 <section class="descubre-home" id="descubre-home">
@@ -965,9 +975,12 @@ function gtag(){dataLayer.push(arguments);}
     </div>
     <p class="cat__curada" id="curadaMsg" data-i18n="cat.curada">Empieza por la selección del fundador: las ocho variedades que mejor representan la casa.</p>
     <div class="cat__grid" id="grid">%(cards)s</div>
-    <div class="cat__more" id="moreWrap">
-      <button type="button" class="btn btn--hot btn--lg" id="verTodos">
-        <span data-i18n="cat.verTodos">Ver las 21 variedades</span> ↓</button>
+    <div class="cta-pair cat__more-row">
+      <div class="cat__more" id="moreWrap">
+        <button type="button" class="btn btn--hot btn--lg" id="verTodos">
+          <span data-i18n="cat.verTodos">Ver las 21 variedades</span> ↓</button>
+      </div>
+      <a class="btn btn--hot btn--lg" href="#/test" data-home="test" data-i18n="hero.cta2">✨ Ayúdame a elegir</a>
     </div>
     <div class="cat__help">
       <p data-i18n="cat.help">¿Sigues dudando? Te asesoramos gratis, sin compromiso.</p>
@@ -1066,7 +1079,10 @@ function gtag(){dataLayer.push(arguments);}
       </div>
       <div class="cart__empty" id="cartEmpty" hidden>
         <p data-i18n="cart.empty">Tu carrito está vacío.</p>
-        <button type="button" class="btn btn--ghost btn--sm" id="cartGo" data-i18n="cart.go">Ver el catálogo</button>
+        <div class="cta-pair cta-pair--sm">
+          <button type="button" class="btn btn--ghost btn--sm" id="cartGo" data-i18n="cart.go">Ver el catálogo</button>
+          <a class="btn btn--hot btn--sm" id="cartQuiz" href="#/test" data-i18n="hero.cta2">✨ Ayúdame a elegir</a>
+        </div>
       </div>
       <div class="cart__order" id="cartOrder" hidden>
         <div class="cart__fields">
@@ -1077,7 +1093,7 @@ function gtag(){dataLayer.push(arguments);}
           <div class="cart__field cart__refcode">
             <span data-i18n="cart.refl">¿Tienes un código de referido?</span>
             <div class="cart__refin">
-              <input type="text" id="cartRefCode" placeholder="ERIKPUE-001" maxlength="19" autocomplete="off" autocapitalize="characters" spellcheck="false">
+              <input type="text" id="cartRefCode" placeholder="A" maxlength="19" autocomplete="off" autocapitalize="characters" spellcheck="false">
               <button type="button" class="btn btn--ghost btn--sm" id="cartRefApply" data-i18n="cart.refa">Aplicar</button>
             </div>
             <small class="cart__refmsg" id="cartRefMsg" role="status" aria-live="polite"></small>

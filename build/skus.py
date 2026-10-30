@@ -310,11 +310,11 @@ LEALTAD = dict(
             "Preventa de variedades de temporada 48 h antes"]),
         dict(nombre="Barista", icon="⚗️", desde=800, benef=[
             "Todo lo anterior",
-            "10 % de descuento permanente en referencias de origen",
+            "5 % de descuento permanente en referencias de origen",
             "Un drip sorpresa en cada pedido"]),
         dict(nombre="Catador", icon="🏅", desde=2000, benef=[
             "Todo lo anterior",
-            "15 % de descuento permanente en referencias de origen",
+            "10 % de descuento permanente en referencias de origen",
             "Acceso a variedades de competencia antes que nadie",
             "Invitación a catas y visita a finca"]),
     ],
@@ -381,7 +381,7 @@ QUIZ = {
              ops=[("espresso", "☕", "Espresso / cafetera de cápsulas"),
                   ("filtro", "🫖", "V60, Chemex o filtro"),
                   ("prensa", "⏳", "Prensa francesa"),
-                  ("goteo", "🏠", "Cafetera de goteo o greca")]),
+                  ("goteo", "🏠", "Cafetera tradicional, de goteo o greca")]),
         dict(id="perfil", titulo="¿Qué sabor te atrae más?",
              ops=[("dulce", "🍫", "Chocolate, panela, nuez"),
                   ("frutal", "🍇", "Frutas, vino, acidez brillante"),

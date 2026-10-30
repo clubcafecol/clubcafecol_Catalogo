@@ -1003,6 +1003,7 @@ function initCart() {
     else location.hash = '#/catalogo';
   }
   $('#cartGo').addEventListener('click', irAlCatalogo);
+  $('#cartQuiz').addEventListener('click', function () { closeCart(); });
   var more = $('#cartMore');
   if (more) more.addEventListener('click', function () {
     irAlCatalogo();

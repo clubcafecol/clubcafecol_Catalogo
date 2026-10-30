@@ -71,7 +71,7 @@ t('el nav ya no dice "Premiados"', !/Premiados/.test($('.nav').textContent));
 t('el botón del catador usa el degradado', $('[data-i18n="cat.helpCta"]').classList.contains('btn--hot'));
 t('la ñapa va en la franja del inicio', /Ñapa desde/.test($('.hero__franja').textContent));
 t('13 vistas, solo el inicio activo al cargar', $$('[data-view]').length === 13 && $$('[data-view].is-active').length === 1 && $('#top').classList.contains('is-active'));
-t('el inicio tiene solo 2 botones', $$('#top [data-home]').length === 2);
+t('el inicio tiene 4 botones: catálogo, test, club y referidos', $$('#top [data-home]').length === 4);
 t('"Más pedidos" vive en el menú', !!$('#navMobile a[href="#/mas-pedidos"]') && !$('#top a[href="#/mas-pedidos"]'));
 t('Nosotros visible en la barra', !!$('.nav__about[href="#/nosotros"]'));
 t('sin precio por taza', !/\/ taza|por taza/.test(w.document.body.textContent));

@@ -66,6 +66,10 @@ section h2{font-size:clamp(2rem,4.6vw,3.3rem)}
 .btn--lg{padding:16px 32px;font-size:1rem}
 .btn--block{width:100%}
 .btn:active{transform:scale(.97)}
+/* Dos botones de acción juntos: el catálogo y el test de "Ayúdame a elegir" */
+.cta-pair{display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap}
+.cta-pair--sm{gap:10px;margin-top:12px}
+@media (min-width:1041px){.btn--lg{padding:13px 26px;font-size:.95rem}}
 
 /* ── CTA con llamada de atención ──────────────────────────────────────
    El movimiento continuo se vuelve invisible en pocos segundos: el ojo
@@ -477,6 +481,7 @@ body.cta-visto .btn--hot{background-size:100% 100%}
 .btn--add{flex:1;background:var(--navy-900);color:var(--cream);border-radius:100px;
   padding:12px 18px;font-weight:600;font-size:.88rem;transition:.2s}
 .btn--add:hover{background:var(--gold);color:var(--navy-900)}
+.bdl .btn--add{flex:none}
 .btn--add.is-done{background:#1E7A4B;color:#fff}
 .btn--add.is-done span::after{content:' ✓'}
 .btn--wa-icon{width:44px;height:44px;border-radius:50%;background:var(--wa);color:#062e17;
@@ -492,6 +497,8 @@ body.cta-visto .btn--hot{background-size:100% 100%}
 .cat__grid.show-all .card.is-extra{display:flex}
 .cat__grid.show-all .card.is-extra.is-hidden{display:none}
 .cat__more{text-align:center;margin-top:34px}
+.cat__more-row{margin-top:34px}
+.cat__more-row .cat__more{margin-top:0}
 
 /* Micro-reseñas, procedencia y escasez */
 .card__rate{display:flex;align-items:center;gap:7px;margin:-4px 0 0;font-size:.78rem}
@@ -1204,7 +1211,8 @@ body.is-home .topbar{display:none}
 }
 
 .descubre{margin-top:48px}
-.descubre h3{font-size:1.3rem;margin-bottom:14px}
+.descubre h3{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:18px}
+.descubre h3::after{content:' ↓';color:var(--gold-dk)}
 .descubre__row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .descubre__row a{display:flex;flex-direction:column;gap:6px;min-height:112px;padding:18px;border-radius:16px;
   background:var(--white);border:1px solid var(--line);transition:.2s}
@@ -1273,11 +1281,12 @@ body.is-home .topbar{display:none}
 
 /* ── Inicio: Descubre + footer, chip Inicio, carrusel, opinión ───────── */
 .hero{position:relative}
-.hero__scroll{position:absolute;bottom:14px;inset-inline-start:50%;transform:translateX(-50%);width:44px;height:44px;
-  border-radius:50%;border:1px solid rgba(228,203,146,.45);background:rgba(7,16,31,.45);color:var(--gold-lt);
-  font-size:1.5rem;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;
+.hero__scroll{position:absolute;bottom:14px;inset-inline-start:50%;transform:translateX(-50%);height:44px;padding:0 20px;gap:8px;
+  border-radius:100px;border:1px solid var(--gold);background:rgba(7,16,31,.6);color:var(--gold-lt);
+  font-size:.9rem;font-weight:600;white-space:nowrap;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;
   animation:heroBob 2.2s ease-in-out infinite}
 [dir="rtl"] .hero__scroll{transform:translateX(50%)}
+@media (max-width:760px){.hero__scroll{inset-inline-start:16px;transform:none;bottom:18px}}
 @keyframes heroBob{0%,100%{margin-bottom:0}50%{margin-bottom:-6px}}
 @media (prefers-reduced-motion:reduce){.hero__scroll{animation:none}}
 .descubre-home{background:var(--cream);padding:48px 0 56px}
