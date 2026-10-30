@@ -1046,15 +1046,17 @@ function gtag(){dataLayer.push(arguments);}
     </div>
     <div class="exit__body">
       <div class="exit__tag" data-i18n="ex.tag">Antes de que te vayas</div>
-      <h3 id="exitTitle" data-i18n="ex.title">Llévate el catálogo <em>y un 10 %% de descuento</em></h3>
-      <p data-i18n="ex.sub">Te enviamos las 21 variedades en PDF y un cupón del 10 %% para tu primera compra. Un solo correo, sin spam.</p>
-      <form class="exit__form" id="exitForm" novalidate>
-        <input type="email" id="exitEmail" required placeholder="tu@correo.com" aria-label="Correo electrónico" autocomplete="email">
-        <button type="submit" class="btn btn--gold" data-i18n="ex.btn">Quiero mi cupón</button>
-        <label class="exit__ok"><input type="checkbox" id="exitOk" required>
-          <span data-i18n="ex.legal">Autorizo el tratamiento de mis datos según la <a href="legal/politica-datos.html" target="_blank" rel="noopener">política de privacidad</a>.</span></label>
-        <p class="exit__msg" id="exitMsg" role="status"></p>
-      </form>
+      <h3 id="exitTitle" data-i18n="qz.promoT">Presume tu café y llévate otro gratis</h3>
+      <ol class="exitpromo__pasos">
+        <li><b>1</b><span data-i18n="ex.pa1">Haz el <b>test del café</b> y toma un <b>pantallazo</b> del resultado</span></li>
+        <li><b>2</b><span data-i18n="qz.pa2">Súbelo a tu <b>historia de Instagram</b> y etiquétanos</span></li>
+        <li><b>3</b><span data-i18n="qz.pa3"><b>Síguenos</b> en @clubcafecol y muéstranos la historia por WhatsApp</span></li>
+      </ol>
+      <p class="exitpromo__premio" data-i18n="qz.promoP">Con cualquier pedido que hagas, te sumamos un <b>drip de temporada de regalo</b>. Sin letra pequeña.</p>
+      <div class="exitpromo__btns">
+        <a class="btn btn--gold" id="exitTest" href="#quiz" data-i18n="ex.test">Hacer el test</a>
+        <a class="btn btn--ig" id="exitIg" href="https://instagram.com/clubcafecol" target="_blank" rel="noopener" data-i18n="qz.seguir">Seguir a @clubcafecol</a>
+      </div>
       <button type="button" class="exit__no" id="exitNo" data-i18n="ex.no">No, gracias</button>
     </div>
   </div>
