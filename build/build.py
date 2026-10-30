@@ -514,7 +514,7 @@ def sec_bundles():
         gam = ""
         if b.get("gamificacion"):
             gam = ('<div class="bdl__gam">'
-                   '<span>Colecciona los 21 orígenes del Club del Café. Sube una foto con los 21 '
+                   '<span>Compra las 21 variedades del Club del Café y acumúlalas. Sube una foto con los 21 '
                    'los empaques etiquetando a @clubcafecol y te regalamos una bolsa de 250 g '
                    'de café de origen: Raíz Pitalito.</span></div>')
         tach = '<s>%s</s>' % cop(b["tachado"]) if b.get("tachado") else ""
@@ -680,9 +680,10 @@ def sec_testimonios():
 
 def sec_faq():
     items = "".join(
-        '<details class="faq__i"><summary>%s</summary><div class="faq__a">%s</div></details>'
-        % (q, "".join('<p>%s</p>' % x for x in a.split("\n\n")))
-        for q, a in FAQ)
+        '<details class="faq__i"><summary data-i18n="faq.q%d">%s</summary>'
+        '<div class="faq__a" data-i18n="faq.a%d">%s</div></details>'
+        % (i, q, i, "".join('<p>%s</p>' % x for x in a.split("\n\n")))
+        for i, (q, a) in enumerate(FAQ))
     return """
 <section class="faq" id="faq">
   <div class="wrap">
