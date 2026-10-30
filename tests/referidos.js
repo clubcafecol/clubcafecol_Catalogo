@@ -126,6 +126,32 @@ t('la web aclara que kits, experiencias y suscripciones no entran', /Kits y expe
 t('rf.excl existe en los 9 idiomas', (SRC.i18n.match(/'rf\.excl':/g) || []).length === 9 && /rf\.excl/.test(SRC.html));
 t('rf.sub menciona Origen en los 9 idiomas', (SRC.i18n.match(/'rf\.sub':'(?:[^'\\]|\\.)*Origen(?:[^'\\]|\\.)*'/g) || []).length === 9);
 
+/* ── F · código escrito a mano en el carrito ────────────────────── */
+m = mount('');
+m.add('ORI-002', '250g', 1);
+t('el carrito tiene el campo de código', !!m.$('#cartRefCode') && !!m.$('#cartRefApply'));
+t('sin código no hay descuento', m.$('#cartRefRow').hidden);
+m.$('#cartRefCode').value = 'abc'; m.click(m.$('#cartRefApply'));
+t('código inválido muestra error y no activa nada', m.$('#cartRefMsg').classList.contains('is-bad') && m.$('#refBar').hidden && m.$('#cartRefRow').hidden);
+m.$('#cartRefCode').value = '<script>-001'; m.click(m.$('#cartRefApply'));
+t('código con HTML se rechaza', m.$('#refBar').hidden && m.w.localStorage.getItem('ccc_ref_v1') === null);
+m.$('#cartRefCode').value = ' erikpue-001 '; m.click(m.$('#cartRefApply'));
+t('código válido (minúsculas y espacios) activa el aviso', !m.$('#refBar').hidden && /ERIKPUE-001/.test(m.$('#refBar').textContent));
+t('código manual aplica el 15%', !m.$('#cartRefRow').hidden && /6[.,]285/.test(m.$('#cartRefVal').textContent));
+t('código manual se guarda 60 días', JSON.parse(m.w.localStorage.getItem('ccc_ref_v1')).c === 'ERIKPUE-001');
+t('código manual pide el WhatsApp', !m.$('#cartWaWrap').hidden);
+t('código manual registra la visita en el CRM', m.w.__posts.some(p => p.body.t === 'visit' && p.body.ref === 'ERIKPUE-001' && p.body.p === 'carrito-manual'));
+m.$('#cartAddr').value = 'Bogotá'; m.$('#cartWa').value = '3001234567'; m.click(m.$('#cartCheckout'));
+t('el mensaje de WhatsApp lleva el código manual', /Código de referido: ERIKPUE-001/.test(m.msg()));
+t('el pedido llega al CRM con el código manual', m.w.__posts.some(p => p.body.t === 'order' && p.body.ref === 'ERIKPUE-001'));
+m.$('#cartRefCode').value = 'ERIKPUE-001'; m.click(m.$('#cartRefApply'));
+t('un código ya usado no se reactiva', m.$('#refBar').hidden && m.$('#cartRefMsg').classList.contains('is-bad'));
+m = mount('?ref=ERIKPUE-001');
+m.add('ORI-002', '250g', 1);
+t('con enlace, el campo muestra el código', m.$('#cartRefCode').value === 'ERIKPUE-001');
+m.$('#cartRefCode').value = ''; m.click(m.$('#cartRefApply'));
+t('vaciar el campo quita el descuento', m.$('#refBar').hidden && m.$('#cartRefRow').hidden);
+
 console.log('\n\x1b[32m✓ APROBADAS: ' + ok.length + '\x1b[0m');
 ok.forEach(x => console.log('   ✓ ' + x));
 if (fail.length) { console.log('\n\x1b[31m✗ FALLIDAS: ' + fail.length + '\x1b[0m'); fail.forEach(x => console.log('   ✗ ' + x)); }

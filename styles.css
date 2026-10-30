@@ -751,6 +751,8 @@ body.is-rtl .cart__panel{transform:translateX(-100%)}
 .cart__order{padding:4px 22px 20px}
 .cart__fields{display:grid;gap:9px}
 .cart__field{display:block}
+.cart__refin{display:flex;gap:8px}.cart__refin input{flex:1;text-transform:uppercase}
+.cart__refmsg{display:block;min-height:1em;margin-top:4px;font-size:.72rem;color:var(--gold-dk)}.cart__refmsg.is-bad{color:#b3261e}
 .cart__field span{display:block;font-size:.72rem;color:var(--muted);margin-bottom:4px;font-weight:500}
 .cart__field input{width:100%;padding:9px 13px;border:1.3px solid var(--line);border-radius:10px;
   font-family:inherit;font-size:.85rem}

@@ -595,6 +595,35 @@ function renderRefUi() {
       .replace('{c}', ref.c).replace('{d}', REFC.dto);
   }
   if (wrap) wrap.hidden = !on;
+  var inp = $('#cartRefCode');
+  if (inp && on && document.activeElement !== inp) inp.value = ref.c;
+}
+
+function applyRefCode() {
+  var inp = $('#cartRefCode'), msg = $('#cartRefMsg');
+  if (!inp) return;
+  var v = inp.value.trim().toUpperCase();
+  var say = function (k, d, bad) {
+    if (!msg) return;
+    msg.textContent = k ? t(k, d) : '';
+    msg.classList.toggle('is-bad', !!bad);
+  };
+  if (!v) {
+    if (ref && !ref.used) { ref = null; try { localStorage.removeItem(LS_REF); } catch (e) {} }
+    renderCart(); say('');
+    return;
+  }
+  if (!REF_RE.test(v)) { say('ref.bad', 'Código no válido. Se ve así: NOMBRE-001', true); return; }
+  if (ref && ref.c === v && ref.used) { say('ref.used', 'Este código ya se usó en este navegador', true); return; }
+  var isNew = !ref || ref.c !== v;
+  ref = {c: v, ts: Date.now(), used: false};
+  try { localStorage.setItem(LS_REF, JSON.stringify(ref)); } catch (e) {}
+  if (isNew) {
+    sendRef({t: 'visit', ref: v, p: 'carrito-manual'});
+    track('referral_manual', {ref: v});
+  }
+  renderCart(); tagWaLinks();
+  say('ref.ok', 'Código aplicado: ' + REFC.dto + '% en tu primera compra');
 }
 
 /* Los enlaces wa.me que vienen fijos en el HTML reciben el código */
@@ -828,6 +857,9 @@ function checkout() {
 
 function initCart() {
   loadCart(); renderCart();
+  var ra = $('#cartRefApply'), ri = $('#cartRefCode');
+  if (ra) ra.addEventListener('click', applyRefCode);
+  if (ri) ri.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); applyRefCode(); } });
   $('#cartBtn').addEventListener('click', function () { openCart(); track('view_cart', {value: cartSubtotal()}); });
   $('#cartClose').addEventListener('click', closeCart);
   $('#cartScrim').addEventListener('click', closeCart);
