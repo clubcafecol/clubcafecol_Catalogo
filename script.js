@@ -14,6 +14,66 @@ var FREE     = CFG.ENVIO_GRATIS || 85000;
 var LS_CART  = 'ccc_cart_v1';
 var LS_LANG  = 'ccc_lang_v1';
 
+/* ── origen del visitante: cada WhatsApp dice de dónde vino ─────────── */
+var ORIGEN = (function () {
+  var KEY = 'ccc_origen_v1', TTL = 30 * 864e5, now = Date.now();
+  var NOMBRES = {ig:'Instagram', instagram:'Instagram', fb:'Facebook', facebook:'Facebook',
+                 google:'Google', tiktok:'TikTok', wa:'WhatsApp', whatsapp:'WhatsApp',
+                 linkedin:'LinkedIn', qr:'código QR', email:'correo', correo:'correo'};
+  var q = new URLSearchParams(location.search);
+  var refq = (q.get('ref') || '').trim();
+  if (/^[A-Za-z]{3,15}-\d{3}$/.test(refq)) refq = '';
+  var raw = (refq || q.get('utm_source') || '').trim().toLowerCase();
+  var r = document.referrer || '';
+  if (!raw && r && r.indexOf(location.hostname) === -1) {
+    if (/instagram\./i.test(r)) raw = 'ig';
+    else if (/facebook\.|fb\.me|messenger\./i.test(r)) raw = 'fb';
+    else if (/google\./i.test(r)) raw = 'google';
+    else if (/tiktok\./i.test(r)) raw = 'tiktok';
+    else if (/whatsapp\.|wa\.me/i.test(r)) raw = 'wa';
+    else if (/linkedin\./i.test(r)) raw = 'linkedin';
+  }
+  var nombre = raw ? (NOMBRES[raw] || raw.replace(/[^a-z0-9 _-]/g, '').slice(0, 24)) : '';
+  try {
+    if (nombre) localStorage.setItem(KEY, JSON.stringify({n: nombre, t: now}));
+    else {
+      var g = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (g && now - g.t < TTL) nombre = g.n;
+    }
+  } catch (e) {}
+  return nombre;
+})();
+
+function conOrigen(url) {
+  if (!ORIGEN || typeof url !== 'string') return url;
+  var m = url.match(/^(https:\/\/wa\.me\/\d+)(?:\?(.*))?$/);
+  if (!m) return url;
+  var marca = '(Llegué desde: ' + ORIGEN + ')';
+  var partes = (m[2] || '').split('&').filter(Boolean), hay = false;
+  partes = partes.map(function (p) {
+    if (p.indexOf('text=') !== 0) return p;
+    hay = true;
+    var t;
+    try { t = decodeURIComponent(p.slice(5)); } catch (e) { return p; }
+    if (t.indexOf('Llegué desde:') !== -1) return p;
+    return 'text=' + encodeURIComponent(t + '\n\n' + marca);
+  });
+  if (!hay) partes.push('text=' + encodeURIComponent(marca));
+  return m[1] + '?' + partes.join('&');
+}
+
+document.addEventListener('click', function (e) {
+  var a = e.target && e.target.closest ? e.target.closest('a[href^="https://wa.me/"]') : null;
+  if (a) a.setAttribute('href', conOrigen(a.getAttribute('href')));
+}, true);
+
+var abrirVentana = window.open;
+window.open = function (url) {
+  var args = Array.prototype.slice.call(arguments);
+  args[0] = conOrigen(url);
+  return abrirVentana.apply(window, args);
+};
+
 var FORMATOS = [
   {k:'drip_10g', l:'Drip 10g',  tazas:1},
   {k:'250g',     l:'250 g',     tazas:16},
