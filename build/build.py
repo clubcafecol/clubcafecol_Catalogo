@@ -946,6 +946,14 @@ function gtag(){dataLayer.push(arguments);}
             <span data-i18n="cart.addr">Ciudad y dirección de entrega</span>
             <input type="text" id="cartAddr" placeholder="Bogotá · Cra 13 #45-32, apto 501" autocomplete="street-address">
           </label>
+          <div class="cart__field cart__refcode">
+            <span data-i18n="cart.refl">¿Tienes un código de referido?</span>
+            <div class="cart__refin">
+              <input type="text" id="cartRefCode" placeholder="ERIKPUE-001" maxlength="19" autocomplete="off" autocapitalize="characters" spellcheck="false">
+              <button type="button" class="btn btn--ghost btn--sm" id="cartRefApply" data-i18n="cart.refa">Aplicar</button>
+            </div>
+            <small class="cart__refmsg" id="cartRefMsg" role="status" aria-live="polite"></small>
+          </div>
           <label class="cart__field" id="cartWaWrap" hidden>
             <span data-i18n="cart.wa">Tu WhatsApp (para validar tu código de referido)</span>
             <input type="tel" id="cartWa" inputmode="tel" placeholder="3001234567" autocomplete="tel">
