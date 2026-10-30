@@ -178,7 +178,7 @@ Enlace de un referidor: `https://clubcafecol.github.io/clubcafecol_Catalogo/?ref
 
 - **Código:** `PRIMERNOMBRE` + 3 letras del apellido + `-` + n.º de referidor de 3 dígitos, en mayúsculas y sin tildes (regex `^[A-Z]{3,15}-\d{3}$`). Cualquier otro formato se ignora.
 - La web guarda el código 60 días, muestra el aviso del 15 %, pide el WhatsApp del amigo en el carrito y añade al mensaje de WhatsApp: código, WhatsApp, ID de pedido `W-AAMMDD-XXXX` y el descuento. Tras enviar el pedido, el descuento se apaga en ese navegador (un enlace nuevo lo reactiva).
-- **Qué cafés llevan el 15 %:** `REFERIDOS["skus_elegibles"]` en `build/skus.py` — `"*"` (todos) o una lista de IDs, p. ej. `["TEM-001", "TEM-007"]`. `incluye_kits` controla si los kits entran. Después ejecuta el build.
+- **Qué cafés llevan el 15 %:** `REFERIDOS["skus_elegibles"]` en `build/skus.py` — `"*"` (todos) o una lista de IDs, p. ej. `["TEM-001", "TEM-007"]`. `incluye_kits` (hoy `False`) controla si los kits entran; kits, experiencias y suscripciones del Club están fuera del programa y la web lo dice (`rf.excl`). La bolsa de 125 g del referidor es de una referencia de Origen. Después ejecuta el build.
 - **CRM:** pega la URL `/exec` del Apps Script en `REFERIDOS["endpoint"]` y haz el build. Vacío = no se envía nada al CRM (el código igual viaja en el mensaje).
 - El 15 % se calcula en la web de forma indicativa. La verificación de "primera compra" (el WhatsApp del amigo no ha comprado antes) la hace el CRM.
 - Pruebas: `cd tests && npm test` ejecuta `suite.js` (regresión general) y `referidos.js` (flujo de referidos).

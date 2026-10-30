@@ -603,6 +603,7 @@ body.cta-visto .btn--hot{background-size:100% 100%}
 .refer{background:var(--white)}
 .refer__in{display:grid;grid-template-columns:1.15fr .85fr;gap:52px;align-items:center}
 .refer__sub,.refer__txt p{color:var(--muted);font-size:1.01rem;margin:18px 0 0;max-width:560px}
+.refer__txt .refer__note{font-size:.84rem;margin:-8px 0 22px;color:var(--navy-700)}
 .refer__steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0}
 .refer__steps div{display:flex;flex-direction:column;gap:7px}
 .refer__steps b{width:30px;height:30px;border-radius:50%;background:var(--navy-900);
