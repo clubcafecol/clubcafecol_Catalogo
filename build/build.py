@@ -425,7 +425,7 @@ def sec_quiz():
         <div class="qzpromo">
           <div class="qzpromo__head">
             <span class="qzpromo__gift">🎁</span>
-            <h4 data-i18n="qz.promoT">Presume tu café y llévate otro gratis</h4>
+            <h4 data-i18n="qz.promoT">Presume tu café y llévate un drip gratis</h4>
           </div>
           <ol class="qzpromo__pasos">
             <li><b>1</b><span data-i18n="qz.pa1">Toma un <b>pantallazo</b> de este resultado</span></li>
@@ -1046,7 +1046,7 @@ function gtag(){dataLayer.push(arguments);}
     </div>
     <div class="exit__body">
       <div class="exit__tag" data-i18n="ex.tag">Antes de que te vayas</div>
-      <h3 id="exitTitle" data-i18n="qz.promoT">Presume tu café y llévate otro gratis</h3>
+      <h3 id="exitTitle" data-i18n="qz.promoT">Presume tu café y llévate un drip gratis</h3>
       <ol class="exitpromo__pasos">
         <li><b>1</b><span data-i18n="ex.pa1">Haz el <b>test del café</b> y toma un <b>pantallazo</b> del resultado</span></li>
         <li><b>2</b><span data-i18n="qz.pa2">Súbelo a tu <b>historia de Instagram</b> y etiquétanos</span></li>
