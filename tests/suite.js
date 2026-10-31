@@ -6,6 +6,7 @@
    Uso:
      cd tests && npm i jsdom && node suite.js
    ═══════════════════════════════════════════════════════════════════════ */
+(async () => {
 const {JSDOM} = require('jsdom');
 const fs = require('fs');
 const path = require('path');
@@ -21,7 +22,22 @@ const dom = new JSDOM(fs.readFileSync(path.join(D, 'index.html'), 'utf8'), {
 const w = dom.window;
 w.matchMedia = () => ({matches: false, addEventListener() {}, removeEventListener() {}});
 w.scrollTo = () => {};
-w.open = u => { w.__o = u; return null; };
+w.open = u => {
+  if (u && u !== 'about:blank') w.__o = u;
+  return {location: {set href(v) { w.__o = v; }}, opener: null};
+};
+
+// Respuestas simuladas de Supabase (rpc) para no depender de la red
+const SB_REPLY = fn => ({codigo_valido: true, registrar_visita: true, crear_opinion: 1,
+  crear_pedido: 'W-261030-TE57'})[fn] ?? [];
+w.fetch = (u, o) => {
+  const fn = (String(u).match(/rpc\/(\w+)/) || [])[1];
+  const reply = fn ? SB_REPLY(fn) : [];
+  const txt = JSON.stringify(reply);
+  return Promise.resolve({ok: true, status: 200, json: () => Promise.resolve(reply), text: () => Promise.resolve(txt)});
+};
+const wait = (ms = 30) => new Promise(r => setTimeout(r, ms));
+
 w.HTMLMediaElement.prototype.play = () => Promise.resolve();
 w.HTMLMediaElement.prototype.load = () => {};
 w.HTMLMediaElement.prototype.pause = () => {};
@@ -109,6 +125,7 @@ t('campo único de ciudad y dirección', !!$('#cartAddr') && !$('#cartCity'));
 t('botón "Agregar más" visible', !$('#cartAddMore').hasAttribute('hidden'));
 $('#cartAddr').value = 'Cali · Cra 5 #10-20';
 click($('#cartCheckout'));
+await wait();
 const msg = decodeURIComponent(((w.__o || '').split('?text=')[1] || ''));
 t('el pedido sale en un solo mensaje', (w.__o || '').startsWith('https://wa.me/573154510390'));
 t('el pedido incluye entrega y molienda', /Cali · Cra 5 #10-20/.test(msg) && /Prensa francesa/.test(msg));
@@ -183,3 +200,4 @@ if (errs.length) {
   errs.forEach(e => console.log('   ' + e));
 }
 process.exit(fail.length || errs.length ? 1 : 0);
+})();
