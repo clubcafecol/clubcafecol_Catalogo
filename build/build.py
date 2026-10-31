@@ -6,7 +6,7 @@ Uso:  python3 build.py        (escribe ../index.html, ../sitemap.xml, ../robots.
 import json, os, re, sys, io, datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from skus import (SKUS, CLUB, BUNDLES, TESTIMONIOS, FAQ, QUIZ, FORMATOS, TAZAS,
-                  EXOTICOS, WA_NUM, NIT, ENVIO_GRATIS, SITE, ASSET_VER,
+                  EXOTICOS, WA_NUM, NIT, ENVIO_GRATIS, SITE, ASSET_VER, SUPABASE,
                   MOLIENDAS, DESTACADOS, LEALTAD, REFERIDOS, USD_COP,
                   VITRINA, VIDEO_ORIGEN, REGIONES, NAPA, ORIGEN)
 
@@ -847,7 +847,8 @@ window.CCC_CONFIG = {
   WA_NUM:  '%(wa)s',
   ENVIO_GRATIS: %(envio)d,
   ASSET_VER: '%(ver)s',
-  REF: {dto: %(refdto)d, skus: %(refskus)s, kits: %(refkits)s, endpoint: '%(refep)s'}
+  SB:  {url: '%(sburl)s', key: '%(sbkey)s'},
+  REF: {dto: %(refdto)d, skus: %(refskus)s, kits: %(refkits)s}
 };
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
@@ -1233,7 +1234,7 @@ window.CCC_MOLIENDAS = %(moljson)s; window.CCC_DTO_REF = %(dtoref)d; window.CCC_
 """ % dict(site=SITE, hreflang=hreflang, v=v, jsonld=jsonld(), wa=WA_NUM, nit=NIT,
            envio=ENVIO_GRATIS, enviofmt=cop(ENVIO_GRATIS), ver=ASSET_VER,
            refdto=REFERIDOS["dto_amigo"], refskus=json.dumps(REFERIDOS["skus_elegibles"]),
-           refkits=json.dumps(REFERIDOS["incluye_kits"]), refep=REFERIDOS["endpoint"],
+           refkits=json.dumps(REFERIDOS["incluye_kits"]), sburl=SUPABASE["url"], sbkey=SUPABASE["key"],
            langopts=langopts, cards=cards, trofeos=sec_trofeos(), napafmt=cop(NAPA["desde"]), descubre_home=sec_descubre({"catalogo", "test"}, "inicio"), quiz=sec_quiz(),
            bundles=sec_bundles(), club=sec_club(), testi=sec_testimonios(), faq=sec_faq(),
            lealtad=sec_lealtad(), referidos=sec_referidos(), dtoref=REFERIDOS["dto_amigo"],

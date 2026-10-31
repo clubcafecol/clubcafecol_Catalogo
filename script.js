@@ -659,12 +659,32 @@ var REF_RE   = /^[A-Z]{3,15}-\d{3}$/;
 var REF_DAYS = 60;
 var ref      = null;   // {c: código, ts: marca de tiempo, used: bool}
 
-function sendRef(payload) {
-  if (!REFC.endpoint) return;
-  try {
-    fetch(REFC.endpoint, {method: 'POST', mode: 'no-cors', keepalive: true,
-      headers: {'Content-Type': 'text/plain;charset=utf-8'}, body: JSON.stringify(payload)});
-  } catch (e) {}
+/* Supabase: única vía de escritura del sitio. La clave es la publicable
+   (pensada para el navegador). Las tablas están cerradas por RLS; solo las
+   funciones rpc de la base de datos reciben datos, y validan cada campo. */
+var SB = CFG.SB || {url: '', key: ''};
+function sbRpc(fn, body) {
+  if (!SB.url || !SB.key) return Promise.reject(new Error('sin-backend'));
+  var ctl = typeof AbortController === 'function' ? new AbortController() : null;
+  var timer = ctl ? setTimeout(function () { ctl.abort(); }, 7000) : null;
+  return Promise.resolve().then(function () {
+    return fetch(SB.url + '/rest/v1/rpc/' + fn, {
+      method: 'POST', keepalive: true, signal: ctl ? ctl.signal : undefined,
+      headers: {'apikey': SB.key, 'Content-Type': 'application/json'},
+      body: JSON.stringify(body)
+    });
+  }).then(function (r) {
+    if (timer) clearTimeout(timer);
+    return r.text().then(function (txt) {
+      var j = null;
+      try { j = txt ? JSON.parse(txt) : null; } catch (e) {}
+      if (!r.ok) throw new Error((j && j.message) || ('HTTP ' + r.status));
+      return j;
+    });
+  });
+}
+function registrarVisita(codigo, pagina, origen) {
+  sbRpc('registrar_visita', {p_codigo: codigo, p_pagina: pagina || '', p_origen: origen || ''}).catch(function () {});
 }
 
 function loadRef() {
@@ -685,7 +705,7 @@ function loadRef() {
     var seen = false;
     try { seen = sessionStorage.getItem('ccc_ref_seen') === fromUrl; sessionStorage.setItem('ccc_ref_seen', fromUrl); } catch (e) {}
     if (!seen) {
-      sendRef({t: 'visit', ref: fromUrl, p: location.pathname + location.hash});
+      registrarVisita(fromUrl, location.pathname + location.hash, ORIGEN);
       track('referral_visit', {ref: fromUrl});
     }
   }
@@ -750,14 +770,21 @@ function applyRefCode() {
   if (!REF_RE.test(v)) { say('ref.bad', 'Código no válido. Se ve así: NOMBRE-001', true); return; }
   if (ref && ref.c === v && ref.used) { say('ref.used', 'Este código ya se usó en este navegador', true); return; }
   var isNew = !ref || ref.c !== v;
-  ref = {c: v, ts: Date.now(), used: false};
-  try { localStorage.setItem(LS_REF, JSON.stringify(ref)); } catch (e) {}
-  if (isNew) {
-    sendRef({t: 'visit', ref: v, p: 'carrito-manual'});
-    track('referral_manual', {ref: v});
-  }
-  renderCart(); tagWaLinks();
-  say('ref.ok', 'Código aplicado: ' + REFC.dto + '% en tu primera compra');
+  var aplicar = function () {
+    ref = {c: v, ts: Date.now(), used: false};
+    try { localStorage.setItem(LS_REF, JSON.stringify(ref)); } catch (e) {}
+    if (isNew) { registrarVisita(v, 'carrito-manual', ORIGEN); track('referral_manual', {ref: v}); }
+    renderCart(); tagWaLinks();
+    say('ref.ok', 'Código aplicado: ' + REFC.dto + '% en tu primera compra');
+  };
+  say('ref.check', 'Verificando el código…');
+  sbRpc('codigo_valido', {p_codigo: v}).then(function (existe) {
+    if (existe === true) aplicar();
+    else say('ref.nf', 'Ese código no existe. Revisa que esté bien escrito.', true);
+  }, function () {
+    // Sin conexión no bloqueamos al cliente: la base valida el código al enviar el pedido.
+    aplicar();
+  });
 }
 
 /* Los enlaces wa.me que vienen fijos en el HTML reciben el código */
@@ -919,24 +946,17 @@ function closeCart() {
   document.body.style.overflow = '';
 }
 
-/* ── CHECKOUT: un solo mensaje de WhatsApp con todo el pedido ──────── */
-function checkout() {
-  if (!cart.length) return;
-  var waNum = '', orderId = '';
-  if (refActive()) {
-    waNum = normWa($('#cartWa') ? $('#cartWa').value : '');
-    if (!waNum) {
-      toast(t('cart.waerr', 'Escribe tu WhatsApp para aplicar el descuento'));
-      if ($('#cartWa')) $('#cartWa').focus();
-      return;
-    }
-    orderId = newOrderId();
-  }
-  var sub   = cartSubtotal();
-  var dir   = ($('#cartAddr') ? $('#cartAddr').value : '').trim();
-  var nota  = ($('#cartNote').value || '').trim();
-  var falta = Math.max(0, FREE - sub);
+/* ── CHECKOUT: el pedido se guarda en la base y luego se abre WhatsApp ── */
+function lineaPrecio(it) {
+  if (it.bundle) return it.precio * it.qty;
+  var s = skuById(it.sku); return s ? s.precios[it.fmt] * it.qty : 0;
+}
+function refBase() {
+  return cart.reduce(function (a, it) { return refEligible(it) ? a + lineaPrecio(it) : a; }, 0);
+}
 
+function mensajePedido(waNum, orderId, sub, disc, dir, nota) {
+  var falta = Math.max(0, FREE - sub);
   var L = [];
   L.push('*NUEVO PEDIDO · CLUBCAFECOL*');
   L.push('');
@@ -958,7 +978,6 @@ function checkout() {
   L.push(falta > 0
     ? 'Envío: por cotizar (faltan ' + cop(falta) + ' para envío gratis)'
     : 'Envío: *GRATIS* ✅');
-  var disc = refDiscount();
   if (refActive()) {
     L.push('🎁 Código de referido: ' + ref.c);
     if (disc > 0) {
@@ -966,27 +985,58 @@ function checkout() {
       L.push('*Total estimado: ' + cop(sub - disc) + ' COP*');
     }
     L.push('📱 Mi WhatsApp: ' + waNum);
-    L.push('🆔 Pedido: ' + orderId);
+    if (orderId) L.push('🆔 Pedido: ' + orderId);
   }
   L.push('');
   if (dir)  L.push('📍 Entrega: ' + dir);
   if (nota) L.push('📝 Nota: ' + nota);
   L.push('');
   L.push('Quedo atento(a) a la confirmación de disponibilidad, el total final con envío y el medio de pago. ¡Gracias!');
+  return L.join('\n');
+}
 
-  var url = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(L.join('\n'));
-  track('begin_checkout', {value: sub, currency: 'COP', num_items: cartCount(),
-                           items: cart.map(function (it) { return it.bundle || (it.sku + '|' + it.fmt); }).join(',')});
+function checkout() {
+  if (!cart.length) return;
+  var waNum = '';
   if (refActive()) {
-    sendRef({t: 'order', id: orderId, ref: ref.c, wa: waNum, sub: sub, dto: REFC.dto, disc: disc,
-             total: sub - disc, lang: curLang, ts: new Date().toISOString(),
-             items: cart.map(function (it) { return {i: it.bundle || it.sku, f: it.fmt || 'kit', q: it.qty}; })});
-    track('referral_order', {ref: ref.c, value: sub - disc, currency: 'COP', order_id: orderId});
-    ref.used = true;
-    try { localStorage.setItem(LS_REF, JSON.stringify(ref)); } catch (e) {}
+    waNum = normWa($('#cartWa') ? $('#cartWa').value : '');
+    if (!waNum) {
+      toast(t('cart.waerr', 'Escribe tu WhatsApp para aplicar el descuento'));
+      if ($('#cartWa')) $('#cartWa').focus();
+      return;
+    }
   }
-  window.open(url, '_blank', 'noopener');
-  if (orderId) renderCart();
+  var sub   = cartSubtotal();
+  var disc  = refDiscount();
+  var dir   = ($('#cartAddr') ? $('#cartAddr').value : '').trim();
+  var nota  = ($('#cartNote').value || '').trim();
+  var conRef = refActive();
+  // La ventana se abre ya, dentro del gesto del usuario; su URL se asigna al guardar el pedido.
+  var win = window.open('about:blank', '_blank');
+  if (win) { try { win.opener = null; } catch (e) {} }
+
+  var pedido = {
+    p_items: cart.map(function (it) {
+      return {i: it.bundle || it.sku, f: it.fmt || 'kit', q: it.qty, p: lineaPrecio(it)};
+    }),
+    p_subtotal: sub, p_subtotal_elegible: refBase(), p_descuento: disc, p_total: sub - disc,
+    p_whatsapp: waNum || null, p_direccion: dir || null, p_nota: nota || null,
+    p_codigo: conRef ? ref.c : null, p_idioma: curLang, p_origen: ORIGEN || null
+  };
+  sbRpc('crear_pedido', pedido).then(function (id) { return id; }, function () { return ''; })
+    .then(function (serverId) {
+      var orderId = serverId || (conRef ? newOrderId() : '');
+      var url = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(mensajePedido(waNum, orderId, sub, disc, dir, nota));
+      if (win) win.location.href = url; else window.open(url, '_blank', 'noopener');
+      track('begin_checkout', {value: sub, currency: 'COP', num_items: cartCount(),
+                               items: cart.map(function (it) { return it.bundle || (it.sku + '|' + it.fmt); }).join(',')});
+      if (conRef) {
+        track('referral_order', {ref: ref.c, value: sub - disc, currency: 'COP', order_id: orderId});
+        ref.used = true;
+        try { localStorage.setItem(LS_REF, JSON.stringify(ref)); } catch (e) {}
+        renderCart();
+      }
+    });
 }
 
 function initCart() {
@@ -1204,18 +1254,56 @@ function initOpinion() {
     if (!(rating >= 1 && rating <= 5)) return err('Elige tu calificación de 1 a 5 estrellas.');
     if (texto.length < 20) return err('Cuéntanos un poco más: mínimo 20 caracteres.');
     if (!d.get('ok')) return err('Necesitamos tu autorización para publicar tu opinión.');
-    track('generate_lead', {method: 'opinion', rating: rating});
-    var tx = 'Hola CLUBCAFECOL, quiero dejar mi opinión (para validación antes de publicar).\n' +
-             'Nombre: ' + nombre + '\nCiudad: ' + ciudad + '\nCalificación: ' + rating + '/5\n' +
-             'Opinión: ' + texto + '\nContacto: ' + contacto + '\n' +
-             'Autorizo el tratamiento de mis datos y publicar mi opinión con mi nombre, inicial y ciudad.';
-    msg.textContent = '✓ Gracias. Abrimos WhatsApp para enviarnos tu opinión; la publicamos cuando la validemos.';
-    msg.className = 'dl__msg is-ok';
-    setTimeout(function () {
-      window.open('https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(tx), '_blank', 'noopener');
-    }, 600);
-    form.reset();
+    var payload = {p_nombre: nombre, p_ciudad: ciudad, p_calificacion: rating, p_texto: texto,
+                   p_contacto: contacto, p_autorizo: true};
+    msg.textContent = 'Enviando…'; msg.className = 'dl__msg';
+    sbRpc('crear_opinion', payload).then(function () {
+      msg.textContent = '✓ ¡Gracias! Tu opinión quedó en revisión. La publicamos cuando la validemos.';
+      msg.className = 'dl__msg is-ok';
+      track('generate_lead', {method: 'opinion', rating: rating});
+      form.reset();
+    }, function () {
+      // Sin conexión: la opinión sale por WhatsApp para no perderla.
+      var tx = 'Hola CLUBCAFECOL, quiero dejar mi opinión (para validación antes de publicar).\n' +
+               'Nombre: ' + nombre + '\nCiudad: ' + ciudad + '\nCalificación: ' + rating + '/5\n' +
+               'Opinión: ' + texto + '\nContacto: ' + contacto + '\n' +
+               'Autorizo el tratamiento de mis datos y publicar mi opinión con mi nombre, inicial y ciudad.';
+      msg.textContent = '✓ Gracias. Abrimos WhatsApp para enviarnos tu opinión; la publicamos cuando la validemos.';
+      msg.className = 'dl__msg is-ok';
+      track('generate_lead', {method: 'opinion', rating: rating});
+      setTimeout(function () {
+        window.open('https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(tx), '_blank', 'noopener');
+      }, 600);
+      form.reset();
+    });
   });
+}
+
+/* Opiniones aprobadas en la base, después de las fijas (solo lectura pública) */
+function cargarOpiniones() {
+  var grid = $('.testi__grid');
+  if (!grid || !SB.url || !SB.key) return;
+  Promise.resolve().then(function () {
+    return fetch(SB.url + '/rest/v1/opiniones?select=nombre,ciudad,calificacion,texto' +
+                 '&estado=eq.aprobada&order=aprobada_at.desc&limit=12', {headers: {'apikey': SB.key}});
+  })
+    .then(function (r) { return r.ok ? r.json() : []; })
+    .then(function (rows) {
+      (Array.isArray(rows) ? rows : []).forEach(function (o) {
+        var fig = document.createElement('figure');
+        fig.className = 'tst'; fig.setAttribute('lang', 'es');
+        var st = document.createElement('div'); st.className = 'tst__stars';
+        st.textContent = '★'.repeat(Math.max(1, Math.min(5, o.calificacion | 0)));
+        var bq = document.createElement('blockquote'); bq.textContent = o.texto;
+        var fc = document.createElement('figcaption');
+        var b = document.createElement('b'); b.textContent = o.nombre;
+        var sp = document.createElement('span'); sp.textContent = o.ciudad;
+        fc.appendChild(b); fc.appendChild(sp);
+        fig.appendChild(st); fig.appendChild(bq); fig.appendChild(fc);
+        grid.appendChild(fig);
+      });
+    })
+    .catch(function () {});
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -1422,6 +1510,7 @@ function boot() {
   initQuiz();
   initEmail();
   initOpinion();
+  cargarOpiniones();
   initExit();
   initWA();
   initOrigenVideo();

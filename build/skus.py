@@ -337,9 +337,13 @@ REFERIDOS = dict(
     # (p. ej. ["TEM-001", "TEM-007"]) para empujar solo ciertas referencias.
     skus_elegibles="*",
     incluye_kits=False,   # kits/experiencias y suscripciones quedan fuera del programa
-    # URL del Apps Script del CRM de referidos (termina en /exec). Vacío = la
-    # web no envía datos al CRM; el código igual viaja en el mensaje de WhatsApp.
-    endpoint="https://script.google.com/macros/s/AKfycbxuslBbxfYdT6JX-FHLLYhXbKVkZNg_IL2JntZbsK_9EnicbwsERWO6uvCwCiJkdLQQrw/exec",
+)
+
+# Base de datos (Supabase). La clave es la publicable: se puede publicar en el sitio.
+# Las tablas están cerradas por RLS; solo las funciones rpc aceptan datos.
+SUPABASE = dict(
+    url="https://yusytzhqsjduyrylldkz.supabase.co",
+    key="sb_publishable_Qp7ddASumISYkO99fFO1gw_VViYCjvH",
 )
 
 # ── ÑAPA ────────────────────────────────────────────────────────────────
@@ -408,7 +412,7 @@ WA_NUM = "573154510390"
 NIT = "901731658"
 ENVIO_GRATIS = 84950
 SITE = "https://clubcafecol.github.io/clubcafecol_Catalogo"
-ASSET_VER = "2026.10.30.4"
+ASSET_VER = "2026.10.31.1"
 
 # ── MONEDA ──────────────────────────────────────────────────────────────
 # Todos los precios del catálogo están en pesos colombianos (COP) y es la
